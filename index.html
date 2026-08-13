@@ -6,7 +6,36 @@
 <title>Thailand Trip 2026 — Itinerary &amp; Hotel Tracker</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #FAF9F5; color: #2C2C2A; padding-bottom: 3rem; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #FAF9F5; color: #2C2C2A; padding-bottom: 3rem; transition: background 0.2s, color 0.2s; }
+
+/* ---- Dark mode ---- */
+.dark-toggle {
+  position: fixed; top: 14px; right: 16px; z-index: 100;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+  color: white; font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+body.dark { background: #14181a; color: #d8dbdd; }
+body.dark .topbar { background: #0a3529; }
+body.dark .container-inner, body.dark .day-card, body.dark .stay-card, body.dark .info-card,
+body.dark .exp-form, body.dark .exp-item, body.dark .stay-body { background: #1e2427; }
+body.dark .stay-card, body.dark .day-card { border-color: #333; }
+body.dark .stay-header.unbooked-bg { background: #3a2a1f; }
+body.dark .stay-header.booked-bg { background: #16302a; }
+body.dark .stay-header.pending-bg { background: #3a3320; }
+body.dark .summary-card, body.dark .exp-summary-card, body.dark .change-box,
+body.dark .overview-table tr:nth-child(even) td, body.dark .exp-cat-bar-bg { background: #262b2e; }
+body.dark .day-item { border-color: #333; }
+body.dark input, body.dark select { background: #1e2427; color: #d8dbdd; border-color: #444; }
+body.dark .tab { background: rgba(255,255,255,0.06); }
+body.dark .tab.active { background: #14181a; color: #4CAF93; }
+body.dark .info-card, body.dark .exp-form, body.dark .exp-item, body.dark .stay-body,
+body.dark .confirmed-box .detail-row { color: #c5c8ca; }
+body.dark .section-title, body.dark .hotel-name, body.dark .exp-form-title,
+body.dark .check-group-title, body.dark .H2 { color: #4CAF93; }
+body.dark .day-place b, body.dark .exp-item-desc { color: #e8eaeb; }
+body.dark .overview-table td { border-color: #333; }
 
 .topbar {
   background: #0F6E56;
@@ -22,23 +51,24 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 
 .tabs {
   display: flex;
-  gap: 2px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-bottom: 8px;
 }
-.tabs::-webkit-scrollbar { display: none; }
 .tab {
-  flex-shrink: 0;
   padding: 8px 12px;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   color: rgba(255,255,255,0.75);
   background: rgba(255,255,255,0.08);
-  border-radius: 6px 6px 0 0;
+  border-radius: 6px;
   cursor: pointer;
   white-space: nowrap;
 }
 .tab.active { color: #0F6E56; background: #FAF9F5; }
+@media (max-width: 480px) {
+  .tab { font-size: 11px; padding: 7px 9px; }
+}
 
 .container { max-width: 820px; margin: 0 auto; padding: 1.25rem 1rem 2rem; }
 .panel { display: none; }
@@ -127,6 +157,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .stay-header { padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .stay-header.booked-bg { background: #EAF7EF; }
 .stay-header.unbooked-bg { background: #FDF1EA; }
+.stay-card.pending { border-color: #f0d060; }
+.stay-header.pending-bg { background: #FFF8E1; }
+.status-pill.pending { background: #BA7517; color: white; }
+.pending-warning { font-size: 12px; color: #8a6d1a; background: #FFF3CD; border: 1px solid #f0d060; padding: 8px 10px; border-radius: 5px; margin-top: 8px; font-weight: 600; }
 .stay-city { font-size: 14.5px; font-weight: 700; }
 .stay-dates { font-size: 11.5px; color: #6b6a63; margin-top: 2px; }
 .status-pill { font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 20px; white-space: nowrap; }
@@ -171,6 +205,44 @@ input:focus { outline: none; border-color: #0F6E56; box-shadow: 0 0 0 2px rgba(1
 button { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #ddd; background: white; font-size: 13px; font-weight: 600; cursor: pointer; }
 button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
 
+/* ---- Expenses ---- */
+.exp-summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+.exp-summary-card { background: #F1EFE8; border-radius: 8px; padding: 14px; text-align: center; }
+.exp-summary-card.thb { background: #E1F5EE; }
+.exp-summary-card.inr { background: #FDF1EA; }
+.exp-summary-num { font-size: 22px; font-weight: 700; color: #0F6E56; }
+.exp-summary-card.inr .exp-summary-num { color: #b5451f; }
+.exp-summary-label { font-size: 11px; color: #6b6a63; margin-top: 2px; }
+.exp-form { border: 1px solid #E0DED4; border-radius: 10px; padding: 14px; margin-bottom: 16px; background: white; }
+.exp-form-title { font-size: 13px; font-weight: 700; color: #0F6E56; margin-bottom: 10px; }
+.exp-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.exp-form-row.full { grid-template-columns: 1fr; }
+.exp-form input[type="text"], .exp-form input[type="number"], .exp-form input[type="date"], .exp-form select {
+  padding: 8px 9px; border: 1px solid #ddd; border-radius: 5px; font-size: 13px; font-family: inherit; width: 100%; background: white;
+}
+.exp-form input:focus, .exp-form select:focus { outline: none; border-color: #0F6E56; box-shadow: 0 0 0 2px rgba(15,110,86,0.1); }
+.exp-currency-toggle { display: flex; gap: 6px; }
+.exp-currency-btn { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 5px; background: white; font-size: 12.5px; font-weight: 600; cursor: pointer; text-align: center; }
+.exp-currency-btn.active { background: #0F6E56; color: white; border-color: #0F6E56; }
+.exp-add-btn { width: 100%; padding: 10px; border-radius: 6px; border: none; background: #0F6E56; color: white; font-size: 13.5px; font-weight: 700; cursor: pointer; margin-top: 4px; }
+.exp-category-breakdown { margin-bottom: 16px; }
+.exp-cat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; }
+.exp-cat-label { width: 100px; flex-shrink: 0; color: #444; }
+.exp-cat-bar-bg { flex: 1; height: 8px; background: #EEEDE6; border-radius: 4px; overflow: hidden; }
+.exp-cat-bar-fill { height: 100%; background: #0F6E56; }
+.exp-cat-amt { width: 90px; flex-shrink: 0; text-align: right; color: #6b6a63; font-size: 11.5px; }
+.exp-list-title { font-size: 13px; font-weight: 700; color: #0F6E56; margin: 16px 0 8px; }
+.exp-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #EEEDE6; border-radius: 8px; margin-bottom: 6px; background: white; }
+.exp-item-cat { font-size: 16px; flex-shrink: 0; }
+.exp-item-info { flex: 1; min-width: 0; }
+.exp-item-desc { font-size: 13px; font-weight: 600; color: #2C2C2A; }
+.exp-item-meta { font-size: 11px; color: #999; margin-top: 1px; }
+.exp-item-amt { font-size: 13.5px; font-weight: 700; color: #0F6E56; white-space: nowrap; }
+.exp-item-amt.inr { color: #b5451f; }
+.exp-item-del { background: none; border: none; color: #c9958a; font-size: 16px; cursor: pointer; padding: 2px 6px; flex-shrink: 0; }
+.exp-item-del:hover { color: #b5451f; }
+.exp-empty { text-align: center; color: #999; font-size: 12.5px; padding: 20px; }
+
 @media (max-width: 480px) {
   .summary-num { font-size: 18px; }
   .input-row { grid-template-columns: 1fr; }
@@ -179,6 +251,8 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
 </style>
 </head>
 <body>
+
+<button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
 
 <div class="topbar">
   <div class="topbar-inner">
@@ -194,6 +268,7 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
       <div class="tab" data-panel="checklist">Booking Checklist</div>
       <div class="tab" data-panel="prep">Pre-Flight Prep</div>
       <div class="tab" data-panel="packing">Packing</div>
+      <div class="tab" data-panel="expenses">💰 Expenses</div>
     </div>
   </div>
 </div>
@@ -212,19 +287,22 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
 
     <table class="overview-table">
       <tr><th>City</th><th>Dates</th><th>Nights</th><th>Highlight</th></tr>
-      <tr><td>Bangkok</td><td>28 Aug – 3 Sep</td><td>6</td><td>Temples, markets, sky bars, Manan's birthday (no travel)</td></tr>
-      <tr><td>Pattaya</td><td>3 Sep – 4 Sep</td><td>1</td><td>Sanctuary of Truth, Alcazar — single night</td></tr>
-      <tr><td>Bangkok</td><td>4 Sep – 5 Sep</td><td>1</td><td>Reset before Phuket flight</td></tr>
+      <tr><td>Bangkok</td><td>28 Aug – 1 Sep</td><td>4</td><td>Temples, markets, sky bars — Aspen Suites Sukhumvit 2 ✓</td></tr>
+      <tr><td>Bangkok (birthday)</td><td>1 Sep – 3 Sep</td><td>2</td><td>Manan's birthday (2 Sep, no travel) — Baiyoke Sky, Space Zone ✓</td></tr>
+      <tr><td>Pattaya</td><td>3 Sep – 4 Sep</td><td>1</td><td>Sanctuary of Truth, Alcazar — Centara Pattaya Hotel ✓</td></tr>
+      <tr><td>Bangkok</td><td>4 Sep – 5 Sep</td><td>1</td><td>Reset before Phuket flight — Gate43 Airport Hotel ✓</td></tr>
       <tr><td>Phuket (Patong)</td><td>5 Sep – 7 Sep</td><td>2</td><td>Phi Phi day trip — Seaview Patong Hotel ✓</td></tr>
       <tr><td>Phuket (birthday)</td><td>7 Sep – 9 Sep</td><td>2</td><td>Wife's birthday — Sunset Beach Resort Phuket ✓</td></tr>
-      <tr><td>Bangkok</td><td>9 Sep – 10 Sep</td><td>1</td><td>Easy departure</td></tr>
+      <tr><td>Bangkok</td><td>9 Sep – 10 Sep</td><td>1</td><td>Easy departure — ibis Styles Sukhumvit 4 ⚠️ unpaid, pay by 5 Sep</td></tr>
     </table>
 
     <div class="change-box">
-      <b>Latest changes:</b> Manan's birthday (Sep 2) now stays fully in Bangkok — no travel day.
-      Pattaya trimmed to a single night (Sep 3–4). Birthday dinner moved from an unverified Pattaya
-      restaurant to two verified Bangkok options (Sorn / Issaya Siamese Club). Both Phuket hotels
-      are confirmed and booked.
+      <b>Latest changes:</b> All 7 stays now have a hotel attached. ibis Styles Bangkok Sukhumvit 4
+      (9–10 Sep, ₹6,075) is reserved but deliberately left <b>unpaid</b> as a flexible hold — pay by
+      <b>11:59 PM IST, 5 Sep 2026</b> or it auto-cancels. Centara Pattaya Hotel confirmed for 3–4 Sep
+      (central location for Sanctuary of Truth/Alcazar/Walking Street). Gate43 Airport Hotel confirmed
+      for 4–5 Sep near Suvarnabhumi — plan to Grab to the airport rather than rely on the hotel's paid
+      shuttle.
     </div>
 
     <div class="info-card">
@@ -245,73 +323,101 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
   <!-- ============ HOTELS ============ -->
   <div class="panel" id="panel-hotels">
     <div class="section-title">Hotel Booking Tracker</div>
-    <div class="section-desc">13 nights · 6 stays</div>
+    <div class="section-desc">13 nights · 7 stays</div>
 
-    <div class="urgency-banner">
-      ⏰ <b>2 of 6 stays still need booking</b> — Bangkok (7 nights across 2 stays) + Pattaya (1 night). Travel dates are close, book these next.
+    <div class="urgency-banner" style="background: #FFF3CD; border-color: #f0d060; border-left-color: #BA7517; color: #6b5410;">
+      ⚠️ <b>All 7 stays have a hotel — 1 payment still pending.</b> ibis Styles Bangkok Sukhumvit 4 (9–10 Sep) is held unpaid — pay by 11:59 PM IST, 5 Sep or it auto-cancels.
     </div>
 
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 
     <div class="summary">
-      <div class="summary-card"><div class="summary-num" id="statNightsBooked">4</div><div class="summary-label">Nights Secured</div></div>
-      <div class="summary-card"><div class="summary-num warn" id="statNightsLeft">9</div><div class="summary-label">Nights Remaining</div></div>
-      <div class="summary-card"><div class="summary-num" id="statStaysBooked">2/6</div><div class="summary-label">Stays Booked</div></div>
+      <div class="summary-card"><div class="summary-num" id="statNightsBooked">13</div><div class="summary-label">Nights Secured</div></div>
+      <div class="summary-card"><div class="summary-num warn" id="statNightsLeft">0</div><div class="summary-label">Nights Remaining</div></div>
+      <div class="summary-card"><div class="summary-num" id="statStaysBooked">7/7</div><div class="summary-label">Stays Booked</div></div>
     </div>
 
-    <div class="stay-card unbooked" id="stay-0" data-nights="6">
-      <div class="stay-header unbooked-bg">
-        <div><div class="stay-city">🏙️ Bangkok</div><div class="stay-dates">Fri 28 Aug → Thu 3 Sep</div></div>
+    <div class="stay-card booked" id="stay-0" data-nights="4">
+      <div class="stay-header booked-bg">
+        <div><div class="stay-city">🏙️ Bangkok</div><div class="stay-dates">Fri 28 Aug → Tue 1 Sep</div></div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-          <span class="nights-badge">6 nights</span><span class="status-pill unbooked" id="pill-0">NOT BOOKED</span>
+          <span class="nights-badge">4 nights</span><span class="status-pill booked">BOOKED ✓</span>
         </div>
       </div>
       <div class="stay-body">
         <div class="night-dots">
-          <div class="night-dot unbooked">28</div><div class="night-dot unbooked">29</div>
-          <div class="night-dot unbooked">30</div><div class="night-dot unbooked">31</div>
-          <div class="night-dot unbooked">1</div><div class="night-dot unbooked">🎂2</div>
+          <div class="night-dot booked">28</div><div class="night-dot booked">29</div>
+          <div class="night-dot booked">30</div><div class="night-dot booked">31</div>
         </div>
-        <div class="target-note">Target: ~700–900฿/night · Sukhumvit area · includes Manan's birthday night (Sep 2)</div>
-        <div class="input-row"><input type="text" placeholder="Hotel name" class="f-hotel"><input type="text" placeholder="Confirmation #" class="f-conf"></div>
-        <div class="input-row"><input type="tel" placeholder="Phone" class="f-phone"><input type="url" placeholder="Booking link (optional)" class="f-link"></div>
-        <div class="mark-booked-row"><input type="checkbox" class="mark-booked" id="chk-0"><label for="chk-0">Mark this stay as booked</label></div>
+        <div class="confirmed-box" style="margin-top:10px;">
+          <div class="hotel-name">Aspen Suites Hotel Sukhumvit 2 Bangkok</div>
+          <div class="detail-row"><b>Booking ID:</b> GH29086275256124 · <b>PNR:</b> 0184488946</div>
+          <div class="detail-row"><b>Room:</b> Grand Deluxe with Bathtub (Elite Package) · Breakfast incl.</div>
+          <div class="detail-row"><b>Check-in:</b> 2:00 PM · <b>Check-out:</b> 12:00 PM</div>
+          <div class="detail-row" style="color:#b5451f;"><b>⚠️ Non-refundable</b> — no free cancellation</div>
+          <div class="detail-row">Airport shuttle (฿1,200 one-way) requested — confirm 24hrs ahead (by 27 Aug)</div>
+        </div>
       </div>
     </div>
 
-    <div class="stay-card unbooked" id="stay-1" data-nights="1">
-      <div class="stay-header unbooked-bg">
+    <div class="stay-card booked" id="stay-1" data-nights="2">
+      <div class="stay-header booked-bg">
+        <div><div class="stay-city">🏙️ Bangkok (Birthday stay)</div><div class="stay-dates">Tue 1 Sep → Thu 3 Sep</div></div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+          <span class="nights-badge">2 nights</span><span class="status-pill booked">BOOKED ✓</span>
+        </div>
+      </div>
+      <div class="stay-body">
+        <div class="night-dots"><div class="night-dot booked">1</div><div class="night-dot booked">🎂2</div></div>
+        <div class="confirmed-box" style="margin-top:10px;">
+          <div class="hotel-name">Baiyoke Sky Hotel Bangkok</div>
+          <div class="detail-row"><b>Booking ID:</b> GH29086275255330</div>
+          <div class="detail-row"><b>Room:</b> Deluxe, Space Zone (70th–74th floor) with Bathtub</div>
+          <div class="detail-row"><b>Check-in:</b> 2:00 PM · <b>Check-out:</b> 11:00 AM</div>
+          <div class="detail-row">Covers Manan's birthday (Sep 2). High floor + complimentary cake/decoration requested via email + Goibibo special request</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stay-card booked" id="stay-2" data-nights="1">
+      <div class="stay-header booked-bg">
         <div><div class="stay-city">🌊 Pattaya</div><div class="stay-dates">Thu 3 Sep → Fri 4 Sep</div></div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-          <span class="nights-badge">1 night</span><span class="status-pill unbooked" id="pill-1">NOT BOOKED</span>
+          <span class="nights-badge">1 night</span><span class="status-pill booked">BOOKED ✓</span>
         </div>
       </div>
       <div class="stay-body">
-        <div class="night-dots"><div class="night-dot unbooked">3</div></div>
-        <div class="target-note">Target: ~1,200–1,800฿ · Beachfront preferred, single night only</div>
-        <div class="input-row"><input type="text" placeholder="Hotel name" class="f-hotel"><input type="text" placeholder="Confirmation #" class="f-conf"></div>
-        <div class="input-row"><input type="tel" placeholder="Phone" class="f-phone"><input type="url" placeholder="Booking link (optional)" class="f-link"></div>
-        <div class="mark-booked-row"><input type="checkbox" class="mark-booked" id="chk-1"><label for="chk-1">Mark this stay as booked</label></div>
+        <div class="night-dots"><div class="night-dot booked">3</div></div>
+        <div class="confirmed-box" style="margin-top:10px;">
+          <div class="hotel-name">Centara Pattaya Hotel</div>
+          <div class="detail-row"><b>Booking ID:</b> GH23044275257256</div>
+          <div class="detail-row"><b>Room:</b> Deluxe King, Breakfast included</div>
+          <div class="detail-row"><b>Check-in:</b> 3:00 PM · <b>Check-out:</b> 12:00 PM</div>
+          <div class="detail-row">Central Pattaya — near Alcazar, Walking Street. Early check-in + late check-out + transfer rate requested via special request</div>
+        </div>
       </div>
     </div>
 
-    <div class="stay-card unbooked" id="stay-2" data-nights="1">
-      <div class="stay-header unbooked-bg">
+    <div class="stay-card booked" id="stay-3" data-nights="1">
+      <div class="stay-header booked-bg">
         <div><div class="stay-city">🏙️ Bangkok</div><div class="stay-dates">Fri 4 Sep → Sat 5 Sep</div></div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-          <span class="nights-badge">1 night</span><span class="status-pill unbooked" id="pill-2">NOT BOOKED</span>
+          <span class="nights-badge">1 night</span><span class="status-pill booked">BOOKED ✓</span>
         </div>
       </div>
       <div class="stay-body">
-        <div class="night-dots"><div class="night-dot unbooked">4</div></div>
-        <div class="target-note">Quick reset night before early Phuket flight (06:50 AM) — same hotel as Phase 1 is fine</div>
-        <div class="input-row"><input type="text" placeholder="Hotel name" class="f-hotel"><input type="text" placeholder="Confirmation #" class="f-conf"></div>
-        <div class="input-row"><input type="tel" placeholder="Phone" class="f-phone"><input type="url" placeholder="Booking link (optional)" class="f-link"></div>
-        <div class="mark-booked-row"><input type="checkbox" class="mark-booked" id="chk-2"><label for="chk-2">Mark this stay as booked</label></div>
+        <div class="night-dots"><div class="night-dot booked">4</div></div>
+        <div class="confirmed-box" style="margin-top:10px;">
+          <div class="hotel-name">Gate43 Airport Hotel</div>
+          <div class="detail-row"><b>Booking ID:</b> GH23044275257592</div>
+          <div class="detail-row"><b>Room:</b> Deluxe Double, No meals included</div>
+          <div class="detail-row"><b>Check-in:</b> 11:30 AM · <b>Check-out:</b> 12:00 PM</div>
+          <div class="detail-row">Near Suvarnabhumi — take Grab (not hotel shuttle) for the 06:50 AM flight, ~15–20 min buffer</div>
+        </div>
       </div>
     </div>
 
-    <div class="stay-card booked" id="stay-3" data-nights="2">
+    <div class="stay-card booked" id="stay-4" data-nights="2">
       <div class="stay-header booked-bg">
         <div><div class="stay-city">🏝️ Phuket (Patong)</div><div class="stay-dates">Sat 5 Sep → Mon 7 Sep</div></div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
@@ -329,7 +435,7 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
       </div>
     </div>
 
-    <div class="stay-card booked" id="stay-4" data-nights="2">
+    <div class="stay-card booked" id="stay-5" data-nights="2">
       <div class="stay-header booked-bg">
         <div><div class="stay-city">🏝️ Phuket (Birthday stay)</div><div class="stay-dates">Mon 7 Sep → Wed 9 Sep</div></div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
@@ -347,19 +453,25 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
       </div>
     </div>
 
-    <div class="stay-card unbooked" id="stay-5" data-nights="1">
-      <div class="stay-header unbooked-bg">
+    <div class="stay-card pending" id="stay-6" data-nights="1">
+      <div class="stay-header pending-bg">
         <div><div class="stay-city">🏙️ Bangkok</div><div class="stay-dates">Wed 9 Sep → Thu 10 Sep</div></div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-          <span class="nights-badge">1 night</span><span class="status-pill unbooked" id="pill-5">NOT BOOKED</span>
+          <span class="nights-badge">1 night</span><span class="status-pill pending">PAYMENT DUE</span>
         </div>
       </div>
       <div class="stay-body">
         <div class="night-dots"><div class="night-dot unbooked">9</div></div>
-        <div class="target-note">Last night before 2:40 PM departure — no need to rush, easy morning</div>
-        <div class="input-row"><input type="text" placeholder="Hotel name" class="f-hotel"><input type="text" placeholder="Confirmation #" class="f-conf"></div>
-        <div class="input-row"><input type="tel" placeholder="Phone" class="f-phone"><input type="url" placeholder="Booking link (optional)" class="f-link"></div>
-        <div class="mark-booked-row"><input type="checkbox" class="mark-booked" id="chk-5"><label for="chk-5">Mark this stay as booked</label></div>
+        <div class="confirmed-box" style="margin-top:10px;">
+          <div class="hotel-name">ibis Styles Bangkok Sukhumvit 4</div>
+          <div class="detail-row"><b>Booking ID:</b> GH29086275257666 · <b>PNR:</b> A237AI80512</div>
+          <div class="detail-row"><b>Room:</b> Standard Room, 1 Queen Bed · No meals included</div>
+          <div class="detail-row"><b>Check-in:</b> 9 Sep, 2:00 PM · <b>Check-out:</b> 10 Sep, 12:00 PM</div>
+          <div class="detail-row">Total ₹6,075 · <b>Amount paid: ₹0</b></div>
+        </div>
+        <div class="pending-warning">
+          ⚠️ Held unpaid on purpose (in case plans shift). Must pay by <b>11:59 PM IST, 5 Sep 2026</b> or it auto-cancels.
+        </div>
       </div>
     </div>
 
@@ -510,6 +622,7 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
       checked baggage, add it online now (cheaper than at the airport counter). Cabin bag limit:
       56×36×23cm.
     </div>
+  </div>
 
   <!-- ============ PACKING ============ -->
   <div class="panel" id="panel-packing">
@@ -518,9 +631,80 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
     <div id="packing-container"></div>
   </div>
 
+  <!-- ============ EXPENSES ============ -->
+  <div class="panel" id="panel-expenses">
+    <div class="section-title">Trip Expense Tracker</div>
+    <div class="section-desc">Feed me costs as they happen — everything's saved and totaled automatically</div>
+
+    <div class="exp-summary">
+      <div class="exp-summary-card thb">
+        <div class="exp-summary-num" id="expTotalTHB">฿0</div>
+        <div class="exp-summary-label">Total spent (THB, on ground)</div>
+      </div>
+      <div class="exp-summary-card inr">
+        <div class="exp-summary-num" id="expTotalINR">₹0</div>
+        <div class="exp-summary-label">Total spent (INR, hotels/prebooked)</div>
+      </div>
+    </div>
+
+    <div class="exp-form">
+      <div class="exp-form-title">➕ Add an expense</div>
+      <div class="exp-form-row">
+        <select id="expCategory">
+          <option value="🏨 Hotels">🏨 Hotels</option>
+          <option value="✈️ Flights">✈️ Flights</option>
+          <option value="🍜 Food & Dining">🍜 Food & Dining</option>
+          <option value="🎟️ Activities & Tours">🎟️ Activities & Tours</option>
+          <option value="🚕 Transport">🚕 Transport</option>
+          <option value="🛍️ Shopping">🛍️ Shopping</option>
+          <option value="💆 Spa & Wellness">💆 Spa & Wellness</option>
+          <option value="🎂 Birthday extras">🎂 Birthday extras</option>
+          <option value="📦 Other">📦 Other</option>
+        </select>
+        <input type="date" id="expDate">
+      </div>
+      <div class="exp-form-row full">
+        <input type="text" id="expDesc" placeholder="What was it? e.g. 'Sirocco cocktails' or 'Grab to airport'">
+      </div>
+      <div class="exp-form-row">
+        <input type="number" id="expAmount" placeholder="Amount" min="0" step="1">
+        <div class="exp-currency-toggle">
+          <div class="exp-currency-btn active" data-currency="THB" id="btnTHB">฿ THB</div>
+          <div class="exp-currency-btn" data-currency="INR" id="btnINR">₹ INR</div>
+        </div>
+      </div>
+      <button class="exp-add-btn" id="expAddBtn">Add Expense</button>
+    </div>
+
+    <div class="exp-category-breakdown" id="expBreakdown"></div>
+
+    <div class="exp-list-title">All expenses (newest first)</div>
+    <div id="expList"></div>
+
+    <div class="actions">
+      <button class="primary" id="expDownloadBtn">📥 Download Expense Report</button>
+      <button id="expResetBtn">🔄 Clear All Expenses</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
+/* ============ DARK MODE ============ */
+(function() {
+  const btn = document.getElementById('darkToggle');
+  const saved = localStorage.getItem('thailand-dark-mode');
+  if (saved === 'on') {
+    document.body.classList.add('dark');
+    btn.textContent = '☀️';
+  }
+  btn.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark');
+    btn.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('thailand-dark-mode', isDark ? 'on' : 'off');
+  });
+})();
+
 /* ============ TAB SWITCHING ============ */
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
@@ -533,10 +717,11 @@ document.querySelectorAll('.tab').forEach(tab => {
 
 /* ============ DAY-BY-DAY DATA ============ */
 const days = [
-  { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok", birthday:false,
-    note: "Flights: DEL 04:30→BLR 07:20 (AI 2653), BLR 10:00→BKK 15:40 (AI 9071) · Booking ID GOFLISTAM2YH1595682",
+  { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok — check in Aspen Suites", birthday:false,
+    note: "Flights: DEL 04:30→BLR 07:20 (AI 2653), BLR 10:00→BKK 15:40 (AI 9071) · Booking ID GOFLISTAM2YH1595682. Airport shuttle (฿1,200) requested from Aspen — confirm by 27 Aug",
     items: [
-      ["15:40","Land Bangkok","Grab SIM card, download Grab app, head to Sukhumvit hotel"],
+      ["15:40","Land Bangkok","Grab SIM card, download Grab app"],
+      ["3:00 PM","Check in — Aspen Suites Hotel Sukhumvit 2","Booking ID GH29086275256124, PNR 0184488946. Non-refundable"],
       ["Evening","Asiatique The Riverfront","Easy first night — riverside food, shopping"],
     ]},
   { title: "DAY 2 · Sat 29 Aug", sub: "Bangkok temples", birthday:false, note:null,
@@ -557,33 +742,38 @@ const days = [
       ["7:00 AM","Amphawa Floating Market","Longtail boats, breakfast on water"],
       ["7:00 PM","Rajadamnern Stadium","Live Muay Thai, tickets 1,000–3,000฿"],
     ]},
-  { title: "DAY 5 · Tue 1 Sep", sub: "Aquarium + shopping + river cruise", birthday:false, note:null,
+  { title: "DAY 5 · Tue 1 Sep", sub: "Aquarium + shopping — move to Baiyoke Sky", birthday:false,
+    note: "Check out Aspen Suites (12:00 PM) → check in Baiyoke Sky, Space Zone (2:00 PM). High floor + birthday cake/decoration requested",
     items: [
-      ["9:00 AM","SEA LIFE Bangkok Ocean World","Siam Paragon basement, ~2.5 hrs"],
-      ["3:00 PM","ICONSIAM","Riverside mall, indoor floating market concept"],
-      ["6:30 PM","Chao Phraya Dinner Cruise","Buffet + live music. Book 2 days ahead"],
+      ["11:00 AM","Check out — Aspen Suites","Booking ID GH29086275256124"],
+      ["1:00 PM","SEA LIFE Bangkok Ocean World","Siam Paragon basement, ~2.5 hrs"],
+      ["3:00 PM","Check in — Baiyoke Sky Hotel","Deluxe, Space Zone (70th–74th floor). Booking ID GH29086275255330"],
+      ["6:30 PM","ICONSIAM or Chao Phraya Dinner Cruise","Riverside mall / buffet + live music, book cruise 2 days ahead"],
     ]},
   { title: "DAY 6 · Wed 2 Sep", sub: "🎂 MANAN'S BIRTHDAY — Bangkok (no travel)", birthday:true,
-    note: "Full day in Bangkok. No hotel move, no long drive — the whole day is unhurried.",
+    note: "At Baiyoke Sky, Space Zone. No hotel move, no long drive — the whole day is unhurried.",
     items: [
       ["8:00 AM","Couples Thai massage","Khus Samui Spa or Spa 1930, ~1.5–2 hrs"],
       ["11:30 AM","Birthday lunch","Relaxed spot near hotel or a rooftop lunch"],
-      ["Afternoon","Free / flexible","Café hopping, a leftover Bangkok spot, or just rest"],
+      ["Afternoon","Free / flexible","Café hopping, 84th-floor revolving viewpoint, or just rest"],
       ["7:30 PM","Birthday dinner — Sorn or Issaya","Both verified, real, high-end. Book Sorn 2–3 weeks ahead"],
     ]},
-  { title: "DAY 7 · Thu 3 Sep", sub: "Bangkok to Pattaya (single night)", birthday:false, note:null,
+  { title: "DAY 7 · Thu 3 Sep", sub: "Bangkok to Pattaya — check in Centara Pattaya", birthday:false,
+    note: "Booking ID GH23044275257256 · Early check-in requested via special request",
     items: [
-      ["10:00 AM","Check out, drive to Pattaya","~2 hrs via Grab/private car"],
+      ["10:00 AM","Check out — Baiyoke Sky","Booking ID GH29086275255330, drive to Pattaya ~2 hrs via Grab/private car"],
       ["1:00 PM","Sanctuary of Truth","Hand-carved wooden temple, ~1.5–2 hrs, tickets ~600฿"],
-      ["Afternoon","Beach time / check in","Pattaya hotel (1 night)"],
+      ["3:00 PM","Check in — Centara Pattaya Hotel","Deluxe King, breakfast included. Central Pattaya location"],
       ["7:30 PM","Alcazar Cabaret Show","Book ahead, tickets 600–900฿"],
       ["Night","Walking Street","Casual dinner, neon-lit walk"],
     ]},
-  { title: "DAY 8 · Fri 4 Sep", sub: "Pattaya to Bangkok", birthday:false, note:null,
+  { title: "DAY 8 · Fri 4 Sep", sub: "Pattaya to Bangkok — check in Gate43 Airport Hotel", birthday:false,
+    note: "Late check-out requested from Centara · Gate43 Booking ID GH23044275257592",
     items: [
-      ["Morning","Beach breakfast, pack, check out","Lazy morning, light Beach Road shopping"],
-      ["12:00 PM","Drive back to Bangkok","~2 hrs, check into Sukhumvit hotel"],
-      ["6:00 PM","Yaowarat (Chinatown)","Gold shops, ceramics, hainanese chicken rice"],
+      ["Morning","Beach breakfast, pack, check out","Centara Pattaya Hotel — late check-out requested"],
+      ["12:00 PM","Grab/private car to Bangkok","~2 hrs — rate requested from Centara, ~฿1,200–1,500 via Grab"],
+      ["3:00 PM","Yaowarat (Chinatown), optional","Gold shops, ceramics, hainanese chicken rice — keep it light, early flight tomorrow"],
+      ["11:30 AM check-in","Gate43 Airport Hotel","Deluxe Double, near Suvarnabhumi. No meals included"],
     ]},
   { title: "DAY 9 · Sat 5 Sep", sub: "Fly to Phuket — Seaview Patong Hotel", birthday:false,
     note: "Flight: BKK 06:50 → HKT 08:25 (Thai Vietjet VZ314) · Check in: Seaview Patong Hotel (GH23141275115872)",
@@ -619,7 +809,7 @@ const days = [
     items: [
       ["Morning","Final beach swim / Big Buddha of Phuket (optional)","40m marble statue, hilltop views, ~1 hr"],
       ["2:30 PM","Check out, Grab to airport","~45 min–1 hr"],
-      ["5:20 PM","Flight to Bangkok","Arrive 6:50 PM, check into Sukhumvit hotel"],
+      ["5:20 PM","Flight to Bangkok","Arrive 6:50 PM, check into ibis Styles Bangkok Sukhumvit 4 — confirm payment made by 5 Sep"],
     ]},
   { title: "DAY 14 · Thu 10 Sep", sub: "Depart Bangkok", birthday:false,
     note: "Flight: BKK 14:40 → Delhi (via connection)",
@@ -719,14 +909,14 @@ buildChecklist('places-container', 'thailand-places-v1', {
 }, 'placesProgress');
 
 /* ---- Booking Checklist ---- */
-buildChecklist('checklist-container', 'thailand-checklist-v1', {
-  "Urgent — this week": [
+buildChecklist('checklist-container', 'thailand-checklist-v2', {
+  "🔴 Urgent — payment deadline": [
+    "Pay ibis Styles Bangkok Sukhumvit 4 balance (₹6,075) by 11:59 PM IST, 5 Sep — or the booking auto-cancels",
+    "Confirm Aspen Suites airport shuttle (₹1,200) 24 hrs before 28 Aug landing — call/email by 27 Aug"
+  ],
+  "Still to book — dining & activities": [
     "Book birthday dinner in Bangkok for Sep 2 — Sorn or Issaya Siamese Club",
     "Call/book Suay restaurant for Sep 8, 7:30 PM — +66 93 339 1890",
-    "Book Bangkok hotel (7 nights total across two stays)",
-    "Book Pattaya hotel (1 night, Sep 3–4)"
-  ],
-  "Next 2 weeks": [
     "Book Koh Phi Phi speedboat tour for Sep 6 (earliest slot)",
     "Identify backup operator/tour for Sep 7 in case of reschedule",
     "Book Amphawa Floating Market tour for Sep 1",
@@ -737,7 +927,7 @@ buildChecklist('checklist-container', 'thailand-checklist-v1', {
   ],
   "Closer to departure": [
     "Email spa bookings: Bangkok (Sep 2, 8 AM) & Phuket (Sep 8, 9 AM)",
-    "Arrange birthday decorations with Sorn/Issaya and Suay",
+    "Send Suay a complimentary birthday cake/decoration request (Baiyoke already done via email)",
     "Screenshot all confirmations (flights, hotels, tours, restaurants)",
     "Check Andaman Sea weather forecast 2–3 days before Sep 6",
     "Download apps: Grab, Klook, Google Maps (offline Bangkok + Phuket)",
@@ -746,7 +936,14 @@ buildChecklist('checklist-container', 'thailand-checklist-v1', {
   "On arrival (Aug 28)": [
     "Get Thai SIM card at airport",
     "Set up Grab app",
-    "Message hotel with ETA"
+    "Message Aspen Suites with ETA + confirm airport shuttle if arranged"
+  ],
+  "✅ Already done": [
+    "All 7 hotel stays have a booking (6 paid, 1 held unpaid — see Urgent above)",
+    "High floor + non-smoking + birthday cake/decoration requested — Baiyoke Sky (email + Goibibo)",
+    "Early check-in + late check-out + Bangkok transfer rate requested — Centara Pattaya (Goibibo special request)",
+    "Airport shuttle rate requested — Aspen Suites (email, needs 24hr reconfirmation)",
+    "All 4 flights booked and logged in Expenses tab"
   ]
 }, 'checklistProgress');
 
@@ -797,9 +994,10 @@ buildChecklist('packing-container', 'thailand-packing-v1', {
 }, 'packingProgress');
 
 /* ============ HOTEL TRACKER ============ */
-const STORAGE_KEY = 'thailand-hotel-tracker-v1';
+const STORAGE_KEY = 'thailand-hotel-tracker-v2';
 const totalNights = 13;
-const bookedByDefaultNights = 4;
+const bookedByDefaultNights = 13;
+const UNBOOKED_IDX = [];
 
 function getStayNights(el) { return parseInt(el.getAttribute('data-nights'), 10); }
 
@@ -809,7 +1007,7 @@ function loadHotelState() {
 
 function saveHotelState() {
   const state = {};
-  [0,1,2,5].forEach(idx => {
+  UNBOOKED_IDX.forEach(idx => {
     const card = document.getElementById('stay-' + idx);
     const chk = document.getElementById('chk-' + idx);
     state[idx] = {
@@ -830,12 +1028,17 @@ function applyHotelState() {
     const s = state[idx];
     const card = document.getElementById('stay-' + idx);
     if (!card) return;
+    const hotelInput = card.querySelector('.f-hotel');
+    if (!hotelInput) return; // card is a fixed booked/pending card now, nothing editable to restore
     const chk = document.getElementById('chk-' + idx);
     if (chk) chk.checked = !!s.booked;
-    card.querySelector('.f-hotel').value = s.hotel || '';
-    card.querySelector('.f-conf').value = s.conf || '';
-    card.querySelector('.f-phone').value = s.phone || '';
-    card.querySelector('.f-link').value = s.link || '';
+    hotelInput.value = s.hotel || '';
+    const confInput = card.querySelector('.f-conf');
+    if (confInput) confInput.value = s.conf || '';
+    const phoneInput = card.querySelector('.f-phone');
+    if (phoneInput) phoneInput.value = s.phone || '';
+    const linkInput = card.querySelector('.f-link');
+    if (linkInput) linkInput.value = s.link || '';
     if (s.booked) markCardBooked(card, idx);
   });
   updateHotelSummary();
@@ -861,8 +1064,8 @@ function markCardUnbooked(card, idx) {
 
 function updateHotelSummary() {
   let nightsBooked = bookedByDefaultNights;
-  let staysBooked = 2;
-  [0,1,2,5].forEach(idx => {
+  let staysBooked = 7;
+  UNBOOKED_IDX.forEach(idx => {
     const chk = document.getElementById('chk-' + idx);
     const card = document.getElementById('stay-' + idx);
     if (chk.checked) { nightsBooked += getStayNights(card); staysBooked += 1; }
@@ -871,11 +1074,11 @@ function updateHotelSummary() {
   const pct = Math.round((nightsBooked / totalNights) * 100);
   document.getElementById('statNightsBooked').textContent = nightsBooked;
   document.getElementById('statNightsLeft').textContent = nightsLeft;
-  document.getElementById('statStaysBooked').textContent = staysBooked + '/6';
+  document.getElementById('statStaysBooked').textContent = staysBooked + '/7';
   document.getElementById('progressFill').style.width = pct + '%';
 }
 
-[0,1,2,5].forEach(idx => {
+UNBOOKED_IDX.forEach(idx => {
   const chk = document.getElementById('chk-' + idx);
   const card = document.getElementById('stay-' + idx);
   chk.addEventListener('change', () => {
@@ -889,12 +1092,13 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
   const state = loadHotelState();
   const lines = ['Thailand Trip - Hotel Booking Status', new Date().toLocaleString(), ''];
   const stayNames = {
-    0: 'Bangkok (28 Aug - 3 Sep, 6 nights)',
-    1: 'Pattaya (3 Sep - 4 Sep, 1 night)',
-    2: 'Bangkok (4 Sep - 5 Sep, 1 night)',
-    3: 'Phuket - Seaview Patong (5 Sep - 7 Sep, 2 nights) -- BOOKED',
-    4: 'Phuket - Sunset Beach Resort (7 Sep - 9 Sep, 2 nights) -- BOOKED',
-    5: 'Bangkok (9 Sep - 10 Sep, 1 night)',
+    0: 'Bangkok - Aspen Suites Sukhumvit 2 (28 Aug - 1 Sep, 4 nights) -- BOOKED, Booking ID GH29086275256124, non-refundable',
+    1: 'Bangkok - Baiyoke Sky, Space Zone (1 Sep - 3 Sep, 2 nights, birthday) -- BOOKED, Booking ID GH29086275255330',
+    2: 'Pattaya - Centara Pattaya Hotel (3 Sep - 4 Sep, 1 night) -- BOOKED, Booking ID GH23044275257256',
+    3: 'Bangkok - Gate43 Airport Hotel (4 Sep - 5 Sep, 1 night) -- BOOKED, Booking ID GH23044275257592',
+    4: 'Phuket - Seaview Patong (5 Sep - 7 Sep, 2 nights) -- BOOKED, Booking ID GH23141275115872',
+    5: 'Phuket - Sunset Beach Resort (7 Sep - 9 Sep, 2 nights, birthday) -- BOOKED, Booking ID GH28050275116318',
+    6: 'Bangkok - ibis Styles Bangkok Sukhumvit 4 (9 Sep - 10 Sep, 1 night) -- RESERVED, UNPAID, Booking ID GH29086275257666, PNR A237AI80512, pay by 11:59 PM IST 5 Sep or auto-cancels',
   };
   Object.keys(stayNames).forEach(idx => {
     lines.push(stayNames[idx]);
@@ -904,8 +1108,10 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
       if (s.hotel) lines.push('  Hotel: ' + s.hotel);
       if (s.conf) lines.push('  Confirmation: ' + s.conf);
       if (s.phone) lines.push('  Phone: ' + s.phone);
-    } else if (idx == 3 || idx == 4) {
+    } else if ([0,1,2,3,4,5].includes(Number(idx))) {
       lines.push('  Status: BOOKED (confirmed earlier)');
+    } else if (Number(idx) === 6) {
+      lines.push('  Status: RESERVED, PAYMENT PENDING');
     } else {
       lines.push('  Status: NOT BOOKED');
     }
@@ -918,9 +1124,9 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
 });
 
 document.getElementById('resetHotelsBtn').addEventListener('click', () => {
-  if (confirm('Reset all hotel booking progress? This will not affect your confirmed Phuket bookings.')) {
+  if (confirm('Reset all hotel booking progress? This will not affect your confirmed bookings (Aspen, Baiyoke, Seaview, Sunset Beach Resort).')) {
     localStorage.removeItem(STORAGE_KEY);
-    [0,1,2,5].forEach(idx => {
+    UNBOOKED_IDX.forEach(idx => {
       const chk = document.getElementById('chk-' + idx);
       chk.checked = false;
       const card = document.getElementById('stay-' + idx);
@@ -934,7 +1140,189 @@ document.getElementById('resetHotelsBtn').addEventListener('click', () => {
   }
 });
 
-applyHotelState();
+try { applyHotelState(); } catch(e) { console.error('Hotel tracker init failed:', e); }
+
+/* ============ EXPENSE TRACKER ============ */
+const EXP_STORAGE_KEY = 'thailand-expenses-v2';
+let selectedCurrency = 'THB';
+
+const SEED_EXPENSES = [
+  { id: 's1', date: '2026-08-13', category: '🏨 Hotels', desc: 'Aspen Suites Sukhumvit 2 (4 nights, Elite Package, non-refundable) — GH29086275256124', amount: 21230, currency: 'INR' },
+  { id: 's2', date: '2026-08-13', category: '🏨 Hotels', desc: 'Baiyoke Sky Hotel, Space Zone (2 nights, birthday stay) — GH29086275255330', amount: 18862, currency: 'INR' },
+  { id: 's3', date: '2026-08-13', category: '🏨 Hotels', desc: 'Centara Pattaya Hotel (1 night, Deluxe King + breakfast) — GH23044275257256', amount: 4937, currency: 'INR' },
+  { id: 's4', date: '2026-08-13', category: '🏨 Hotels', desc: 'Gate43 Airport Hotel (1 night, Deluxe Double) — GH23044275257592', amount: 3406, currency: 'INR' },
+  { id: 's5', date: '2026-08-28', category: '✈️ Flights', desc: 'Delhi → Bangkok (via Bangalore, AI 2653 + AI 9071) — Booking ID GOFLISTAM2YH1595682', amount: 45042, currency: 'INR' },
+  { id: 's6', date: '2026-09-05', category: '✈️ Flights', desc: 'Bangkok → Phuket (Thai Vietjet VZ314) — Booking No. 1365644496041394', amount: 17404, currency: 'INR' },
+  { id: 's7', date: '2026-09-09', category: '✈️ Flights', desc: 'Phuket → Bangkok (Thai Vietjet VZ307) — Booking No. 1365644496041394', amount: 10474, currency: 'INR' },
+  { id: 's8', date: '2026-09-10', category: '✈️ Flights', desc: 'Bangkok → Delhi', amount: 28702, currency: 'INR' },
+];
+
+function loadExpenses() {
+  try {
+    const raw = localStorage.getItem(EXP_STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+    // First load: seed with known hotel costs
+    localStorage.setItem(EXP_STORAGE_KEY, JSON.stringify(SEED_EXPENSES));
+    return SEED_EXPENSES;
+  } catch(e) { return []; }
+}
+
+function saveExpenses(list) {
+  localStorage.setItem(EXP_STORAGE_KEY, JSON.stringify(list));
+}
+
+function renderExpenses() {
+  const list = loadExpenses();
+  const listEl = document.getElementById('expList');
+  const breakdownEl = document.getElementById('expBreakdown');
+
+  // Totals by currency
+  let totalTHB = 0, totalINR = 0;
+  const catTotals = {}; // category -> {THB, INR}
+  list.forEach(e => {
+    if (e.currency === 'THB') totalTHB += Number(e.amount);
+    else totalINR += Number(e.amount);
+    if (!catTotals[e.category]) catTotals[e.category] = { THB: 0, INR: 0 };
+    catTotals[e.category][e.currency] += Number(e.amount);
+  });
+
+  document.getElementById('expTotalTHB').textContent = '฿' + totalTHB.toLocaleString('en-IN');
+  document.getElementById('expTotalINR').textContent = '₹' + totalINR.toLocaleString('en-IN');
+
+  // Category breakdown (bars sized relative to largest category, per currency shown together as text)
+  const cats = Object.keys(catTotals);
+  if (cats.length === 0) {
+    breakdownEl.innerHTML = '';
+  } else {
+    const maxVal = Math.max(...cats.map(c => catTotals[c].THB + catTotals[c].INR * 0)); // THB bar scale
+    const maxValINR = Math.max(...cats.map(c => catTotals[c].INR));
+    let html = '<div class="exp-form-title">📊 By category</div>';
+    cats.sort((a, b) => (catTotals[b].THB + catTotals[b].INR) - (catTotals[a].THB + catTotals[a].INR));
+    cats.forEach(c => {
+      const t = catTotals[c];
+      const parts = [];
+      if (t.THB > 0) parts.push('฿' + t.THB.toLocaleString('en-IN'));
+      if (t.INR > 0) parts.push('₹' + t.INR.toLocaleString('en-IN'));
+      const barPct = maxVal > 0 && t.THB > 0 ? Math.round((t.THB / maxVal) * 100) : (t.INR > 0 ? Math.round((t.INR / (maxValINR||1)) * 100) : 0);
+      html += `<div class="exp-cat-row">
+        <div class="exp-cat-label">${c}</div>
+        <div class="exp-cat-bar-bg"><div class="exp-cat-bar-fill" style="width:${barPct}%"></div></div>
+        <div class="exp-cat-amt">${parts.join(' + ')}</div>
+      </div>`;
+    });
+    breakdownEl.innerHTML = html;
+  }
+
+  // List (newest first by date, then by insertion order)
+  if (list.length === 0) {
+    listEl.innerHTML = '<div class="exp-empty">No expenses logged yet — add your first one above.</div>';
+    return;
+  }
+  const sorted = [...list].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  listEl.innerHTML = sorted.map(e => {
+    const amtClass = e.currency === 'INR' ? 'inr' : '';
+    const sym = e.currency === 'INR' ? '₹' : '฿';
+    const dateLabel = e.date ? new Date(e.date + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
+    return `<div class="exp-item" data-id="${e.id}">
+      <div class="exp-item-cat">${e.category.split(' ')[0]}</div>
+      <div class="exp-item-info">
+        <div class="exp-item-desc">${e.desc || e.category}</div>
+        <div class="exp-item-meta">${dateLabel}${dateLabel ? ' · ' : ''}${e.category.replace(/^\S+\s/, '')}</div>
+      </div>
+      <div class="exp-item-amt ${amtClass}">${sym}${Number(e.amount).toLocaleString('en-IN')}</div>
+      <button class="exp-item-del" data-del="${e.id}" title="Delete">✕</button>
+    </div>`;
+  }).join('');
+
+  listEl.querySelectorAll('[data-del]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-del');
+      const updated = loadExpenses().filter(e => e.id !== id);
+      saveExpenses(updated);
+      renderExpenses();
+    });
+  });
+}
+
+document.getElementById('btnTHB').addEventListener('click', () => {
+  selectedCurrency = 'THB';
+  document.getElementById('btnTHB').classList.add('active');
+  document.getElementById('btnINR').classList.remove('active');
+});
+document.getElementById('btnINR').addEventListener('click', () => {
+  selectedCurrency = 'INR';
+  document.getElementById('btnINR').classList.add('active');
+  document.getElementById('btnTHB').classList.remove('active');
+});
+
+// Default date to today
+(function setDefaultDate() {
+  const dateInput = document.getElementById('expDate');
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  dateInput.value = `${yyyy}-${mm}-${dd}`;
+})();
+
+document.getElementById('expAddBtn').addEventListener('click', () => {
+  const category = document.getElementById('expCategory').value;
+  const date = document.getElementById('expDate').value;
+  const desc = document.getElementById('expDesc').value.trim();
+  const amount = parseFloat(document.getElementById('expAmount').value);
+
+  if (!amount || amount <= 0) {
+    alert('Enter a valid amount');
+    return;
+  }
+
+  const newExpense = {
+    id: 'e' + Date.now(),
+    date: date || '',
+    category,
+    desc,
+    amount,
+    currency: selectedCurrency
+  };
+
+  const list = loadExpenses();
+  list.push(newExpense);
+  saveExpenses(list);
+  renderExpenses();
+
+  // Reset form (keep date + category for fast repeat entry)
+  document.getElementById('expDesc').value = '';
+  document.getElementById('expAmount').value = '';
+  document.getElementById('expDesc').focus();
+});
+
+document.getElementById('expDownloadBtn').addEventListener('click', () => {
+  const list = loadExpenses();
+  const lines = ['Thailand Trip - Expense Report', new Date().toLocaleString(), ''];
+  let totalTHB = 0, totalINR = 0;
+  const sorted = [...list].sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+  sorted.forEach(e => {
+    const sym = e.currency === 'INR' ? '₹' : '฿';
+    lines.push(`${e.date || '(no date)'} | ${e.category} | ${e.desc || '-'} | ${sym}${Number(e.amount).toLocaleString('en-IN')}`);
+    if (e.currency === 'THB') totalTHB += Number(e.amount); else totalINR += Number(e.amount);
+  });
+  lines.push('');
+  lines.push(`TOTAL THB: ฿${totalTHB.toLocaleString('en-IN')}`);
+  lines.push(`TOTAL INR: ₹${totalINR.toLocaleString('en-IN')}`);
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'thailand-expense-report.txt'; a.click();
+});
+
+document.getElementById('expResetBtn').addEventListener('click', () => {
+  if (confirm('Clear ALL logged expenses, including the pre-filled hotel costs? This cannot be undone.')) {
+    localStorage.removeItem(EXP_STORAGE_KEY);
+    renderExpenses();
+  }
+});
+
+try { renderExpenses(); } catch(e) { console.error('Expense tracker init failed:', e); }
 </script>
 
 </body>

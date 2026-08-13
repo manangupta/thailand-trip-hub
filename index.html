@@ -755,13 +755,45 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
 <script>
 /* ============ AUTH GATE ============ */
 (function() {
-  const CORRECT_USER = 'mnngpt';
-  const CORRECT_PASS = '8700';
+  // SHA-256 of "username:password" — not stored in plain text
+  const CORRECT_HASH = '83d57ef0a707897103d4d8e079bd2fbe39e7f2d13ef14285c0ca730cb80d0818';
   const authGate = document.getElementById('authGate');
   const appContent = document.getElementById('appContent');
   const authForm = document.getElementById('authForm');
   const authError = document.getElementById('authError');
   const logoutBtn = document.getElementById('logoutBtn');
+  const submitBtn = authForm.querySelector('button[type="submit"]');
+
+  const LOCKOUT_KEY = 'thailand-trip-lockout';
+  const MAX_ATTEMPTS = 5;
+
+  async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function getLockoutState() {
+    try { return JSON.parse(sessionStorage.getItem(LOCKOUT_KEY) || '{"attempts":0,"until":0}'); }
+    catch(e) { return { attempts: 0, until: 0 }; }
+  }
+  function setLockoutState(s) { sessionStorage.setItem(LOCKOUT_KEY, JSON.stringify(s)); }
+
+  function applyLockoutUI() {
+    const s = getLockoutState();
+    const now = Date.now();
+    if (s.until > now) {
+      const secsLeft = Math.ceil((s.until - now) / 1000);
+      submitBtn.disabled = true;
+      submitBtn.textContent = `Try again in ${secsLeft}s`;
+      authError.textContent = 'Too many attempts — locked temporarily.';
+      authError.style.display = 'block';
+      setTimeout(applyLockoutUI, 1000);
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Log In';
+    }
+  }
+  applyLockoutUI();
 
   function unlock() {
     authGate.style.display = 'none';
@@ -772,16 +804,32 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
     unlock();
   }
 
-  authForm.addEventListener('submit', function(e) {
+  authForm.addEventListener('submit', async function(e) {
     e.preventDefault();
+    const s = getLockoutState();
+    if (s.until > Date.now()) { applyLockoutUI(); return; }
+
     const u = document.getElementById('authUser').value.trim();
     const p = document.getElementById('authPass').value;
-    if (u === CORRECT_USER && p === CORRECT_PASS) {
+    const hash = await sha256(u + ':' + p);
+
+    if (hash === CORRECT_HASH) {
+      sessionStorage.removeItem(LOCKOUT_KEY);
       localStorage.setItem('thailand-trip-authed', 'yes');
       authError.style.display = 'none';
       unlock();
     } else {
+      const attempts = (s.attempts || 0) + 1;
+      let until = 0;
+      if (attempts >= MAX_ATTEMPTS) {
+        until = Date.now() + 30000; // 30s lockout after 5 failed attempts
+      }
+      setLockoutState({ attempts, until });
+      authError.textContent = attempts >= MAX_ATTEMPTS
+        ? 'Too many attempts — locked temporarily.'
+        : 'Incorrect username or password.';
       authError.style.display = 'block';
+      applyLockoutUI();
     }
   });
 

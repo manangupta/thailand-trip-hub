@@ -286,6 +286,30 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
 .exp-item-del:hover { color: #b5451f; }
 .exp-empty { text-align: center; color: #999; font-size: 12.5px; padding: 20px; }
 
+/* ---- Expected Budget ---- */
+.budget-total-card {
+  background: linear-gradient(135deg, #0F6E56, #0a5443);
+  color: white; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 16px;
+}
+.budget-total-num { font-size: 32px; font-weight: 800; }
+.budget-total-label { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+.budget-total-inr { font-size: 12.5px; opacity: 0.9; margin-top: 8px; }
+.budget-cat-card {
+  border: 1px solid #E0DED4; border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; background: white;
+}
+.budget-cat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.budget-cat-name { font-size: 13.5px; font-weight: 700; color: #2C2C2A; }
+.budget-cat-amt { font-size: 16px; font-weight: 800; color: #0F6E56; }
+.budget-cat-desc { font-size: 11.5px; color: #6b6a63; }
+.budget-shop-input-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.budget-shop-input-row input {
+  flex: 1; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: inherit;
+}
+.budget-shop-input-row input:focus { outline: none; border-color: #0F6E56; box-shadow: 0 0 0 2px rgba(15,110,86,0.1); }
+body.dark .budget-cat-card { background: #1e2427; border-color: #333; }
+body.dark .budget-cat-name { color: #e8eaeb; }
+body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; border-color: #444; }
+
 @media (max-width: 480px) {
   .summary-num { font-size: 18px; }
   .input-row { grid-template-columns: 1fr; }
@@ -335,6 +359,7 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
       <div class="tab" data-panel="prep">Pre-Flight Prep</div>
       <div class="tab" data-panel="packing">Packing</div>
       <div class="tab" data-panel="expenses">💰 Expenses</div>
+      <div class="tab" data-panel="budget">🧾 Expected Budget</div>
     </div>
   </div>
 </div>
@@ -760,11 +785,83 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
     </div>
   </div>
 
+  <!-- ============ EXPECTED BUDGET ============ -->
+  <div class="panel" id="panel-budget">
+    <div class="section-title">Expected Budget</div>
+    <div class="section-desc">Rough advance estimate for 2 people, built from the cost badges across all 14 days — separate from the Expenses tab, which tracks what you've actually spent</div>
+
+    <div class="budget-total-card">
+      <div class="budget-total-num" id="budgetGrandTotal">฿83,300</div>
+      <div class="budget-total-label">Estimated total on-ground spend (2 people) — excludes hotels & flights, already booked separately</div>
+      <div class="budget-total-inr" id="budgetGrandTotalINR">≈ ₹2,40,700 (approx., at ~2.89 INR/THB — check current rate)</div>
+    </div>
+
+    <div class="budget-cat-card">
+      <div class="budget-cat-header">
+        <div class="budget-cat-name">🚕 Transfers</div>
+        <div class="budget-cat-amt">~฿10,100</div>
+      </div>
+      <div class="budget-cat-desc">All Grab/taxi rides, BTS/MRT fares, and the two Bangkok↔Pattaya legs. Airport transfers included.</div>
+    </div>
+
+    <div class="budget-cat-card">
+      <div class="budget-cat-header">
+        <div class="budget-cat-name">🎟️ Activities & Attractions</div>
+        <div class="budget-cat-amt">~฿25,500</div>
+      </div>
+      <div class="budget-cat-desc">Temple tickets, Harbor Island, Space & Time Cube (both cities), Mahanakhon Skywalk, Akara Sky Hanuman, Phi Phi tour, spas, Alcazar. ~฿1,000 of this is the optional Pattaya Cube — drop it from your total if you skip it.</div>
+    </div>
+
+    <div class="budget-cat-card">
+      <div class="budget-cat-header">
+        <div class="budget-cat-name">🍜 Food & Dining</div>
+        <div class="budget-cat-amt">~฿30,200</div>
+      </div>
+      <div class="budget-cat-desc">Every meal across all 14 days, including the two birthday dinners (Above Eleven ~฿5,000, Suay ~฿6,000) and the optional Chao Phraya cruise (~฿6,000) — the single biggest swing factor in this estimate. Skip the cruise for ICONSIAM instead and this drops by ~฿5,500.</div>
+    </div>
+
+    <div class="budget-cat-card">
+      <div class="budget-cat-header">
+        <div class="budget-cat-name">🛍️ Shopping</div>
+        <div class="budget-cat-amt" id="budgetShopDisplay">฿17,500</div>
+      </div>
+      <div class="budget-cat-desc">Your own set budget — Chatuchak, MBK, Platinum Fashion/Fortune Town, souvenirs. Adjust below if it changes; the total above updates automatically.</div>
+      <div class="budget-shop-input-row">
+        <span style="font-size:13px; color:#6b6a63;">฿</span>
+        <input type="number" id="budgetShopInput" value="17500" min="0" step="500">
+      </div>
+    </div>
+
+    <div class="note-strip" style="margin-top:12px;">
+      This is a planning estimate, not a tracker — built by taking the midpoint of every "pp" cost badge across the itinerary ×2, plus flat-fee items as-is. Actual spend will vary. As real costs come in, log them in the 💰 Expenses tab instead — the two are intentionally kept separate.
+    </div>
+  </div>
+
 </div>
 
 </div>
 
 <script>
+/* ============ EXPECTED BUDGET ============ */
+(function() {
+  const FIXED_TOTAL = 10100 + 25500 + 30200; // Transfers + Activities + Food
+  const shopInput = document.getElementById('budgetShopInput');
+  const shopDisplay = document.getElementById('budgetShopDisplay');
+  const grandTotal = document.getElementById('budgetGrandTotal');
+  const grandTotalINR = document.getElementById('budgetGrandTotalINR');
+
+  function updateBudgetTotal() {
+    const shop = parseFloat(shopInput.value) || 0;
+    const total = FIXED_TOTAL + shop;
+    shopDisplay.textContent = '฿' + shop.toLocaleString('en-IN');
+    grandTotal.textContent = '฿' + total.toLocaleString('en-IN');
+    grandTotalINR.textContent = '≈ ₹' + Math.round(total * 2.89).toLocaleString('en-IN') + ' (approx., at ~2.89 INR/THB — check current rate)';
+  }
+
+  shopInput.addEventListener('input', updateBudgetTotal);
+  updateBudgetTotal();
+})();
+
 /* ============ AUTH GATE ============ */
 (function() {
   // SHA-256 of "username:password" — not stored in plain text

@@ -594,15 +594,22 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
 
     <div class="check-group-title">Manan's birthday — Sep 2, Bangkok</div>
     <div class="info-card">
-      No longer in Pattaya — birthday now stays fully in Bangkok, dinner does too.
+      Rooftop party instead of fine dining — Sep 2, 2026 is a Wednesday, which lines up perfectly
+      with Above Eleven's weekly DJ night.
       <table class="info-table">
-        <tr><td>Sorn</td><td>Two Michelin stars, Southern Thai. Bangkok's top pick for special occasions. Book 2–3 weeks ahead. Smart casual/formal.</td></tr>
-        <tr><td>Issaya Siamese Club</td><td>Modern Thai, colonial house + garden. Intimate, romantic, by Chef Ian Kittichai.</td></tr>
+        <tr><td>Above Eleven</td><td>33rd/34th floor, Fraser Suites Sukhumvit Soi 11. Wednesday "Ladies Night" with DJ Pepe — dinner + rooftop party combined, so no separate dinner needed. Peruvian-Japanese (Nikkei) menu. Dress: smart casual, no sandals/flip-flops, no sleeveless for men. Reservations recommended: 02 038 5111. ~10 min walk from Nana BTS, or ~580m via Soi 11.</td></tr>
       </table>
     </div>
     <div class="note-strip">
-      Dropped: the previously suggested Peppermint Saloon (Pattaya) did not verify as a real listing
-      — moot now since the birthday dinner moved to Bangkok.
+      Dropped: Sorn / Issaya Siamese Club (fine dining) — swapped for Above Eleven's rooftop party at
+      Manan's request. Also dropped earlier: Peppermint Saloon (Pattaya), never verified as a real listing.
+    </div>
+    <div class="check-group-title" style="margin-top:12px;">Backup rooftop options (if Above Eleven is fully booked)</div>
+    <div class="info-card">
+      <table class="info-table">
+        <tr><td>SIN Rooftop Bar</td><td>Live DJs every night, themed party nights — check their event calendar closer to the date</td></tr>
+        <tr><td>Octave Rooftop Lounge</td><td>Marriott Sukhumvit, multi-level with a dedicated DJ zone, nightly energetic crowd</td></tr>
+      </table>
     </div>
 
     <div class="check-group-title" style="margin-top:16px;">Wife's birthday — Sep 8, Phuket</div>
@@ -876,18 +883,20 @@ const days = [
       ["3:00 PM","Check in — Aspen Suites Hotel Sukhumvit 2","Booking ID GH29086275256124, PNR 0184488946. Non-refundable"],
       ["Evening","Asiatique The Riverfront","Easy first night — riverside food, shopping"],
     ]},
-  { title: "DAY 2 · Sat 29 Aug", sub: "Bangkok temples", birthday:false, note:null,
+  { title: "DAY 2 · Sat 29 Aug", sub: "Bangkok temples", birthday:false,
+    note: "None of today's stops need advance booking — all walk-up. Bring cash (small notes for Wat Arun especially).",
     items: [
-      ["8:30 AM","Grand Palace & Wat Phra Kaew","Arrive early. Dress code: covered shoulders/knees"],
-      ["11:30 AM","Wat Pho","Reclining Buddha + traditional Thai foot massage"],
-      ["1:30 PM","Wat Arun","Cross via longtail boat from Wat Pho pier"],
-      ["Evening","Khao San Road","Street food, live music"],
+      ["8:30 AM","Grand Palace & Wat Phra Kaew","Arrive early. Dress code: covered shoulders/knees. ฿500, walk-up only at West Gate (8:30 AM–3:30 PM) — no individual online ticketing exists, ignore third-party 'pre-booked' resellers"],
+      ["11:30 AM","Wat Pho","Reclining Buddha + traditional Thai foot massage. ฿300, walk-up at gate (official online option exists at watphobooking.com if booked 24hrs+ ahead, but not required)"],
+      ["1:30 PM","Wat Arun","Cross via longtail boat from Wat Pho pier. ฿200, cash only at entrance counter — no online booking exists for this one at all"],
+      ["Evening","Khao San Road","Street food, live music. Free, just a street — no ticket of any kind"],
     ]},
-  { title: "DAY 3 · Sun 30 Aug", sub: "Markets + rooftop", birthday:false, note:null,
+  { title: "DAY 3 · Sun 30 Aug", sub: "Markets + MBK + rooftop", birthday:false,
+    note: "Swapped Terminal 21 → MBK Center, and Sirocco → Vertigo & Moon Bar — both pair better geographically with Chatuchak, same Silom BTS line, less backtracking",
     items: [
-      ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls"],
-      ["2:00 PM","Terminal 21 + Pier 21 food court","Airport-themed mall, cheap excellent street food"],
-      ["6:30 PM","Sirocco Sky Bar","Smart casual, book table in advance, sunset cocktails"],
+      ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS"],
+      ["1:30 PM","MBK Center","Budget electronics, fashion, souvenirs. National Stadium BTS — one stop from Siam interchange"],
+      ["6:30 PM","Vertigo & Moon Bar (Banyan Tree)","Smart casual, book table in advance. Sathorn — same Silom BTS line as MBK, few stops down (Sala Daeng/Chong Nonsi)"],
     ]},
   { title: "DAY 4 · Mon 31 Aug", sub: "Floating market + Muay Thai", birthday:false, note:null,
     items: [
@@ -903,12 +912,12 @@ const days = [
       ["6:30 PM","ICONSIAM or Chao Phraya Dinner Cruise","Riverside mall / buffet + live music, book cruise 2 days ahead"],
     ]},
   { title: "DAY 6 · Wed 2 Sep", sub: "🎂 MANAN'S BIRTHDAY — Bangkok (no travel)", birthday:true,
-    note: "At Baiyoke Sky, Space Zone. No hotel move, no long drive — the whole day is unhurried.",
+    note: "At Baiyoke Sky, Space Zone. Rooftop party plan instead of fine dining — Sep 2, 2026 is a Wednesday, which lines up with Above Eleven's weekly Ladies Night DJ set.",
     items: [
       ["8:00 AM","Couples Thai massage","Khus Samui Spa or Spa 1930, ~1.5–2 hrs"],
       ["11:30 AM","Birthday lunch","Relaxed spot near hotel or a rooftop lunch"],
       ["Afternoon","Free / flexible","Café hopping, 84th-floor revolving viewpoint, or just rest"],
-      ["7:30 PM","Birthday dinner — Sorn or Issaya","Both verified, real, high-end. Book Sorn 2–3 weeks ahead"],
+      ["7:00 PM","Above Eleven — Ladies Night w/ DJ Pepe","33rd/34th floor, Fraser Suites Sukhumvit Soi 11. Dinner + rooftop party combined, DJ from ~7 PM. Dress: smart casual, no sandals/flip-flops/sleeveless for men. Reservations recommended — call 02 038 5111. ~10 min walk from Nana BTS"],
     ]},
   { title: "DAY 7 · Thu 3 Sep", sub: "Bangkok to Pattaya — check in Centara Pattaya", birthday:false,
     note: "Booking ID GH23044275257256 · Early check-in requested via special request",
@@ -1044,11 +1053,11 @@ function cssEscape(str) {
 buildChecklist('places-container', 'thailand-places-v1', {
   "Bangkok (18)": [
     "Grand Palace & Wat Phra Kaew", "Wat Pho (Reclining Buddha)", "Wat Arun",
-    "Chatuchak Weekend Market", "Terminal 21 + Pier 21 food court", "SEA LIFE Ocean World",
+    "Chatuchak Weekend Market", "MBK Center", "SEA LIFE Ocean World",
     "Platinum Fashion Mall / Fortune Town", "ICONSIAM & SookSiam", "Asiatique The Riverfront",
-    "Amphawa Floating Market", "Rajadamnern Muay Thai Stadium", "Sirocco Sky Bar",
+    "Amphawa Floating Market", "Rajadamnern Muay Thai Stadium", "Vertigo & Moon Bar (Banyan Tree)",
     "Chao Phraya Dinner Cruise", "Yaowarat (Chinatown)", "Thai spa (couples)",
-    "Birthday dinner — Sorn / Issaya Siamese Club", "Song Wat Road (optional)", "Vertigo & Moon Bar (optional)"
+    "Birthday party — Above Eleven rooftop", "Song Wat Road (optional)", "Khao San Road"
   ],
   "Pattaya (4)": [
     "Sanctuary of Truth", "Alcazar Cabaret Show", "Walking Street", "Koh Larn Coral Island (optional)"
@@ -1067,7 +1076,7 @@ buildChecklist('checklist-container', 'thailand-checklist-v2', {
     "Confirm Aspen Suites airport shuttle (₹1,200) 24 hrs before 28 Aug landing — call/email by 27 Aug"
   ],
   "Still to book — dining & activities": [
-    "Book birthday dinner in Bangkok for Sep 2 — Sorn or Issaya Siamese Club",
+    "Reserve Above Eleven for Sep 2 birthday — call 02 038 5111, Wednesday Ladies Night gets busy",
     "Call/book Suay restaurant for Sep 8, 7:30 PM — +66 93 339 1890",
     "Book Koh Phi Phi speedboat tour for Sep 6 (earliest slot)",
     "Identify backup operator/tour for Sep 7 in case of reschedule",
@@ -1075,7 +1084,7 @@ buildChecklist('checklist-container', 'thailand-checklist-v2', {
     "Book Rajadamnern Muay Thai tickets for Aug 31 evening",
     "Book Alcazar Cabaret Show for Sep 3, 7:30 PM",
     "Book Chao Phraya Dinner Cruise for Sep 1 evening",
-    "Reserve Sirocco Sky Bar table (Day 3, sunset)"
+    "Reserve Vertigo & Moon Bar table (Day 3, sunset)"
   ],
   "Closer to departure": [
     "Email spa bookings: Bangkok (Sep 2, 8 AM) & Phuket (Sep 8, 9 AM)",

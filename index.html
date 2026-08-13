@@ -177,6 +177,9 @@ html.pre-authed #authGate { display: none; }
 .day-place span { color: #6b6a63; font-size: 11.5px; }
 .day-cost { flex-shrink: 0; font-size: 11px; font-weight: 700; color: #0F6E56; background: #E1F5EE; padding: 3px 8px; border-radius: 10px; white-space: nowrap; margin-top: 1px; }
 body.dark .day-cost { background: #16302a; color: #4CAF93; }
+.day-transport { font-size: 11px; color: #8a6d1a; background: #FAEEDA; padding: 3px 8px; border-radius: 6px; margin-top: 5px; display: block; width: fit-content; }
+.day-place span.day-transport { color: #8a6d1a; }
+body.dark .day-transport, body.dark .day-place span.day-transport { background: #3a3320; color: #d4b26a; }
 
 /* ---- Hotel Tracker ---- */
 .urgency-banner {
@@ -881,108 +884,108 @@ const days = [
   { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok — check in Aspen Suites", birthday:false,
     note: "Flights: DEL 04:30→BLR 07:20 (AI 2653), BLR 10:00→BKK 15:40 (AI 9071) · Booking ID GOFLISTAM2YH1595682. Airport shuttle (฿1,200) requested from Aspen — confirm by 27 Aug",
     items: [
-      ["15:40","Land Bangkok","Grab SIM card, download Grab app", "~฿300"],
-      ["3:00 PM","Check in — Aspen Suites Hotel Sukhumvit 2","Booking ID GH29086275256124, PNR 0184488946. Non-refundable", "Paid"],
-      ["Evening","Asiatique The Riverfront","Easy first night — riverside food, shopping", "Free entry, ~฿300–800pp dinner"],
+      ["15:40","Land Bangkok","Grab SIM card, download Grab app", "~฿300", "Arrival hall — SIM counters right after immigration"],
+      ["3:00 PM","Check in — Aspen Suites Hotel Sukhumvit 2","Booking ID GH29086275256124, PNR 0184488946. Non-refundable", "Paid", "Requested hotel shuttle (~1hr from Suvarnabhumi) or Grab (~45min, ~฿300–400)"],
+      ["Evening","Asiatique The Riverfront","Easy first night — riverside food, shopping", "Free entry, ~฿300–800pp dinner", "BTS to Saphan Taksin + free shuttle boat, or Grab ~20min (~฿150–250)"],
     ]},
   { title: "DAY 2 · Sat 29 Aug", sub: "Bangkok temples", birthday:false,
     note: "None of today's stops need advance booking — all walk-up. Bring cash (small notes for Wat Arun especially).",
     items: [
-      ["8:30 AM","Grand Palace & Wat Phra Kaew","Arrive early. Dress code: covered shoulders/knees. Walk-up only at West Gate (8:30 AM–3:30 PM) — no individual online ticketing exists, ignore third-party 'pre-booked' resellers", "฿500"],
-      ["11:30 AM","Wat Pho","Reclining Buddha + traditional Thai foot massage. Walk-up at gate (official online option exists at watphobooking.com if booked 24hrs+ ahead, but not required)", "฿300 + ฿420 massage"],
-      ["1:30 PM","Wat Arun","Cross via longtail boat from Wat Pho pier. Cash only at entrance counter — no online booking exists for this one at all", "฿200 + ~฿5 ferry"],
-      ["Evening","Khao San Road","Street food, live music. Just a street — no ticket of any kind", "Free entry, ~฿200–500pp food"],
+      ["8:30 AM","Grand Palace & Wat Phra Kaew","Arrive early. Dress code: covered shoulders/knees. Walk-up only at West Gate (8:30 AM–3:30 PM) — no individual online ticketing exists, ignore third-party 'pre-booked' resellers", "฿500", "MRT Blue Line to Sanam Chai + 10min walk (best option), or Grab ~25–30min (~฿150–250)"],
+      ["11:30 AM","Wat Pho","Reclining Buddha + traditional Thai foot massage. Walk-up at gate (official online option exists at watphobooking.com if booked 24hrs+ ahead, but not required)", "฿300 + ฿420 massage", "5–7min walk from Grand Palace"],
+      ["1:30 PM","Wat Arun","Cross via longtail boat from Wat Pho pier. Cash only at entrance counter — no online booking exists for this one at all", "฿200 + ~฿5 ferry", "Cross-river ferry from Tha Tien Pier, 3–5min"],
+      ["Evening","Khao San Road","Street food, live music. Just a street — no ticket of any kind", "Free entry, ~฿200–500pp food", "No BTS/MRT nearby — Grab from Old City ~15–20min (~฿100–150)"],
     ]},
   { title: "DAY 3 · Sun 30 Aug", sub: "Markets + MBK + rooftop", birthday:false,
     note: "MBK + Vertigo pair well with Chatuchak geographically — same Silom BTS line as Chatuchak's Sukhumvit line via Siam interchange, less backtracking than adding a third stop",
     items: [
-      ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS", "Free entry, shopping variable"],
-      ["1:30 PM","MBK Center","Budget electronics, fashion, souvenirs. National Stadium BTS — one stop from Siam interchange", "Free entry, shopping variable"],
-      ["6:30 PM","Vertigo & Moon Bar (Banyan Tree)","Smart casual, book table in advance. Sathorn — same Silom BTS line as MBK, few stops down (Sala Daeng/Chong Nonsi)", "~฿400–600 per cocktail"],
+      ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS", "Free entry, shopping variable", "BTS to Mo Chit — direct from Sukhumvit hotels, ~30–40min"],
+      ["1:30 PM","MBK Center","Budget electronics, fashion, souvenirs. National Stadium BTS — one stop from Siam interchange", "Free entry, shopping variable", "BTS Mo Chit → Siam (interchange) → National Stadium, ~25min total"],
+      ["6:30 PM","Vertigo & Moon Bar (Banyan Tree)","Smart casual, book table in advance. Sathorn — same Silom BTS line as MBK, few stops down (Sala Daeng/Chong Nonsi)", "~฿400–600 per cocktail", "BTS National Stadium → Sala Daeng, same Silom line, ~15–20min"],
     ]},
   { title: "DAY 4 · Mon 31 Aug", sub: "Seacon Bangkae day — water park + Space & Time Cube", birthday:false, note:"Muay Thai / Rajadamnern Stadium dropped — too costly for the value. Amphawa marked optional — the ~฿2,000 Grab return on top of the ~฿1,000–1,200pp tour made it poor value for what it offers. Swapped in Harbor Island, the largest rooftop water park in ASEAN, which happens to be in the exact same mall as Space & Time Cube — zero extra travel, much more exciting, better value.",
     items: [
-      ["7:00 AM","Amphawa Floating Market (optional)","Longtail boats, breakfast on water. Only worth it if you specifically want the floating-market experience — otherwise skip given the ~฿2,000 Grab return cost", "~฿1,000–1,200pp tour + ~฿2,000 Grab return"],
-      ["11:00 AM","Harbor Island Water Park","Seacon Bangkae, 3rd floor. Largest rooftop water park in ASEAN — 18 slides incl. Thailand's steepest (66°), wave pool, lazy river. 6 hrs unlimited, towel/locker included", "From ฿380pp"],
-      ["3:00 PM","Space & Time Cube+ Bangkok","Same mall, Seacon Bangkae — no travel needed between the two. Immersive digital art, Rail Cinema, VR zone, 1,500 sqm", "~฿400–600pp"],
-      ["6:30 PM","Terminal 21 + Pier 21 food court","Airport-themed mall, cheap excellent street food. Asok BTS", "Free entry, ~฿200–400pp food"],
+      ["7:00 AM","Amphawa Floating Market (optional)","Longtail boats, breakfast on water. Only worth it if you specifically want the floating-market experience — otherwise skip given the ~฿2,000 Grab return cost", "~฿1,000–1,200pp tour + ~฿2,000 Grab return", "Private tour van/car, ~1.5–2hrs each way — no BTS/MRT option"],
+      ["11:00 AM","Harbor Island Water Park","Seacon Bangkae, 3rd floor. Largest rooftop water park in ASEAN — 18 slides incl. Thailand's steepest (66°), wave pool, lazy river. 6 hrs unlimited, towel/locker included", "From ฿380pp", "No direct BTS/MRT — Grab from Sukhumvit ~35–45min (~฿250–350)"],
+      ["3:00 PM","Space & Time Cube+ Bangkok","Same mall, Seacon Bangkae — no travel needed between the two. Immersive digital art, Rail Cinema, VR zone, 1,500 sqm", "~฿400–600pp", "Same building as Harbor Island — no travel needed"],
+      ["6:30 PM","Terminal 21 + Pier 21 food court","Airport-themed mall, cheap excellent street food. Asok BTS", "Free entry, ~฿200–400pp food", "Grab from Seacon Bangkae ~35–40min, or BTS/MRT interchange direct at Asok"],
     ]},
   { title: "DAY 5 · Tue 1 Sep", sub: "Aquarium + shopping — move to Baiyoke Sky", birthday:false,
     note: "Check out Aspen Suites (12:00 PM) → check in Baiyoke Sky, Space Zone (2:00 PM). High floor + birthday cake/decoration requested",
     items: [
-      ["11:00 AM","Check out — Aspen Suites","Booking ID GH29086275256124", "Paid"],
-      ["1:00 PM","SEA LIFE Bangkok Ocean World","Siam Paragon basement, ~2.5 hrs", "~฿900–1,200pp"],
-      ["3:00 PM","Check in — Baiyoke Sky Hotel","Deluxe, Space Zone (70th–74th floor). Booking ID GH29086275255330", "Paid"],
-      ["6:30 PM","ICONSIAM or Chao Phraya Dinner Cruise","Riverside mall / buffet + live music, book cruise 2 days ahead", "Mall free · Cruise ~฿2,500–3,500pp"],
+      ["11:00 AM","Check out — Aspen Suites","Booking ID GH29086275256124", "Paid", "—"],
+      ["1:00 PM","SEA LIFE Bangkok Ocean World","Siam Paragon basement, ~2.5 hrs", "~฿900–1,200pp", "BTS to Siam — direct, ~20–25min from Sukhumvit"],
+      ["3:00 PM","Check in — Baiyoke Sky Hotel","Deluxe, Space Zone (70th–74th floor). Booking ID GH29086275255330", "Paid", "Grab from Siam ~15–20min (~฿100–150), or hotel's free tuk-tuk shuttle from Ratchaprarop ARL/Phaya Thai BTS"],
+      ["6:30 PM","ICONSIAM or Chao Phraya Dinner Cruise","Riverside mall / buffet + live music, book cruise 2 days ahead", "Mall free · Cruise ~฿2,500–3,500pp", "Free shuttle boat from Sathorn Pier, or Grab ~25–30min from Baiyoke"],
     ]},
   { title: "DAY 6 · Wed 2 Sep", sub: "🎂 MANAN'S BIRTHDAY — Bangkok (no travel)", birthday:true,
     note: "At Baiyoke Sky, Space Zone. Rooftop party plan instead of fine dining — Sep 2, 2026 is a Wednesday, which lines up with Above Eleven's weekly Ladies Night DJ set.",
     items: [
-      ["8:00 AM","Couples Thai massage","Khus Samui Spa or Spa 1930, ~1.5–2 hrs", "~฿1,500pp"],
-      ["11:30 AM","Birthday lunch","Relaxed spot near hotel or a rooftop lunch", "~฿500–1,000pp"],
-      ["Afternoon","Free / flexible","Café hopping, 84th-floor revolving viewpoint (complimentary — included in your Baiyoke package), or just rest", "Free (included)"],
-      ["7:00 PM","Above Eleven — Ladies Night w/ DJ Pepe","33rd/34th floor, Fraser Suites Sukhumvit Soi 11. Dinner + rooftop party combined, DJ from ~7 PM. Dress: smart casual, no sandals/flip-flops/sleeveless for men. Reservations recommended — call 02 038 5111. ~10 min walk from Nana BTS", "~฿2,000–3,000pp (food+drinks)"],
+      ["8:00 AM","Couples Thai massage","Khus Samui Spa or Spa 1930, ~1.5–2 hrs", "~฿1,500pp", "Grab from Baiyoke ~15–20min"],
+      ["11:30 AM","Birthday lunch","Relaxed spot near hotel or a rooftop lunch", "~฿500–1,000pp", "Walk or short Grab depending on spot chosen"],
+      ["Afternoon","Free / flexible","Café hopping, 84th-floor revolving viewpoint (complimentary — included in your Baiyoke package), or just rest", "Free (included)", "Elevator within the hotel"],
+      ["7:00 PM","Above Eleven — Ladies Night w/ DJ Pepe","33rd/34th floor, Fraser Suites Sukhumvit Soi 11. Dinner + rooftop party combined, DJ from ~7 PM. Dress: smart casual, no sandals/flip-flops/sleeveless for men. Reservations recommended — call 02 038 5111. ~10 min walk from Nana BTS", "~฿2,000–3,000pp (food+drinks)", "Grab from Baiyoke ~20–25min (~฿150–200), or hotel shuttle to Phaya Thai BTS then BTS to Nana"],
     ]},
   { title: "DAY 7 · Thu 3 Sep", sub: "Bangkok to Pattaya — check in Centara Pattaya", birthday:false,
     note: "Booking ID GH23044275257256 · Early check-in requested via special request",
     items: [
-      ["10:00 AM","Check out — Baiyoke Sky","Booking ID GH29086275255330, drive to Pattaya ~2 hrs via Grab/private car", "~฿1,500–2,000"],
-      ["1:00 PM","Sanctuary of Truth","Hand-carved wooden temple, ~1.5–2 hrs, tickets ~600฿", "~฿600"],
-      ["3:00 PM","Check in — Centara Pattaya Hotel","Deluxe King, breakfast included. Central Pattaya location", "Paid"],
-      ["7:30 PM","Alcazar Cabaret Show","Book ahead, tickets 600–900฿", "฿600–900"],
-      ["Night","Walking Street","Casual dinner, neon-lit walk", "Free entry, ~฿300–600pp food"],
+      ["10:00 AM","Check out — Baiyoke Sky","Booking ID GH29086275255330, drive to Pattaya ~2 hrs via Grab/private car", "~฿1,500–2,000", "Grab or pre-booked private car, ~2hrs via motorway"],
+      ["1:00 PM","Sanctuary of Truth","Hand-carved wooden temple, ~1.5–2 hrs, tickets ~600฿", "~฿600", "Grab within Pattaya, ~15–20min from Central Pattaya"],
+      ["3:00 PM","Check in — Centara Pattaya Hotel","Deluxe King, breakfast included. Central Pattaya location", "Paid", "Grab from Sanctuary of Truth ~15–20min"],
+      ["7:30 PM","Alcazar Cabaret Show","Book ahead, tickets 600–900฿", "฿600–900", "Grab or songthaew (shared truck-taxi) ~10–15min from Centara"],
+      ["Night","Walking Street","Casual dinner, neon-lit walk", "Free entry, ~฿300–600pp food", "Walkable from Alcazar area, ~10–15min, or short songthaew hop"],
     ]},
   { title: "DAY 8 · Fri 4 Sep", sub: "Pattaya to Bangkok — check in Gate43 Airport Hotel", birthday:false,
     note: "Late check-out requested from Centara · Gate43 Booking ID GH23044275257592. Space & Time Cube+ Pattaya kept as optional — with only one day in Pattaya, prioritize Sanctuary of Truth/Alcazar/Walking Street; add this only if the late checkout comes through and there's spare time.",
     items: [
-      ["8:00 AM","Beach breakfast, pack","Relaxed morning while waiting for checkout confirmation", "~฿150–300pp"],
-      ["11:00 AM","Space & Time Cube+ Pattaya (optional)","Central Pattaya, 6th floor. Immersive digital art + Jumping Spacecraft 4D ride. Skip without hesitation if the morning feels tight — only one day in Pattaya, the temple/show/nightlife trio comes first", "~฿400–600pp"],
-      ["1:00 PM","Check out, Grab/private car to Bangkok","~2 hrs — rate requested from Centara, ~฿1,200–1,500 via Grab", "~฿1,200–1,500"],
-      ["3:30 PM","Yaowarat (Chinatown), optional","Gold shops, ceramics, hainanese chicken rice — keep it light, early flight tomorrow", "Free entry, ~฿200–400pp food"],
-      ["11:30 AM check-in","Gate43 Airport Hotel","Deluxe Double, near Suvarnabhumi. No meals included", "Paid"],
+      ["8:00 AM","Beach breakfast, pack","Relaxed morning while waiting for checkout confirmation", "~฿150–300pp", "Walk or short Grab near Centara"],
+      ["11:00 AM","Space & Time Cube+ Pattaya (optional)","Central Pattaya, 6th floor. Immersive digital art + Jumping Spacecraft 4D ride. Skip without hesitation if the morning feels tight — only one day in Pattaya, the temple/show/nightlife trio comes first", "~฿400–600pp", "Walkable or short Grab from Centara, ~5–10min"],
+      ["1:00 PM","Check out, Grab/private car to Bangkok","~2 hrs — rate requested from Centara, ~฿1,200–1,500 via Grab", "~฿1,200–1,500", "Grab or pre-booked private car, ~2hrs via motorway"],
+      ["3:30 PM","Yaowarat (Chinatown), optional","Gold shops, ceramics, hainanese chicken rice — keep it light, early flight tomorrow", "Free entry, ~฿200–400pp food", "MRT Blue Line to Wat Mangkon — direct, or Grab ~20min from Sukhumvit"],
+      ["11:30 AM check-in","Gate43 Airport Hotel","Deluxe Double, near Suvarnabhumi. No meals included", "Paid", "Grab from wherever you are in Bangkok, ~20–40min depending on traffic"],
     ]},
   { title: "DAY 9 · Sat 5 Sep", sub: "Fly to Phuket — Seaview Patong Hotel", birthday:false,
     note: "Flight: BKK 06:50 → HKT 08:25 (Thai Vietjet VZ314) · Check in: Seaview Patong Hotel (GH23141275115872)",
     items: [
-      ["6:50 AM","Flight to Phuket","Arrive ~8:45 AM, Grab to Patong (~30 min)", "Flight paid · ~฿300–400 Grab"],
-      ["3:00 PM","Check in — Seaview Patong Hotel","Request early check-in given morning arrival", "Paid"],
-      ["Evening","Casual dinner in Patong","Rest before island day tomorrow", "~฿300–600pp"],
+      ["6:50 AM","Flight to Phuket","Arrive ~8:45 AM, Grab to Patong (~30 min)", "Flight paid · ~฿300–400 Grab", "Grab or airport taxi counter, ~30min to Patong"],
+      ["3:00 PM","Check in — Seaview Patong Hotel","Request early check-in given morning arrival", "Paid", "Walk if already in Patong, or short Grab"],
+      ["Evening","Casual dinner in Patong","Rest before island day tomorrow", "~฿300–600pp", "Walkable within Patong Beach area"],
     ]},
   { title: "DAY 10 · Sun 6 Sep", sub: "Koh Phi Phi day trip", birthday:false,
     note: "Book earliest departure slot (7:00–7:30 AM). See Islands tab for Maya Bay/weather notes.",
     items: [
-      ["7:30 AM","Speedboat pickup","Full-day tour, ~9–10 hrs", "~฿1,200–1,500pp"],
-      ["Day","Phi Phi Don, Pileh Lagoon, Monkey Beach, Bamboo Island","Snorkelling, lunch on beach included", "Included in tour"],
-      ["5:30 PM","Return to Patong","Early dinner, rest — big day", "~฿300–600pp"],
+      ["7:30 AM","Speedboat pickup","Full-day tour, ~9–10 hrs", "~฿1,200–1,500pp", "Hotel pickup included in tour price — no separate transport needed"],
+      ["Day","Phi Phi Don, Pileh Lagoon, Monkey Beach, Bamboo Island","Snorkelling, lunch on beach included", "Included in tour", "By speedboat, included in tour"],
+      ["5:30 PM","Return to Patong","Early dinner, rest — big day", "~฿300–600pp", "Hotel drop-off included in tour"],
     ]},
   { title: "DAY 11 · Mon 7 Sep", sub: "Buffer day + move to Sunset Beach Resort", birthday:false,
     note: "Reschedule slot for Phi Phi if Day 10 was cancelled. Otherwise: relaxed move day.",
     items: [
-      ["11:00 AM","Check out — Seaview Patong Hotel","Checkout by 11:00 AM", "Paid"],
-      ["Midday","Old Phuket Town or beach time","Sino-Portuguese architecture, cafes, or just relax", "Free, ~฿200–400pp café"],
-      ["3:00 PM","Check in — Sunset Beach Resort Phuket","Booking ID GH28050275116318", "Paid"],
+      ["11:00 AM","Check out — Seaview Patong Hotel","Checkout by 11:00 AM", "Paid", "—"],
+      ["Midday","Old Phuket Town or beach time","Sino-Portuguese architecture, cafes, or just relax", "Free, ~฿200–400pp café", "Grab from Patong ~15–20min"],
+      ["3:00 PM","Check in — Sunset Beach Resort Phuket","Booking ID GH28050275116318", "Paid", "Grab from Old Phuket Town or Patong, ~15–25min depending on location"],
     ]},
   { title: "DAY 12 · Tue 8 Sep", sub: "🎂 WIFE'S BIRTHDAY — Phuket", birthday:true,
     note: "Birthday flow: spa → lunch → sunset → dinner",
     items: [
-      ["9:00 AM","Couples spa treatment","Bangtao or hotel spa, 2–3 hrs", "~฿2,000–3,000pp"],
-      ["12:00 PM","Birthday lunch","KEE Sky Lounge or Bang Po Seafood", "~฿800–1,500pp"],
-      ["4:30 PM","Promthep Cape sunset","Champagne + snacks at viewpoint", "Free entry, ~฿500–1,000 total"],
-      ["7:30 PM","Birthday dinner — Suay","Michelin-recognized, Cherngtalay. +66 93 339 1890", "~฿2,500–3,500pp"],
+      ["9:00 AM","Couples spa treatment","Bangtao or hotel spa, 2–3 hrs", "~฿2,000–3,000pp", "Grab from Sunset Beach Resort, ~15–25min depending on spa location"],
+      ["12:00 PM","Birthday lunch","KEE Sky Lounge or Bang Po Seafood", "~฿800–1,500pp", "Grab, ~15–20min"],
+      ["4:30 PM","Promthep Cape sunset","Champagne + snacks at viewpoint", "Free entry, ~฿500–1,000 total", "Grab, ~20min from most Phuket west-coast hotels"],
+      ["7:30 PM","Birthday dinner — Suay","Michelin-recognized, Cherngtalay. +66 93 339 1890", "~฿2,500–3,500pp", "Grab, ~30–40min from Sunset Beach Resort — book the ride in advance given the distance"],
     ]},
   { title: "DAY 13 · Wed 9 Sep", sub: "Phuket to Bangkok", birthday:false,
     note: "Flight: HKT 17:20 → BKK 18:50 (Thai Vietjet VZ307) · Check out — Sunset Beach Resort by 12:00 PM",
     items: [
-      ["Morning","Final beach swim / Big Buddha of Phuket (optional)","40m marble statue, hilltop views, ~1 hr", "Free (donation optional)"],
-      ["2:30 PM","Check out, Grab to airport","~45 min–1 hr", "~฿300–500"],
-      ["5:20 PM","Flight to Bangkok","Arrive 6:50 PM, check into ibis Styles Bangkok Sukhumvit 4 — confirm payment made by 5 Sep", "Flight paid · Hotel ₹6,075 due"],
+      ["Morning","Final beach swim / Big Buddha of Phuket (optional)","40m marble statue, hilltop views, ~1 hr", "Free (donation optional)", "Grab ~20min from Sunset Beach Resort"],
+      ["2:30 PM","Check out, Grab to airport","~45 min–1 hr", "~฿300–500", "Grab or hotel airport transfer"],
+      ["5:20 PM","Flight to Bangkok","Arrive 6:50 PM, check into ibis Styles Bangkok Sukhumvit 4 — confirm payment made by 5 Sep", "Flight paid · Hotel ₹6,075 due", "Grab from Suvarnabhumi to Sukhumvit, ~45min–1hr (~฿300–400)"],
     ]},
   { title: "DAY 14 · Thu 10 Sep", sub: "Depart Bangkok", birthday:false,
     note: "Flight: BKK 14:40 → Delhi (via connection)",
     items: [
-      ["Morning","Leisurely breakfast, final shopping","Relaxed pace", "~฿300–600pp"],
-      ["12:00 PM","Pack, check out, Grab to airport","", "~฿300–500"],
-      ["2:40 PM","Flight departs","Arrive Delhi ~10:55 PM", "Flight paid"],
+      ["Morning","Leisurely breakfast, final shopping","Relaxed pace", "~฿300–600pp", "Walk or short Grab near ibis Styles"],
+      ["12:00 PM","Pack, check out, Grab to airport","", "~฿300–500", "Grab or Airport Rail Link (ARL) from Phaya Thai if traffic looks heavy"],
+      ["2:40 PM","Flight departs","Arrive Delhi ~10:55 PM", "Flight paid", "—"],
     ]},
 ];
 
@@ -1000,7 +1003,7 @@ days.forEach((d, i) => {
       ${d.items.map(it => `
         <div class="day-item">
           <div class="day-time">${it[0]}</div>
-          <div class="day-place"><b>${it[1]}</b>${it[2] ? `<span>${it[2]}</span>` : ''}</div>
+          <div class="day-place"><b>${it[1]}</b>${it[2] ? `<span>${it[2]}</span>` : ''}${it[4] ? `<span class="day-transport">🚕 ${it[4]}</span>` : ''}</div>
           ${it[3] ? `<div class="day-cost">${it[3]}</div>` : ''}
         </div>
       `).join('')}

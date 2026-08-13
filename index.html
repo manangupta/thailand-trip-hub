@@ -799,7 +799,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     <div class="budget-cat-card">
       <div class="budget-cat-header">
         <div class="budget-cat-name">🚕 Transfers</div>
-        <div class="budget-cat-amt">~฿10,100</div>
+        <div class="budget-cat-amt">~฿10,250</div>
       </div>
       <div class="budget-cat-desc">All Grab/taxi rides, BTS/MRT fares, and the two Bangkok↔Pattaya legs. Airport transfers included.</div>
     </div>
@@ -815,9 +815,9 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     <div class="budget-cat-card">
       <div class="budget-cat-header">
         <div class="budget-cat-name">🍜 Food & Dining</div>
-        <div class="budget-cat-amt">~฿30,200</div>
+        <div class="budget-cat-amt">~฿31,200</div>
       </div>
-      <div class="budget-cat-desc">Every meal across all 14 days, including the two birthday dinners (Above Eleven ~฿5,000, Suay ~฿6,000) and the optional Chao Phraya cruise (~฿6,000) — the single biggest swing factor in this estimate. Skip the cruise for ICONSIAM instead and this drops by ~฿5,500.</div>
+      <div class="budget-cat-desc">Every meal across all 14 days, including the two birthday dinners (Above Eleven ~฿5,000, Suay ~฿6,000), Tappia Floating Cafe (~฿1,000), and the optional Chao Phraya cruise (~฿6,000) — the single biggest swing factor in this estimate. Skip the cruise for ICONSIAM instead and this drops by ~฿5,500.</div>
     </div>
 
     <div class="budget-cat-card">
@@ -844,7 +844,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
 <script>
 /* ============ EXPECTED BUDGET ============ */
 (function() {
-  const FIXED_TOTAL = 10100 + 25500 + 30200; // Transfers + Activities + Food
+  const FIXED_TOTAL = 10250 + 25500 + 31200; // Transfers + Activities + Food
   const shopInput = document.getElementById('budgetShopInput');
   const shopDisplay = document.getElementById('budgetShopDisplay');
   const grandTotal = document.getElementById('budgetGrandTotal');
@@ -1024,12 +1024,13 @@ const days = [
       ["Afternoon","Free / flexible","Café hopping, 84th-floor revolving viewpoint (complimentary — included in your Baiyoke package), or just rest", "Free (included)", "Elevator within the hotel"],
       ["7:00 PM","Above Eleven — Ladies Night w/ DJ Pepe","33rd/34th floor, Fraser Suites Sukhumvit Soi 11. Dinner + rooftop party combined, DJ from ~7 PM. Dress: smart casual, no sandals/flip-flops/sleeveless for men. Reservations recommended — call 02 038 5111. ~10 min walk from Nana BTS", "~฿2,000–3,000pp (food+drinks)", "Grab from Baiyoke ~20–25min (~฿150–200), or hotel shuttle to Phaya Thai BTS then BTS to Nana"],
     ]},
-  { title: "DAY 7 · Thu 3 Sep", sub: "Bangkok to Pattaya — check in Centara Pattaya", birthday:false,
-    note: "Booking ID GH23044275257256 · Early check-in requested via special request",
+  { title: "DAY 7 · Thu 3 Sep", sub: "Bangkok to Pattaya + Tappia Floating Cafe", birthday:false,
+    note: "Booking ID GH23044275257256 · Early check-in requested via special request. Tappia Floating Cafe squeezed in between check-in and Alcazar — tight but doable if timed right.",
     items: [
       ["10:00 AM","Check out — Baiyoke Sky","Booking ID GH29086275255330, drive to Pattaya ~2 hrs via Grab/private car", "~฿1,500–2,000", "Grab or pre-booked private car, ~2hrs via motorway"],
       ["1:00 PM","Sanctuary of Truth","Hand-carved wooden temple, ~1.5–2 hrs, tickets ~600฿", "~฿600pp (~฿1,200 for 2)", "Grab within Pattaya, ~15–20min from Central Pattaya"],
       ["3:00 PM","Check in — Centara Pattaya Hotel","Deluxe King, breakfast included. Central Pattaya location", "Paid", "Grab from Sanctuary of Truth ~15–20min"],
+      ["4:00 PM","Tappia Floating Cafe","Bali Hai Pier, speedboat transfer included. Squid fishing + fresh sashimi/grilled, sunset views. Keep it to ~1.5hrs to make it back in time to change for Alcazar", "~฿400–580pp (~฿800–1,160 for 2)", "Grab to Bali Hai Pier ~10min from Centara, speedboat transfer included in ticket"],
       ["7:30 PM","Alcazar Cabaret Show","Book ahead, tickets 600–900฿", "฿600–900pp (฿1,200–1,800 for 2)", "Grab or songthaew (shared truck-taxi) ~10–15min from Centara"],
       ["Night","Walking Street","Casual dinner, neon-lit walk", "Free entry, ~฿300–600pp food", "Walkable from Alcazar area, ~10–15min, or short songthaew hop"],
     ]},
@@ -1167,8 +1168,8 @@ buildChecklist('places-container', 'thailand-places-v1', {
     "Chao Phraya Dinner Cruise", "Yaowarat (Chinatown)", "Thai spa (couples)",
     "Birthday party — Above Eleven rooftop", "Song Wat Road (optional)", "Khao San Road"
   ],
-  "Pattaya (5)": [
-    "Sanctuary of Truth", "Alcazar Cabaret Show", "Walking Street", "Space & Time Cube+ Pattaya (conditional on late checkout)", "Koh Larn Coral Island (optional)"
+  "Pattaya (6)": [
+    "Sanctuary of Truth", "Alcazar Cabaret Show", "Walking Street", "Tappia Floating Cafe", "Space & Time Cube+ Pattaya (conditional on late checkout)", "Koh Larn Coral Island (doesn't fit — only 1 day in Pattaya)"
   ],
   "Phuket (9)": [
     "Patong Beach", "Old Phuket Town", "Koh Phi Phi (Pileh, Monkey Beach, Bamboo Island)",

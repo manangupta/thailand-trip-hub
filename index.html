@@ -40,6 +40,41 @@ body.dark .check-group-title, body.dark .H2 { color: #4CAF93; }
 body.dark .day-place b, body.dark .exp-item-desc { color: #e8eaeb; }
 body.dark .overview-table td { border-color: #333; }
 
+/* ---- Auth Gate ---- */
+#authGate {
+  position: fixed; inset: 0; z-index: 5000;
+  background: linear-gradient(135deg, #0F6E56, #14181a);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.auth-card {
+  background: white; border-radius: 14px; padding: 32px 28px;
+  max-width: 340px; width: 100%; text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.auth-card .flag { font-size: 32px; margin-bottom: 6px; }
+.auth-card h2 { font-size: 19px; color: #0F6E56; margin-bottom: 4px; }
+.auth-card p { font-size: 12.5px; color: #6b6a63; margin-bottom: 20px; }
+.auth-card input {
+  width: 100%; padding: 11px 12px; margin-bottom: 10px;
+  border: 1px solid #ddd; border-radius: 7px; font-size: 14px; font-family: inherit;
+}
+.auth-card input:focus { outline: none; border-color: #0F6E56; box-shadow: 0 0 0 2px rgba(15,110,86,0.15); }
+.auth-card button {
+  width: 100%; padding: 11px; border: none; border-radius: 7px;
+  background: #0F6E56; color: white; font-size: 14.5px; font-weight: 700; cursor: pointer; margin-top: 4px;
+}
+.auth-card button:hover { background: #0c5a46; }
+#authError { color: #D85A30; font-size: 12.5px; margin-top: 10px; display: none; font-weight: 600; }
+#appContent { display: none; }
+html.pre-authed #appContent { display: block; }
+html.pre-authed #authGate { display: none; }
+.logout-link {
+  position: fixed; top: 20px; right: 68px; z-index: 9999;
+  font-size: 11px; color: rgba(255,255,255,0.8); background: rgba(0,0,0,0.15);
+  padding: 6px 10px; border-radius: 20px; cursor: pointer; border: none;
+}
+
 .topbar {
   background: #0F6E56;
   color: white;
@@ -252,10 +287,33 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
   .day-time { width: 55px; }
 }
 </style>
+<script>
+  // Early check — avoids a flash of content before the main script runs
+  if (localStorage.getItem('thailand-trip-authed') === 'yes') {
+    document.documentElement.classList.add('pre-authed');
+  }
+</script>
 </head>
 <body>
 
+<div id="authGate">
+  <div class="auth-card">
+    <div class="flag">🇹🇭</div>
+    <h2>Thailand Trip 2026</h2>
+    <p>Private trip hub — enter your login to continue</p>
+    <form id="authForm">
+      <input type="text" id="authUser" placeholder="Username" autocomplete="username" required>
+      <input type="password" id="authPass" placeholder="Password" autocomplete="current-password" required>
+      <button type="submit">Log In</button>
+    </form>
+    <div id="authError">Incorrect username or password.</div>
+  </div>
+</div>
+
+<button class="logout-link" id="logoutBtn" title="Log out">Log out</button>
 <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
+
+<div id="appContent">
 
 <div class="topbar">
   <div class="topbar-inner">
@@ -692,7 +750,50 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
 
 </div>
 
+</div>
+
 <script>
+/* ============ AUTH GATE ============ */
+(function() {
+  const CORRECT_USER = 'mnngpt';
+  const CORRECT_PASS = '8700';
+  const authGate = document.getElementById('authGate');
+  const appContent = document.getElementById('appContent');
+  const authForm = document.getElementById('authForm');
+  const authError = document.getElementById('authError');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  function unlock() {
+    authGate.style.display = 'none';
+    appContent.style.display = 'block';
+  }
+
+  if (localStorage.getItem('thailand-trip-authed') === 'yes') {
+    unlock();
+  }
+
+  authForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const u = document.getElementById('authUser').value.trim();
+    const p = document.getElementById('authPass').value;
+    if (u === CORRECT_USER && p === CORRECT_PASS) {
+      localStorage.setItem('thailand-trip-authed', 'yes');
+      authError.style.display = 'none';
+      unlock();
+    } else {
+      authError.style.display = 'block';
+    }
+  });
+
+  logoutBtn.addEventListener('click', function() {
+    localStorage.removeItem('thailand-trip-authed');
+    appContent.style.display = 'none';
+    authGate.style.display = 'flex';
+    document.getElementById('authUser').value = '';
+    document.getElementById('authPass').value = '';
+  });
+})();
+
 /* ============ DARK MODE ============ */
 (function() {
   const btn = document.getElementById('darkToggle');

@@ -234,6 +234,31 @@ input:focus { outline: none; border-color: #0F6E56; box-shadow: 0 0 0 2px rgba(1
 .check-item input[type="checkbox"] { width: 17px; height: 17px; accent-color: #0F6E56; cursor: pointer; margin-top: 1px; flex-shrink: 0; }
 .check-item label { cursor: pointer; }
 .check-item.checked label { color: #999; text-decoration: line-through; }
+
+/* ---- Places list (rich cards) ---- */
+.place-item {
+  border: 1px solid #EEEDE6; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; background: white;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.place-item.checked { opacity: 0.55; }
+.place-item.checked .place-name { text-decoration: line-through; color: #999; }
+.place-item input[type="checkbox"] { width: 17px; height: 17px; accent-color: #0F6E56; cursor: pointer; margin-top: 2px; flex-shrink: 0; }
+.place-info { flex: 1; }
+.place-name { font-size: 13px; font-weight: 700; color: #2C2C2A; cursor: pointer; }
+.place-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
+.place-badge { font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 10px; white-space: nowrap; }
+.place-badge.cost { background: #E1F5EE; color: #0F6E56; }
+.place-badge.booking { background: #FAEEDA; color: #8a6d1a; }
+.place-badge.booking.walkup { background: #EEF6ED; color: #3d7a3d; }
+.place-badge.priority.p1 { background: #D85A30; color: white; }
+.place-badge.priority.p2 { background: #BA7517; color: white; }
+.place-badge.priority.p3 { background: #8a8878; color: white; }
+.place-badge.priority.skip { background: #b4b2a9; color: white; }
+body.dark .place-item { background: #1e2427; border-color: #333; }
+body.dark .place-name { color: #e8eaeb; }
+body.dark .place-badge.cost { background: #16302a; color: #4CAF93; }
+body.dark .place-badge.booking { background: #3a3320; color: #d4b26a; }
+body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
 .mini-progress { font-size: 11px; color: #6b6a63; margin-bottom: 8px; }
 
 /* ---- Restaurant / info cards ---- */
@@ -610,6 +635,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
   <!-- ============ 35 PLACES ============ -->
   <div class="panel" id="panel-places">
     <div class="section-title">Places Checklist</div>
+    <div class="section-desc">Each place shows: estimated cost, whether it needs advance booking, and priority (P1 = urgent, book now · P2 = book a few days ahead · P3 = walk-up, no rush)</div>
     <div class="mini-progress" id="placesProgress">0 / 31 checked off</div>
     <div id="places-container"></div>
     <div class="note-strip">
@@ -981,9 +1007,9 @@ const days = [
   { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok — check in Aspen Suites", birthday:false,
     note: "Flights: DEL 04:30→BLR 07:20 (AI 2653), BLR 10:00→BKK 15:40 (AI 9071) · Booking ID GOFLISTAM2YH1595682. Airport shuttle (฿1,200) requested from Aspen — confirm by 27 Aug",
     items: [
-      ["15:40","Land Bangkok","Grab SIM card, download Grab app", "~฿300", "Arrival hall — SIM counters right after immigration"],
-      ["3:00 PM","Check in — Aspen Suites Hotel Sukhumvit 2","Booking ID GH29086275256124, PNR 0184488946. Non-refundable", "Paid", "Requested hotel shuttle (~1hr from Suvarnabhumi) or Grab (~45min, ~฿300–400)"],
-      ["Evening","Asiatique The Riverfront","Easy first night — riverside food, shopping", "Free entry, ~฿300–800pp dinner", "BTS to Saphan Taksin + free shuttle boat, or Grab ~20min (~฿150–250)"],
+      ["15:40","Land Bangkok","Immigration + baggage claim (allow ~30–40min), then SIM card + Grab app", "~฿300", "Arrival hall — SIM counters right after immigration"],
+      ["5:30 PM","Check in — Aspen Suites Hotel Sukhumvit 2","Booking ID GH29086275256124, PNR 0184488946. Non-refundable. Realistic timing: ~30–40min through immigration + ~45min–1hr transfer from landing", "Paid", "Requested hotel shuttle (~1hr from Suvarnabhumi) or Grab (~45min, ~฿300–400)"],
+      ["7:30 PM","Asiatique The Riverfront","Easy first night — riverside food, shopping. Open till ~11 PM, so no rush after check-in", "Free entry, ~฿300–800pp dinner", "BTS to Saphan Taksin + free shuttle boat, or Grab ~20min (~฿150–250)"],
     ]},
   { title: "DAY 2 · Sat 29 Aug", sub: "Bangkok temples", birthday:false,
     note: "None of today's stops need advance booking — all walk-up. Bring cash (small notes for Wat Arun especially).",
@@ -1155,27 +1181,107 @@ function buildChecklist(containerId, storageKey, groups, progressId) {
   updateProgress();
 }
 
+function buildPlacesChecklist(containerId, storageKey, groups, progressId) {
+  const container = document.getElementById(containerId);
+  const state = JSON.parse(localStorage.getItem(storageKey) || '{}');
+  let total = 0;
+
+  const priorityLabel = { 1: 'P1 — Urgent', 2: 'P2', 3: 'P3', 0: 'Skip' };
+  const priorityClass = { 1: 'p1', 2: 'p2', 3: 'p3', 0: 'skip' };
+
+  Object.keys(groups).forEach(groupName => {
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'check-group';
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'check-group-title';
+    titleDiv.textContent = groupName;
+    groupDiv.appendChild(titleDiv);
+
+    groups[groupName].forEach(place => {
+      total++;
+      const id = storageKey + '__' + groupName + '__' + place.name;
+      const escId = cssEscape(id);
+      const row = document.createElement('div');
+      row.className = 'place-item' + (state[id] ? ' checked' : '');
+      row.innerHTML = `
+        <input type="checkbox" id="${escId}" ${state[id] ? 'checked' : ''}>
+        <div class="place-info">
+          <label class="place-name" for="${escId}">${place.name}</label>
+          <div class="place-badges">
+            <span class="place-badge cost">${place.cost}</span>
+            <span class="place-badge booking${place.walkup ? ' walkup' : ''}">${place.booking}</span>
+            <span class="place-badge priority ${priorityClass[place.priority]}">${priorityLabel[place.priority]}</span>
+          </div>
+        </div>
+      `;
+      const chk = row.querySelector('input');
+      chk.addEventListener('change', () => {
+        state[id] = chk.checked;
+        localStorage.setItem(storageKey, JSON.stringify(state));
+        row.classList.toggle('checked', chk.checked);
+        updateProgress();
+      });
+      groupDiv.appendChild(row);
+    });
+    container.appendChild(groupDiv);
+  });
+
+  function updateProgress() {
+    const checkedCount = Object.values(state).filter(v => v).length;
+    if (progressId) document.getElementById(progressId).textContent = checkedCount + ' / ' + total + ' checked off';
+  }
+  updateProgress();
+}
+
 function cssEscape(str) {
   return str.replace(/[^a-zA-Z0-9_-]/g, '_');
 }
 
 /* ---- 35 Places ---- */
-buildChecklist('places-container', 'thailand-places-v1', {
+buildPlacesChecklist('places-container', 'thailand-places-v2', {
   "Bangkok (22)": [
-    "Grand Palace & Wat Phra Kaew", "Wat Pho (Reclining Buddha)", "Wat Arun",
-    "Chatuchak Weekend Market", "MBK Center", "Terminal 21 + Pier 21 food court", "Space & Time Cube+ Bangkok", "SEA LIFE Ocean World",
-    "Platinum Fashion Mall / Fortune Town", "ICONSIAM & SookSiam", "Asiatique The Riverfront",
-    "Amphawa Floating Market (optional)", "Harbor Island Water Park", "Mahanakhon Skywalk", "Akara Sky Hanuman", "Vertigo & Moon Bar (Banyan Tree)",
-    "Chao Phraya Dinner Cruise", "Yaowarat (Chinatown)", "Thai spa (couples)",
-    "Birthday party — Above Eleven rooftop", "Song Wat Road (optional)", "Khao San Road"
+    { name: "Grand Palace & Wat Phra Kaew", cost: "฿500pp (฿1,000/2)", booking: "Walk-up only", walkup: true, priority: 1 },
+    { name: "Wat Pho (Reclining Buddha)", cost: "฿300pp + ฿420pp massage", booking: "Walk-up OK", walkup: true, priority: 2 },
+    { name: "Wat Arun", cost: "฿200pp (฿400/2)", booking: "Walk-up OK", walkup: true, priority: 2 },
+    { name: "Chatuchak Weekend Market", cost: "Free · shopping variable", booking: "Walk-up OK, Sun only", walkup: true, priority: 2 },
+    { name: "MBK Center", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Terminal 21 + Pier 21 food court", cost: "Free · ~฿200–400pp food", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Space & Time Cube+ Bangkok", cost: "~฿400–600pp", booking: "Book online — small discount", walkup: false, priority: 2 },
+    { name: "SEA LIFE Ocean World", cost: "~฿900–1,200pp", booking: "Book online recommended", walkup: false, priority: 2 },
+    { name: "Platinum Fashion Mall / Fortune Town", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "ICONSIAM & SookSiam", cost: "Free · Cruise ~฿2,500–3,500pp", booking: "Cruise: book 2 days ahead", walkup: false, priority: 1 },
+    { name: "Asiatique The Riverfront", cost: "Free · ~฿300–800pp dinner", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Amphawa Floating Market (optional)", cost: "~฿1,000–1,200pp tour", booking: "Book tour ahead", walkup: false, priority: 3 },
+    { name: "Harbor Island Water Park", cost: "From ฿380pp", booking: "Book online for discount", walkup: false, priority: 2 },
+    { name: "Mahanakhon Skywalk", cost: "~฿1,200pp sunset", booking: "Book ahead — sunset slots sell out", walkup: false, priority: 1 },
+    { name: "Akara Sky Hanuman", cost: "~฿500–1,500pp", booking: "Book ahead", walkup: false, priority: 2 },
+    { name: "Vertigo & Moon Bar (Banyan Tree)", cost: "~฿400–600 per cocktail", booking: "Table reservation required", walkup: false, priority: 1 },
+    { name: "Chao Phraya Dinner Cruise", cost: "~฿2,500–3,500pp", booking: "Book 2 days ahead", walkup: false, priority: 1 },
+    { name: "Yaowarat (Chinatown)", cost: "Free · ~฿200–400pp food", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Thai spa (couples)", cost: "~฿1,500pp", booking: "Book 1 day ahead", walkup: false, priority: 2 },
+    { name: "Birthday party — Above Eleven rooftop", cost: "~฿2,000–3,000pp", booking: "Book ahead — Wed Ladies Night busy", walkup: false, priority: 1 },
+    { name: "Song Wat Road (optional)", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Khao San Road", cost: "Free · ~฿200–500pp food", booking: "Walk-up OK", walkup: true, priority: 3 },
   ],
   "Pattaya (6)": [
-    "Sanctuary of Truth", "Alcazar Cabaret Show", "Walking Street", "Tappia Floating Cafe", "Space & Time Cube+ Pattaya (conditional on late checkout)", "Koh Larn Coral Island (doesn't fit — only 1 day in Pattaya)"
+    { name: "Sanctuary of Truth", cost: "~฿600pp (~฿1,200/2)", booking: "Walk-up OK", walkup: true, priority: 2 },
+    { name: "Alcazar Cabaret Show", cost: "฿600–900pp (฿1,200–1,800/2)", booking: "Book ahead", walkup: false, priority: 1 },
+    { name: "Walking Street", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Tappia Floating Cafe", cost: "~฿400–580pp", booking: "Book ahead — reserve now, pay later", walkup: false, priority: 2 },
+    { name: "Space & Time Cube+ Pattaya (conditional)", cost: "~฿400–600pp", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Koh Larn Coral Island (doesn't fit — only 1 day in Pattaya)", cost: "N/A", booking: "Skip — doesn't fit schedule", walkup: true, priority: 0 },
   ],
   "Phuket (10)": [
-    "Patong Beach", "Old Phuket Town", "Koh Phi Phi (Pileh, Monkey Beach, Bamboo Island)",
-    "Snorkelling (Phi Phi tour)", "Coral Island Sunset Catamaran (decide day-of vs Old Phuket Town)", "Promthep Cape sunset", "Suay restaurant (birthday)",
-    "Couples spa (birthday)", "Big Buddha of Phuket (optional)", "Phi Phi viewpoint"
+    { name: "Patong Beach", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Old Phuket Town", cost: "Free · ~฿200–400pp café", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Koh Phi Phi (Pileh, Monkey Beach, Bamboo Island)", cost: "~฿1,200–1,500pp", booking: "Book ahead — earliest slot, weather-dependent", walkup: false, priority: 1 },
+    { name: "Snorkelling (Phi Phi tour)", cost: "Included in tour", booking: "Bundled with Phi Phi booking", walkup: false, priority: 1 },
+    { name: "Coral Island Sunset Catamaran (decide day-of vs Old Phuket Town)", cost: "~฿1,500–2,500pp", booking: "Book once decided, day before", walkup: false, priority: 2 },
+    { name: "Promthep Cape sunset", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Suay restaurant (birthday)", cost: "~฿2,500–3,500pp", booking: "Book ahead — call now, limited tables", walkup: false, priority: 1 },
+    { name: "Couples spa (birthday)", cost: "~฿2,000–3,000pp", booking: "Book 1 day ahead", walkup: false, priority: 2 },
+    { name: "Big Buddha of Phuket (optional)", cost: "Free (donation optional)", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Phi Phi viewpoint", cost: "Included in tour", booking: "Bundled with Phi Phi booking", walkup: false, priority: 1 },
   ]
 }, 'placesProgress');
 

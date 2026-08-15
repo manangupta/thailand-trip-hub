@@ -1071,11 +1071,14 @@ const days = [
       ["7:00 PM","Yaowarat (Chinatown), optional","Compressed window given the later Bangkok arrival — if energy's low, this is the easiest thing to skip entirely rather than cutting sleep further", "Free entry, ~฿200–400pp food", "ARL Suvarnabhumi → Makkasan (~25min) + short walk to connect → MRT Blue Line to Wat Mangkon (~15–20min)"],
       ["~9:30 PM","Return to Gate43","Same ARL+MRT route in reverse. This is the latest realistic return time to still get real sleep before the 6:50 AM flight", "Included in above", "MRT Wat Mangkon → Phetchaburi → walk to Makkasan → ARL to Suvarnabhumi"],
     ]},
-  { title: "DAY 9 · Sat 5 Sep", sub: "Fly to Phuket — Seaview Patong Hotel", birthday:false,
-    note: "Flight: BKK 06:50 → HKT 08:25 (Thai Vietjet VZ314) · Check in: Seaview Patong Hotel (GH23141275115872)",
+  { title: "DAY 9 · Sat 5 Sep", sub: "Fly to Phuket — Wat Chalong + Big Buddha + Seaview Patong", birthday:false,
+    note: "Flight: BKK 06:50 → HKT 08:25 (Thai Vietjet VZ314) · Check in: Seaview Patong Hotel (GH23141275115872), early check-in requested. Big Buddha moved here from Day 13 (was optional/unused there) to fill the morning gap between landing and check-in. Tiger Kingdom noted but not scheduled — genuinely mixed reviews and animal welfare concerns (TripAdvisor itself won't sell bookings for it), worth deciding on your own rather than booking outright. An ethical no-riding elephant sanctuary is a cleaner alternative if you want an animal encounter.",
     items: [
-      ["6:50 AM","Flight to Phuket","Arrive ~8:45 AM, Grab to Patong (~30 min)", "Flight paid · ~฿300–400 Grab", "Grab or airport taxi counter, ~30min to Patong"],
-      ["3:00 PM","Check in — Seaview Patong Hotel","Request early check-in given morning arrival", "Paid", "Walk if already in Patong, or short Grab"],
+      ["6:50 AM","Flight to Phuket","Arrive ~8:45 AM", "Flight paid", "—"],
+      ["9:30 AM","Drop luggage at Seaview Patong","Most hotels accept bags before official check-in, even if the room isn't ready", "—", "Grab from airport ~30min (~฿300–400)"],
+      ["10:30 AM","Wat Chalong","Phuket's most important temple, free entry, genuinely worth seeing — no controversy attached, unlike some other Phuket attractions", "Free (donation optional)", "Grab from Patong ~20–25min"],
+      ["12:00 PM","Big Buddha of Phuket","40m marble statue, hilltop views over the island. Moved here from Day 13 where it was sitting unused as an afternoon optional", "Free (donation optional)", "Grab from Wat Chalong ~15min — both sit close together in the same part of the island"],
+      ["3:00 PM","Check in — Seaview Patong Hotel","Early check-in requested given the morning schedule", "Paid", "Grab from Big Buddha ~20min back to Patong"],
       ["Evening","Casual dinner in Patong","Rest before island day tomorrow", "~฿300–600pp", "Walkable within Patong Beach area"],
     ]},
   { title: "DAY 10 · Sun 6 Sep", sub: "Koh Phi Phi day trip", birthday:false,
@@ -1102,9 +1105,9 @@ const days = [
       ["7:30 PM","Birthday dinner — Suay","Michelin-recognized, Cherngtalay. +66 93 339 1890", "~฿2,500–3,500pp", "Grab, ~30–40min from Sunset Beach Resort — book the ride in advance given the distance"],
     ]},
   { title: "DAY 13 · Wed 9 Sep", sub: "Phuket to Bangkok + Akara Sky Hanuman", birthday:false,
-    note: "Flight: HKT 17:20 → BKK 18:50 (Thai Vietjet VZ307) · Check out — Sunset Beach Resort by 12:00 PM. Akara Sky Hanuman added for the evening — Bangkok's 2nd tallest rooftop (276m), nightly Thai cultural shows (~8 PM) including Muay Thai-inspired performances, a nice echo of the Muay Thai stadium visit we dropped earlier.",
+    note: "Flight: HKT 17:20 → BKK 18:50 (Thai Vietjet VZ307) · Check out — Sunset Beach Resort by 12:00 PM. Big Buddha moved to Day 9 (fills the morning gap after landing better than sitting here). Akara Sky Hanuman added for the evening — Bangkok's 2nd tallest rooftop (276m), nightly Thai cultural shows (~8 PM) including Muay Thai-inspired performances, a nice echo of the Muay Thai stadium visit we dropped earlier.",
     items: [
-      ["Morning","Final beach swim / Big Buddha of Phuket (optional)","40m marble statue, hilltop views, ~1 hr", "Free (donation optional)", "Grab ~20min from Sunset Beach Resort"],
+      ["Morning","Final beach swim / rest","Relaxed last Phuket morning, no fixed plan", "—", "—"],
       ["2:30 PM","Check out, Grab to airport","~45 min–1 hr", "~฿300–500", "Grab or hotel airport transfer"],
       ["5:20 PM","Flight to Bangkok","Arrive 6:50 PM, check into ibis Styles Bangkok Sukhumvit 4 — confirm payment made by 5 Sep", "Flight paid · Hotel ₹6,075 due", "Grab from Suvarnabhumi to Sukhumvit, ~45min–1hr (~฿300–400)"],
       ["8:30 PM","Akara Sky Hanuman","One City Centre, floors 58–61 (276m up). Thai cultural rooftop — 360° views, nightly traditional dance + Muay Thai-inspired show (~8 PM), night market food, cocktails. Book online for the best rate", "~฿500–1,500pp depending on package", "BTS Sukhumvit line to Ploenchit — direct skywalk access from station, ~15–20min from ibis Styles"],
@@ -1273,8 +1276,10 @@ buildPlacesChecklist('places-container', 'thailand-places-v2', {
     { name: "Koh Larn / Coral Island Tour", cost: "~฿280pp base + ~฿500–2,000pp optional water sports", booking: "Book ahead — timed morning slot before checkout", walkup: false, priority: 1 },
     { name: "Space & Time Cube+ Pattaya (dropped — swapped for Koh Larn)", cost: "N/A", booking: "Skip — no longer scheduled", walkup: true, priority: 0 },
   ],
-  "Phuket (10)": [
+  "Phuket (12)": [
     { name: "Patong Beach", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Wat Chalong", cost: "Free (donation optional)", booking: "Walk-up OK", walkup: true, priority: 2 },
+    { name: "Big Buddha of Phuket", cost: "Free (donation optional)", booking: "Walk-up OK", walkup: true, priority: 2 },
     { name: "Old Phuket Town", cost: "Free · ~฿200–400pp café", booking: "Walk-up OK", walkup: true, priority: 3 },
     { name: "Koh Phi Phi (Pileh, Monkey Beach, Bamboo Island)", cost: "~฿1,200–1,500pp", booking: "Book ahead — earliest slot, weather-dependent", walkup: false, priority: 1 },
     { name: "Snorkelling (Phi Phi tour)", cost: "Included in tour", booking: "Bundled with Phi Phi booking", walkup: false, priority: 1 },
@@ -1282,7 +1287,7 @@ buildPlacesChecklist('places-container', 'thailand-places-v2', {
     { name: "Promthep Cape sunset", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
     { name: "Suay restaurant (birthday)", cost: "~฿2,500–3,500pp", booking: "Book ahead — call now, limited tables", walkup: false, priority: 1 },
     { name: "Couples spa (birthday)", cost: "~฿2,000–3,000pp", booking: "Book 1 day ahead", walkup: false, priority: 2 },
-    { name: "Big Buddha of Phuket (optional)", cost: "Free (donation optional)", booking: "Walk-up OK", walkup: true, priority: 3 },
+    { name: "Tiger Kingdom (noted, not scheduled — mixed reviews, animal welfare concerns; decide for yourself)", cost: "฿900–3,000pp", booking: "Book ahead if going", walkup: false, priority: 0 },
     { name: "Phi Phi viewpoint", cost: "Included in tour", booking: "Bundled with Phi Phi booking", walkup: false, priority: 1 },
   ]
 }, 'placesProgress');

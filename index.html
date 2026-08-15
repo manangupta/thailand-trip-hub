@@ -833,9 +833,9 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     <div class="budget-cat-card">
       <div class="budget-cat-header">
         <div class="budget-cat-name">🎟️ Activities & Attractions</div>
-        <div class="budget-cat-amt">~฿25,500</div>
+        <div class="budget-cat-amt">~฿25,800</div>
       </div>
-      <div class="budget-cat-desc">Temple tickets, Harbor Island, Space & Time Cube (both cities), Mahanakhon Skywalk, Akara Sky Hanuman, Phi Phi tour, spas, Alcazar. ~฿1,000 of this is the optional Pattaya Cube — drop it from your total if you skip it.</div>
+      <div class="budget-cat-desc">Temple tickets, Harbor Island, Space & Time Cube Bangkok, Mahanakhon Skywalk, Akara Sky Hanuman, Art in Paradise, Ripley's, Koh Larn tour, Phi Phi tour, spas. Space & Time Cube Pattaya dropped (swapped for Koh Larn), Alcazar dropped (swapped for Art in Paradise/Ripley's).</div>
     </div>
 
     <div class="budget-cat-card">
@@ -870,7 +870,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
 <script>
 /* ============ EXPECTED BUDGET ============ */
 (function() {
-  const FIXED_TOTAL = 10250 + 25500 + 30200; // Transfers + Activities + Food
+  const FIXED_TOTAL = 10250 + 25800 + 30200; // Transfers + Activities + Food
   const shopInput = document.getElementById('budgetShopInput');
   const shopDisplay = document.getElementById('budgetShopDisplay');
   const grandTotal = document.getElementById('budgetGrandTotal');
@@ -1060,14 +1060,14 @@ const days = [
       ["6:30 PM","Ripley's Believe It or Not!","Royal Garden Plaza, Beach Road. Odditorium — shrunken heads, matchstick Titanic, optical illusions. Open till 11 PM. ~1–1.5 hrs for the base museum; skip the add-on attractions (haunted house, laser maze) given the time budget", "฿650pp (฿1,300 for 2), check combo tickets w/ Art in Paradise", "Grab or walk from Art in Paradise, ~10min"],
       ["8:30 PM","Walking Street","Casual dinner, neon-lit walk — now at a comfortable hour instead of late night", "Free entry, ~฿300–600pp food", "Walkable from Royal Garden Plaza, ~5–10min"],
     ]},
-  { title: "DAY 8 · Fri 4 Sep", sub: "Pattaya to Bangkok — check in Gate43 Airport Hotel", birthday:false,
-    note: "Late check-out requested from Centara · Gate43 Booking ID GH23044275257592. Space & Time Cube+ Pattaya kept as optional — with only one day in Pattaya, prioritize Sanctuary of Truth/Alcazar/Walking Street; add this only if the late checkout comes through and there's spare time.",
+  { title: "DAY 8 · Fri 4 Sep", sub: "Koh Larn / Coral Island morning + Bangkok", birthday:false,
+    note: "Late check-out requested from Centara (1:00 PM) · Gate43 Booking ID GH23044275257592. Beach breakfast and Space & Time Cube+ Pattaya dropped — swapped for a Koh Larn (Coral Island) morning trip instead, timed to return before the 1 PM checkout.",
     items: [
-      ["8:00 AM","Beach breakfast, pack","Relaxed morning while waiting for checkout confirmation", "~฿150–300pp", "Walk or short Grab near Centara"],
-      ["11:00 AM","Space & Time Cube+ Pattaya (optional)","Central Pattaya, 6th floor. Immersive digital art + Jumping Spacecraft 4D ride. Skip without hesitation if the morning feels tight — only one day in Pattaya, the temple/show/nightlife trio comes first", "~฿400–600pp", "Walkable or short Grab from Centara, ~5–10min"],
+      ["7:30 AM","Koh Larn / Coral Island Tour","Speedboat from Bali Hai Pier (~20–30min crossing), beach time, snorkeling. This package includes an Indian buffet lunch + Hindi-speaking staff — a genuine fit given how much this trip has cared about Indian food. Water sports (parasailing, banana boat, jet ski) are extra if wanted", "~฿280pp base (transfer+lunch) + ~฿500–2,000pp for optional water sports", "Hotel pickup included in tour"],
+      ["12:30 PM","Return to Centara, pack","Tight but workable — tour timed to get you back before checkout", "—", "Return transfer included in tour"],
       ["1:00 PM","Check out, Grab/private car to Bangkok","~2 hrs — rate requested from Centara, ~฿1,200–1,500 via Grab", "~฿1,200–1,500", "Grab or pre-booked private car, ~2hrs via motorway"],
       ["3:30 PM","Yaowarat (Chinatown), optional","Gold shops, ceramics, hainanese chicken rice — keep it light, early flight tomorrow", "Free entry, ~฿200–400pp food", "MRT Blue Line to Wat Mangkon — direct, or Grab ~20min from Sukhumvit"],
-      ["11:30 AM check-in","Gate43 Airport Hotel","Deluxe Double, near Suvarnabhumi. No meals included", "Paid", "Grab from wherever you are in Bangkok, ~20–40min depending on traffic"],
+      ["Evening check-in","Gate43 Airport Hotel","Deluxe Double, near Suvarnabhumi. No meals included", "Paid", "Grab from wherever you are in Bangkok, ~20–40min depending on traffic"],
     ]},
   { title: "DAY 9 · Sat 5 Sep", sub: "Fly to Phuket — Seaview Patong Hotel", birthday:false,
     note: "Flight: BKK 06:50 → HKT 08:25 (Thai Vietjet VZ314) · Check in: Seaview Patong Hotel (GH23141275115872)",
@@ -1268,8 +1268,8 @@ buildPlacesChecklist('places-container', 'thailand-places-v2', {
     { name: "Art in Paradise", cost: "~฿400–500pp (~฿800–1,000/2)", booking: "Walk-up OK, or book combo online", walkup: true, priority: 2 },
     { name: "Ripley's Believe It or Not!", cost: "฿650pp (฿1,300/2)", booking: "Walk-up OK, or book combo online", walkup: true, priority: 2 },
     { name: "Walking Street", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
-    { name: "Space & Time Cube+ Pattaya (conditional)", cost: "~฿400–600pp", booking: "Walk-up OK", walkup: true, priority: 3 },
-    { name: "Koh Larn Coral Island (doesn't fit — only 1 day in Pattaya)", cost: "N/A", booking: "Skip — doesn't fit schedule", walkup: true, priority: 0 },
+    { name: "Koh Larn / Coral Island Tour", cost: "~฿280pp base + ~฿500–2,000pp optional water sports", booking: "Book ahead — timed morning slot before checkout", walkup: false, priority: 1 },
+    { name: "Space & Time Cube+ Pattaya (dropped — swapped for Koh Larn)", cost: "N/A", booking: "Skip — no longer scheduled", walkup: true, priority: 0 },
   ],
   "Phuket (10)": [
     { name: "Patong Beach", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },

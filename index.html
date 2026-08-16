@@ -331,6 +331,35 @@ button.primary { background: #0F6E56; color: white; border-color: #0F6E56; }
   flex: 1; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: inherit;
 }
 .budget-shop-input-row input:focus { outline: none; border-color: #0F6E56; box-shadow: 0 0 0 2px rgba(15,110,86,0.1); }
+
+/* ---- Food & Phrases ---- */
+.diet-banner {
+  background: linear-gradient(135deg, #D85A30, #b5451f); color: white; border-radius: 12px;
+  padding: 18px 20px; margin-bottom: 16px;
+}
+.diet-banner-title { font-size: 14px; font-weight: 800; margin-bottom: 8px; }
+.diet-phrase-big { font-size: 20px; font-weight: 800; margin: 6px 0 2px; }
+.diet-phrase-thai { font-size: 13px; opacity: 0.9; margin-bottom: 4px; }
+.diet-phrase-meaning { font-size: 12px; opacity: 0.85; }
+.food-dish-card { border: 1px solid #E0DED4; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; background: white; display: flex; gap: 10px; align-items: flex-start; }
+.food-dish-name { font-size: 13px; font-weight: 700; color: #2C2C2A; }
+.food-dish-thai { font-size: 11px; color: #6b6a63; margin-top: 1px; }
+.food-dish-desc { font-size: 11.5px; color: #6b6a63; margin-top: 3px; }
+.food-safe-badge { font-size: 10px; font-weight: 700; padding: 3px 7px; border-radius: 10px; flex-shrink: 0; white-space: nowrap; margin-top: 1px; }
+.food-safe-badge.safe { background: #EAF7EF; color: #1e6b4f; }
+.food-safe-badge.watch { background: #FFF0EC; color: #b5451f; }
+.phrase-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 16px; }
+.phrase-table th { background: #0F6E56; color: white; text-align: left; padding: 8px; font-size: 11px; }
+.phrase-table td { padding: 7px 8px; border-bottom: 1px solid #EEEDE6; }
+.phrase-table tr:nth-child(even) td { background: #F5F4EE; }
+.phrase-thai-col { font-weight: 700; color: #0F6E56; white-space: nowrap; }
+body.dark .food-dish-card { background: #1e2427; border-color: #333; }
+body.dark .food-dish-name { color: #e8eaeb; }
+body.dark .food-safe-badge.safe { background: #16302a; color: #7dc47d; }
+body.dark .food-safe-badge.watch { background: #3a2a1f; color: #e0916e; }
+body.dark .phrase-table tr:nth-child(even) td { background: #262b2e; }
+body.dark .phrase-table td { border-color: #333; color: #c5c8ca; }
+body.dark .phrase-thai-col { color: #4CAF93; }
 body.dark .budget-cat-card { background: #1e2427; border-color: #333; }
 body.dark .budget-cat-name { color: #e8eaeb; }
 body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; border-color: #444; }
@@ -383,6 +412,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       <div class="tab" data-panel="checklist">Booking Checklist</div>
       <div class="tab" data-panel="prep">Pre-Flight Prep</div>
       <div class="tab" data-panel="packing">Packing</div>
+      <div class="tab" data-panel="food">🍜 Food & Phrases</div>
       <div class="tab" data-panel="expenses">💰 Expenses</div>
       <div class="tab" data-panel="budget">🧾 Expected Budget</div>
     </div>
@@ -753,6 +783,201 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     <div class="section-title">Packing Checklist</div>
     <div class="mini-progress" id="packingProgress">0 / 0 checked off</div>
     <div id="packing-container"></div>
+  </div>
+
+  <!-- ============ FOOD & PHRASES ============ -->
+  <div class="panel" id="panel-food">
+    <div class="section-title">Food & Thai Phrases</div>
+    <div class="section-desc">What to eat, what to watch for, and how to say it — built around no pork, no beef, chicken/veg/seafood OK</div>
+
+    <div class="diet-banner">
+      <div class="diet-banner-title">🗣️ Say this at any restaurant</div>
+      <div class="diet-phrase-big">"Mai ao neua moo, mai ao neua wua, ao gai dai"</div>
+      <div class="diet-phrase-thai">ไม่เอาเนื้อหมู ไม่เอาเนื้อวัว เอาไก่ได้</div>
+      <div class="diet-phrase-meaning">"No pork, no beef — chicken is fine." Polite, direct, and covers both restrictions in one line. Add "ka" (female speaker) or "khrap" (male speaker) at the end for politeness.</div>
+    </div>
+
+    <div class="check-group-title">✅ Chicken/veg/seafood dishes worth trying</div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Khao Man Gai</div>
+        <div class="food-dish-thai">ข้าวมันไก่ — Hainanese poached chicken rice</div>
+        <div class="food-dish-desc">Simple, comforting, safe default anywhere — rice cooked in chicken fat, sliced poached chicken, ginger-soy dip</div>
+      </div>
+      <span class="food-safe-badge safe">Safe</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Khao Mok Gai</div>
+        <div class="food-dish-thai">ข้าวหมกไก่ — Thai-style chicken biryani</div>
+        <div class="food-dish-desc">Thai-Muslim dish, genuinely close to Indian flavors — aromatic yellow rice, tender braised chicken, cucumber relish. Best found in Bangkok's Soi Arab or Phuket's Muslim quarter (near Old Phuket Town)</div>
+      </div>
+      <span class="food-safe-badge safe">Safe</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Pad Krapow Gai</div>
+        <div class="food-dish-thai">ผัดกะเพราไก่ — Stir-fried chicken with holy basil</div>
+        <div class="food-dish-desc">Thailand's most iconic everyday dish. Order specifically "Gai" — the default at most stalls is Moo (pork) unless you specify</div>
+      </div>
+      <span class="food-safe-badge safe">Safe (specify Gai)</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Tom Kha Gai</div>
+        <div class="food-dish-thai">ต้มข่าไก่ — Chicken coconut galangal soup</div>
+        <div class="food-dish-desc">Creamy, mild, aromatic — a gentler alternative to Tom Yum if you want less heat</div>
+      </div>
+      <span class="food-safe-badge safe">Safe</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Gaeng Keow Wan Gai</div>
+        <div class="food-dish-thai">แกงเขียวหวานไก่ — Green curry with chicken</div>
+        <div class="food-dish-desc">Classic, widely available, order "Gai" specifically since Neua (beef) is a common alternative on menus</div>
+      </div>
+      <span class="food-safe-badge safe">Safe (specify Gai)</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Massaman Gai</div>
+        <div class="food-dish-thai">มัสมั่นไก่ — Massaman chicken curry</div>
+        <div class="food-dish-desc">Muslim-influenced curry, cardamom/cinnamon/peanuts — very close to Indian curry flavor profiles</div>
+      </div>
+      <span class="food-safe-badge safe">Safe</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Gai Satay</div>
+        <div class="food-dish-thai">สะเต๊ะไก่ — Chicken skewers with peanut sauce</div>
+        <div class="food-dish-desc">Street food staple, widely available at night markets. Beef and pork satay are sold alongside — check the skewer label or ask for "Gai" specifically</div>
+      </div>
+      <span class="food-safe-badge safe">Safe (specify Gai)</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Som Tam</div>
+        <div class="food-dish-thai">ส้มตำ — Green papaya salad</div>
+        <div class="food-dish-desc">Vegetable-based, spicy/sour/sweet. Contains fish sauce and shrimp paste by default (fine given no seafood restriction) — ask for "Mai sai poo" if you want to skip the fermented crab some versions include</div>
+      </div>
+      <span class="food-safe-badge safe">Safe</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Thai Fried Chicken</div>
+        <div class="food-dish-thai">ไก่ทอด — Gai Tod</div>
+        <div class="food-dish-desc">Crispy, well-seasoned (soy, cumin, garlic, cilantro root) — common at night markets, ~฿60 for a large piece with sticky rice</div>
+      </div>
+      <span class="food-safe-badge safe">Safe</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Mango Sticky Rice</div>
+        <div class="food-dish-thai">ข้าวเหนียวมะม่วง — Khao Niao Mamuang</div>
+        <div class="food-dish-desc">The dessert to get everywhere — sweet sticky rice, coconut milk, fresh mango. Zero dietary concerns</div>
+      </div>
+      <span class="food-safe-badge safe">Safe</span>
+    </div>
+
+    <div class="check-group-title" style="margin-top:16px;">⚠️ Watch out — these default to pork/beef unless you specify</div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Moo Ping</div>
+        <div class="food-dish-thai">หมูปิ้ง — Grilled pork skewers</div>
+        <div class="food-dish-desc">Extremely common street breakfast. Ask for "Gai Ping" (grilled chicken) instead — same preparation, different meat</div>
+      </div>
+      <span class="food-safe-badge watch">Default: Pork</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Boat Noodles</div>
+        <div class="food-dish-thai">ก๋วยเตี๋ยวเรือ — Kuay Teow Reua</div>
+        <div class="food-dish-desc">Traditionally pork or beef-based broth. Some stalls offer a chicken version — ask "Mee gai mai" (do you have chicken) before ordering</div>
+      </div>
+      <span class="food-safe-badge watch">Default: Pork/Beef</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Khao Kha Moo</div>
+        <div class="food-dish-thai">ข้าวขาหมู — Braised pork leg rice</div>
+        <div class="food-dish-desc">A well-loved comfort dish, but pork by name and definition — no chicken substitute exists for this one, best to skip entirely</div>
+      </div>
+      <span class="food-safe-badge watch">Pork only — skip</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Larb Moo</div>
+        <div class="food-dish-thai">ลาบหมู — Spicy minced pork salad</div>
+        <div class="food-dish-desc">Ask for "Larb Gai" instead — same dish, minced chicken version, equally common on menus</div>
+      </div>
+      <span class="food-safe-badge watch">Default: Pork</span>
+    </div>
+
+    <div class="food-dish-card">
+      <div style="flex:1;">
+        <div class="food-dish-name">Pad See Ew / Pad Thai</div>
+        <div class="food-dish-thai">ผัดซีอิ๊ว / ผัดไทย</div>
+        <div class="food-dish-desc">Usually protein-flexible (chicken, shrimp, or pork) — just confirm "Gai" or "Goong" (shrimp) when ordering, don't assume</div>
+      </div>
+      <span class="food-safe-badge watch">Confirm protein</span>
+    </div>
+
+    <div class="note-strip">
+      General rule: <b>"Moo"</b> = pork, <b>"Neua"</b> = beef, <b>"Gai"</b> = chicken, <b>"Talay"</b> = seafood, <b>"Goong"</b> = shrimp, <b>"Pla"</b> = fish. If a dish name doesn't specify, the default at most stalls is pork — always confirm.
+    </div>
+
+    <div class="check-group-title" style="margin-top:18px;">👋 Greetings</div>
+    <table class="phrase-table">
+      <tr><th>Thai (say it like)</th><th>Meaning</th></tr>
+      <tr><td class="phrase-thai-col">Sawasdee ka/khrap</td><td>Hello (ka = female speaker, khrap = male speaker)</td></tr>
+      <tr><td class="phrase-thai-col">Khob khun ka/khrap</td><td>Thank you</td></tr>
+      <tr><td class="phrase-thai-col">Sabai dee mai</td><td>How are you?</td></tr>
+      <tr><td class="phrase-thai-col">Chai / Mai chai</td><td>Yes / No</td></tr>
+      <tr><td class="phrase-thai-col">Kor thot</td><td>Sorry / Excuse me</td></tr>
+      <tr><td class="phrase-thai-col">Mai pen rai</td><td>No worries / It's fine (very commonly used)</td></tr>
+    </table>
+
+    <div class="check-group-title">🛍️ Shopping (useful for Chatuchak, MBK)</div>
+    <table class="phrase-table">
+      <tr><th>Thai (say it like)</th><th>Meaning</th></tr>
+      <tr><td class="phrase-thai-col">Tao rai / Rakha tao rai</td><td>How much? / What's the price?</td></tr>
+      <tr><td class="phrase-thai-col">Lot dai mai</td><td>Can you give a discount?</td></tr>
+      <tr><td class="phrase-thai-col">Phaeng pai</td><td>Too expensive</td></tr>
+      <tr><td class="phrase-thai-col">Ao an nee</td><td>I'll take this one</td></tr>
+      <tr><td class="phrase-thai-col">Mai ao, khob khun</td><td>No thank you (polite decline)</td></tr>
+      <tr><td class="phrase-thai-col">Mee see uen mai</td><td>Do you have another color?</td></tr>
+    </table>
+
+    <div class="check-group-title">🍽️ Ordering & dietary</div>
+    <table class="phrase-table">
+      <tr><th>Thai (say it like)</th><th>Meaning</th></tr>
+      <tr><td class="phrase-thai-col">Mai ao neua moo</td><td>No pork</td></tr>
+      <tr><td class="phrase-thai-col">Mai ao neua wua</td><td>No beef</td></tr>
+      <tr><td class="phrase-thai-col">Ao gai / Kor gai</td><td>Chicken please / I want chicken</td></tr>
+      <tr><td class="phrase-thai-col">Mai sai [ingredient]</td><td>Don't add [ingredient] — e.g. "Mai sai prik" = no chili</td></tr>
+      <tr><td class="phrase-thai-col">Mai ped</td><td>Not spicy</td></tr>
+      <tr><td class="phrase-thai-col">Ped nid noi</td><td>A little spicy</td></tr>
+      <tr><td class="phrase-thai-col">Aroy mak</td><td>Very delicious (great to say to a cook/vendor)</td></tr>
+      <tr><td class="phrase-thai-col">Kep tang, kha/khrap</td><td>Check please / Bill please</td></tr>
+    </table>
+
+    <div class="note-strip">
+      One phrase covers most situations: <b>"Mai ao neua moo, mai ao neua wua, ao gai dai"</b> — say it early when ordering, before the dish is prepared, not after.
+    </div>
   </div>
 
   <!-- ============ EXPENSES ============ -->

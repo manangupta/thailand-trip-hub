@@ -360,6 +360,19 @@ body.dark .food-safe-badge.watch { background: #3a2a1f; color: #e0916e; }
 body.dark .phrase-table tr:nth-child(even) td { background: #262b2e; }
 body.dark .phrase-table td { border-color: #333; color: #c5c8ca; }
 body.dark .phrase-thai-col { color: #4CAF93; }
+.phrase-script { font-family: 'Noto Sans Thai', sans-serif; font-size: 13px; color: #444; }
+body.dark .phrase-script { color: #c5c8ca; }
+.speak-btn {
+  background: #0F6E56; color: white; border: none; border-radius: 6px;
+  padding: 4px 9px; font-size: 13px; cursor: pointer; white-space: nowrap;
+}
+.speak-btn:hover { background: #0c5a46; }
+.speak-btn:active { transform: scale(0.95); }
+.speak-btn.speaking { background: #D85A30; }
+.speak-btn-big { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); padding: 8px 16px; font-size: 13px; font-weight: 700; }
+.speak-btn-big:hover { background: rgba(255,255,255,0.3); }
+.tts-warning { font-size: 11px; color: #b5451f; background: #FFF0EC; padding: 6px 9px; border-radius: 5px; margin-top: 8px; display: none; }
+.tts-warning.show { display: block; }
 body.dark .budget-cat-card { background: #1e2427; border-color: #333; }
 body.dark .budget-cat-name { color: #e8eaeb; }
 body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; border-color: #444; }
@@ -789,12 +802,14 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
   <div class="panel" id="panel-food">
     <div class="section-title">Food & Thai Phrases</div>
     <div class="section-desc">What to eat, what to watch for, and how to say it — built around no pork, no beef, chicken/veg/seafood OK</div>
+    <div class="tts-warning" id="ttsWarning">⚠️ No Thai voice found on this device/browser. The 🔊 buttons will still try to speak, but may sound off or fall back to a default voice. This is a device limitation, not a bug — try Chrome on Android or Safari on iPhone for the best Thai voice support.</div>
 
     <div class="diet-banner">
       <div class="diet-banner-title">🗣️ Say this at any restaurant</div>
       <div class="diet-phrase-big">"Mai ao neua moo, mai ao neua wua, ao gai dai"</div>
       <div class="diet-phrase-thai">ไม่เอาเนื้อหมู ไม่เอาเนื้อวัว เอาไก่ได้</div>
       <div class="diet-phrase-meaning">"No pork, no beef — chicken is fine." Polite, direct, and covers both restrictions in one line. Add "ka" (female speaker) or "khrap" (male speaker) at the end for politeness.</div>
+      <button class="speak-btn speak-btn-big" data-thai="ไม่เอาเนื้อหมู ไม่เอาเนื้อวัว เอาไก่ได้ค่ะ" style="margin-top:10px;">🔊 Play audio</button>
     </div>
 
     <div class="check-group-title">✅ Chicken/veg/seafood dishes worth trying</div>
@@ -942,41 +957,42 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
 
     <div class="check-group-title" style="margin-top:18px;">👋 Greetings</div>
     <table class="phrase-table">
-      <tr><th>Thai (say it like)</th><th>Meaning</th></tr>
-      <tr><td class="phrase-thai-col">Sawasdee ka/khrap</td><td>Hello (ka = female speaker, khrap = male speaker)</td></tr>
-      <tr><td class="phrase-thai-col">Khob khun ka/khrap</td><td>Thank you</td></tr>
-      <tr><td class="phrase-thai-col">Sabai dee mai</td><td>How are you?</td></tr>
-      <tr><td class="phrase-thai-col">Chai / Mai chai</td><td>Yes / No</td></tr>
-      <tr><td class="phrase-thai-col">Kor thot</td><td>Sorry / Excuse me</td></tr>
-      <tr><td class="phrase-thai-col">Mai pen rai</td><td>No worries / It's fine (very commonly used)</td></tr>
+      <tr><th>Romanized</th><th>Thai script</th><th>Meaning</th><th></th></tr>
+      <tr><td class="phrase-thai-col">Sawasdee ka/khrap</td><td class="phrase-script">สวัสดีค่ะ/ครับ</td><td>Hello (ka = female speaker, khrap = male speaker)</td><td><button class="speak-btn" data-thai="สวัสดีค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Khob khun ka/khrap</td><td class="phrase-script">ขอบคุณค่ะ/ครับ</td><td>Thank you</td><td><button class="speak-btn" data-thai="ขอบคุณค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Sabai dee mai</td><td class="phrase-script">สบายดีไหม</td><td>How are you?</td><td><button class="speak-btn" data-thai="สบายดีไหม">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Chai / Mai chai</td><td class="phrase-script">ใช่ / ไม่ใช่</td><td>Yes / No</td><td><button class="speak-btn" data-thai="ใช่ ไม่ใช่">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Kor thot</td><td class="phrase-script">ขอโทษ</td><td>Sorry / Excuse me</td><td><button class="speak-btn" data-thai="ขอโทษค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Mai pen rai</td><td class="phrase-script">ไม่เป็นไร</td><td>No worries / It's fine (very commonly used)</td><td><button class="speak-btn" data-thai="ไม่เป็นไร">🔊</button></td></tr>
     </table>
 
     <div class="check-group-title">🛍️ Shopping (useful for Chatuchak, MBK)</div>
     <table class="phrase-table">
-      <tr><th>Thai (say it like)</th><th>Meaning</th></tr>
-      <tr><td class="phrase-thai-col">Tao rai / Rakha tao rai</td><td>How much? / What's the price?</td></tr>
-      <tr><td class="phrase-thai-col">Lot dai mai</td><td>Can you give a discount?</td></tr>
-      <tr><td class="phrase-thai-col">Phaeng pai</td><td>Too expensive</td></tr>
-      <tr><td class="phrase-thai-col">Ao an nee</td><td>I'll take this one</td></tr>
-      <tr><td class="phrase-thai-col">Mai ao, khob khun</td><td>No thank you (polite decline)</td></tr>
-      <tr><td class="phrase-thai-col">Mee see uen mai</td><td>Do you have another color?</td></tr>
+      <tr><th>Romanized</th><th>Thai script</th><th>Meaning</th><th></th></tr>
+      <tr><td class="phrase-thai-col">Tao rai</td><td class="phrase-script">เท่าไหร่</td><td>How much? / What's the price?</td><td><button class="speak-btn" data-thai="เท่าไหร่คะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Lot dai mai</td><td class="phrase-script">ลดได้ไหม</td><td>Can you give a discount?</td><td><button class="speak-btn" data-thai="ลดได้ไหมคะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Phaeng pai</td><td class="phrase-script">แพงไป</td><td>Too expensive</td><td><button class="speak-btn" data-thai="แพงไปค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Ao an nee</td><td class="phrase-script">เอาอันนี้</td><td>I'll take this one</td><td><button class="speak-btn" data-thai="เอาอันนี้ค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Mai ao, khob khun</td><td class="phrase-script">ไม่เอา ขอบคุณ</td><td>No thank you (polite decline)</td><td><button class="speak-btn" data-thai="ไม่เอา ขอบคุณค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Mee see uen mai</td><td class="phrase-script">มีสีอื่นไหม</td><td>Do you have another color?</td><td><button class="speak-btn" data-thai="มีสีอื่นไหมคะ">🔊</button></td></tr>
     </table>
 
     <div class="check-group-title">🍽️ Ordering & dietary</div>
     <table class="phrase-table">
-      <tr><th>Thai (say it like)</th><th>Meaning</th></tr>
-      <tr><td class="phrase-thai-col">Mai ao neua moo</td><td>No pork</td></tr>
-      <tr><td class="phrase-thai-col">Mai ao neua wua</td><td>No beef</td></tr>
-      <tr><td class="phrase-thai-col">Ao gai / Kor gai</td><td>Chicken please / I want chicken</td></tr>
-      <tr><td class="phrase-thai-col">Mai sai [ingredient]</td><td>Don't add [ingredient] — e.g. "Mai sai prik" = no chili</td></tr>
-      <tr><td class="phrase-thai-col">Mai ped</td><td>Not spicy</td></tr>
-      <tr><td class="phrase-thai-col">Ped nid noi</td><td>A little spicy</td></tr>
-      <tr><td class="phrase-thai-col">Aroy mak</td><td>Very delicious (great to say to a cook/vendor)</td></tr>
-      <tr><td class="phrase-thai-col">Kep tang, kha/khrap</td><td>Check please / Bill please</td></tr>
+      <tr><th>Romanized</th><th>Thai script</th><th>Meaning</th><th></th></tr>
+      <tr><td class="phrase-thai-col">Mai ao neua moo</td><td class="phrase-script">ไม่เอาเนื้อหมู</td><td>No pork</td><td><button class="speak-btn" data-thai="ไม่เอาเนื้อหมูค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Mai ao neua wua</td><td class="phrase-script">ไม่เอาเนื้อวัว</td><td>No beef</td><td><button class="speak-btn" data-thai="ไม่เอาเนื้อวัวค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Ao gai / Kor gai</td><td class="phrase-script">เอาไก่ / ขอไก่</td><td>Chicken please / I want chicken</td><td><button class="speak-btn" data-thai="เอาไก่ค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Mai sai [ingredient]</td><td class="phrase-script">ไม่ใส่...</td><td>Don't add [ingredient] — e.g. "Mai sai prik" = no chili</td><td><button class="speak-btn" data-thai="ไม่ใส่พริกค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Mai ped</td><td class="phrase-script">ไม่เผ็ด</td><td>Not spicy</td><td><button class="speak-btn" data-thai="ไม่เผ็ดค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Ped nid noi</td><td class="phrase-script">เผ็ดนิดหน่อย</td><td>A little spicy</td><td><button class="speak-btn" data-thai="เผ็ดนิดหน่อยค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Aroy mak</td><td class="phrase-script">อร่อยมาก</td><td>Very delicious (great to say to a cook/vendor)</td><td><button class="speak-btn" data-thai="อร่อยมากค่ะ">🔊</button></td></tr>
+      <tr><td class="phrase-thai-col">Kep tang</td><td class="phrase-script">เก็บเงินด้วยค่ะ</td><td>Check please / Bill please</td><td><button class="speak-btn" data-thai="เก็บเงินด้วยค่ะ">🔊</button></td></tr>
     </table>
 
     <div class="note-strip">
-      One phrase covers most situations: <b>"Mai ao neua moo, mai ao neua wua, ao gai dai"</b> — say it early when ordering, before the dish is prepared, not after.
+      One phrase covers most situations: <b>"Mai ao neua moo, mai ao neua wua, ao gai dai"</b> — say it early when ordering, before the dish is prepared, not after. Tap 🔊 next to any phrase to hear it spoken — uses your device's built-in Thai voice (works offline once the page has loaded, but needs a Thai voice installed on your phone/browser).</div>
+
     </div>
   </div>
 
@@ -1111,6 +1127,46 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
 
   shopInput.addEventListener('input', updateBudgetTotal);
   updateBudgetTotal();
+})();
+
+/* ============ TEXT-TO-SPEECH (Thai phrases) ============ */
+(function() {
+  if (!('speechSynthesis' in window)) return; // silently no-op if unsupported
+
+  let thaiVoice = null;
+
+  function findThaiVoice() {
+    const voices = window.speechSynthesis.getVoices();
+    thaiVoice = voices.find(v => v.lang === 'th-TH') || voices.find(v => v.lang && v.lang.startsWith('th')) || null;
+    const warning = document.getElementById('ttsWarning');
+    if (warning) warning.classList.toggle('show', !thaiVoice && voices.length > 0);
+  }
+
+  findThaiVoice();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = findThaiVoice;
+  }
+
+  function speak(text, btn) {
+    window.speechSynthesis.cancel(); // stop anything currently playing
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'th-TH';
+    if (thaiVoice) utter.voice = thaiVoice;
+    utter.rate = 0.85; // slightly slower, easier to catch
+    if (btn) {
+      btn.classList.add('speaking');
+      utter.onend = () => btn.classList.remove('speaking');
+      utter.onerror = () => btn.classList.remove('speaking');
+    }
+    window.speechSynthesis.speak(utter);
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.speak-btn');
+    if (!btn) return;
+    const text = btn.getAttribute('data-thai');
+    if (text) speak(text, btn);
+  });
 })();
 
 /* ============ AUTH GATE ============ */

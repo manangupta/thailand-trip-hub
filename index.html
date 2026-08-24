@@ -1022,9 +1022,9 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     <div class="mini-progress" id="foodlistProgress">0 / 0 checked off</div>
     <div id="foodlist-container"></div>
     <div class="note-strip" style="margin-top:12px;">
-      Some iconic dishes (Jay Fai's crab omelette, Phuket's Mee Hokkien/Moo Hong) are traditionally
-      pork or seafood-forward by default — flagged clearly below rather than left out, so you know
-      exactly what to ask for or skip.
+      Pork and crab dishes are excluded entirely from this list — everything below is genuinely
+      chicken, egg, or plant-based. Fish/seafood items (like tuna onigiri) are flagged separately
+      since that wasn't explicitly ruled out.
     </div>
   </div>
 
@@ -1615,17 +1615,13 @@ buildPlacesChecklist('foodlist-container', 'thailand-foodlist-v1', {
     { name: "Chicken Satay (Gai Satay)", cost: "~฿10–15 per skewer", booking: "Night markets — specify Gai, beef/pork satay sold alongside", walkup: true, priority: 3 },
     { name: "Massaman Gai (Massaman chicken curry)", cost: "~฿80–150pp", booking: "Widely available — cardamom/cinnamon/peanuts, close to Indian curry profiles", walkup: true, priority: 3 },
     { name: "Thai Fried Chicken (Gai Tod) with sticky rice", cost: "~฿60 for a large piece", booking: "Night markets — crispy, soy/garlic/cumin seasoned", walkup: true, priority: 3 },
-    { name: "Kai Jeaw Poo (crab omelette) — Raan Jay Fai", cost: "~฿800–1,200", booking: "⚠️ Contains crab, not pure chicken/egg. Michelin star, Netflix Street Food famous. Arrive 7 AM+ or expect hours-long queue", walkup: false, priority: 0 },
-    { name: "Kai Jeaw Poo (crab omelette) — Nhong Rim Klong (alternative)", cost: "~฿400–600", booking: "⚠️ Contains crab. Michelin Bib Gourmand, same dish as Jay Fai without the queue", walkup: true, priority: 0 },
+    { name: "Kai Jeaw (plain egg omelette)", cost: "~฿40–80", booking: "Anywhere — simple, safe, fully egg-based", walkup: true, priority: 3 },
     { name: "Mango Sticky Rice", cost: "~฿60–100pp", booking: "Anywhere — dessert, fully safe", walkup: true, priority: 3 },
   ],
   "Phuket — chicken/egg dishes & restaurants": [
     { name: "Chicken Rice — Kota Khao Mun Kai", cost: "~฿50–80pp", booking: "Phuket Town — the local favorite, 20+ years running, 'best Hainan chicken rice anywhere' per locals", walkup: true, priority: 1 },
     { name: "Chicken Massaman Curry + roti — Aroon Po Chana", cost: "~฿60–100pp", booking: "Phuket Old Town — Muslim restaurant, famous for rotis, chicken massaman genuinely close to Indian flavors", walkup: true, priority: 1 },
     { name: "O-Aew (shaved ice, fruit jelly, red beans, syrup)", cost: "~฿30–50", booking: "Old Town street stalls — the most distinctly Phuket dessert, fully safe, no meat", walkup: true, priority: 2 },
-    { name: "Mee Hokkien (Hokkien noodles) — ask for chicken/egg only version", cost: "~฿50–100pp", booking: "⚠️ Traditionally made with pork + seafood by default (Lock Tien, Ko Yoon, Mee Ton Poe all serve the classic mixed version) — ask explicitly if a chicken-only version exists before ordering", walkup: true, priority: 0 },
-    { name: "Moo Hong (braised pork belly) — Raya Restaurant", cost: "~฿150–250", booking: "⚠️ Pure pork dish, no chicken/egg alternative exists — skip entirely", walkup: true, priority: 0 },
-    { name: "Loba (deep-fried pork platter)", cost: "~฿100–200", booking: "⚠️ Pork dish — skip entirely", walkup: true, priority: 0 },
     { name: "Kanta Phuket — Modern Peranakan (check menu for chicken options)", cost: "~฿200–500pp", booking: "The Memory at On On Hotel, Phang Nga Road — upscale, ask staff for chicken/egg-safe dishes specifically", walkup: false, priority: 3 },
   ],
   "7-Eleven bucket list — chicken/egg-safe": [
@@ -1634,8 +1630,6 @@ buildPlacesChecklist('foodlist-container', 'thailand-foodlist-v1', {
     { name: "Chicken Katsu Toastie/Onigiri", cost: "~฿25–45", booking: "Check the label — 'Katsu Gai' specifically, not katsu pork", walkup: true, priority: 2 },
     { name: "Egg tart / Pineapple pie / Lava cake", cost: "~฿20–35", booking: "Dessert counter — all fully safe, no meat", walkup: true, priority: 3 },
     { name: "Meiji Banana/Strawberry/Chocolate Milk + ice", cost: "~฿20–25", booking: "Fridge section — a genuine TikTok-famous combo, fully safe", walkup: true, priority: 3 },
-    { name: "Ham & Cheese / Bolognese / Pork Chop Toastie", cost: "~฿25–35", booking: "⚠️ Ham = pork, Bolognese = usually beef, Pork Chop = obviously pork — skip all three", walkup: true, priority: 0 },
-    { name: "Sticky rice 'burger' with Moo Ping or Kaprao Pork filling", cost: "~฿35–45", booking: "⚠️ Both fillings are pork by default — skip unless a chicken version is confirmed", walkup: true, priority: 0 },
     { name: "Tuna Mayo / Salmon Onigiri", cost: "~฿25–35", booking: "Contains fish, not chicken/egg — optional if you're fine with seafood, otherwise skip", walkup: true, priority: 0 },
   ]
 }, 'foodlistProgress');

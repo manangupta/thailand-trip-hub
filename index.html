@@ -426,6 +426,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       <div class="tab" data-panel="prep">Pre-Flight Prep</div>
       <div class="tab" data-panel="packing">Packing</div>
       <div class="tab" data-panel="food">🍜 Food & Phrases</div>
+      <div class="tab" data-panel="foodlist">🍴 Food Bucket List</div>
       <div class="tab" data-panel="expenses">💰 Expenses</div>
       <div class="tab" data-panel="budget">🧾 Expected Budget</div>
     </div>
@@ -1014,6 +1015,19 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     </div>
   </div>
 
+  <!-- ============ FOOD BUCKET LIST ============ -->
+  <div class="panel" id="panel-foodlist">
+    <div class="section-title">Food Bucket List</div>
+    <div class="section-desc">Real, named restaurants and dishes to cover — filtered for chicken/egg only, no pork, no beef. Check off as you go.</div>
+    <div class="mini-progress" id="foodlistProgress">0 / 0 checked off</div>
+    <div id="foodlist-container"></div>
+    <div class="note-strip" style="margin-top:12px;">
+      Some iconic dishes (Jay Fai's crab omelette, Phuket's Mee Hokkien/Moo Hong) are traditionally
+      pork or seafood-forward by default — flagged clearly below rather than left out, so you know
+      exactly what to ask for or skip.
+    </div>
+  </div>
+
   <!-- ============ EXPENSES ============ -->
   <div class="panel" id="panel-expenses">
     <div class="section-title">Trip Expense Tracker</div>
@@ -1323,7 +1337,7 @@ const days = [
     items: [
       ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS. No rush to leave early now that MBK isn't later today", "Free entry, shopping variable", "BTS to Mo Chit — direct from Sukhumvit hotels, ~30–40min"],
       ["4:30 PM","Mahanakhon Skywalk","Thailand's tallest observation deck (314m), glass floor at 310m, 74th/78th floor. Sunset ticket window 4–6:30 PM — book online for a discount", "~฿1,200pp sunset (~฿880pp daytime, ฿2,400 for 2 at sunset)", "BTS Mo Chit → Siam (interchange) → Chong Nonsi (Silom line), ~35–40min total"],
-      ["7:00 PM","Vertigo & Moon Bar (Banyan Tree)","Smart casual, book table in advance. Sathorn — same Silom BTS line as Mahanakhon, few stops down (Sala Daeng)", "~฿400–600 per cocktail", "BTS Chong Nonsi → Sala Daeng, same Silom line, ~5–10min"],
+      ["7:00 PM","Sky Bar / Sirocco (Lebua State Tower)","Vertigo & Moon Bar is CLOSED for renovation (16 June–30 Nov 2026), swapped for this instead. Sky Bar itself is walk-in only, no reservation possible or needed. If you want to sit down for dinner, Sirocco takes reservations. Saphan Taksin BTS, ~7min walk", "Sky Bar: drinks only, no cover · Sirocco: dinner from ~฿3,000pp+", "BTS Chong Nonsi → Saphan Taksin (change at Sala Daeng/Si Lom), ~20–25min total"],
       ["9:00 PM","Asiatique The Riverfront (energy-permitting)","Riverside night market, food, shopping. Open till ~midnight, so no hard deadline — skip without guilt if the day's already been long", "Free entry, ~฿300–800pp dinner", "BTS Sala Daeng → Saphan Taksin (Silom line, end of the line) + free shuttle boat, ~20–25min total"],
     ]},
   { title: "DAY 4 · Mon 31 Aug", sub: "Seacon Bangkae day — water park + Space & Time Cube", birthday:false, note:"Muay Thai / Rajadamnern Stadium dropped — too costly for the value. Amphawa marked optional — the ~฿2,000 Grab return on top of the ~฿1,000–1,200pp tour made it poor value for what it offers. Swapped in Harbor Island, the largest rooftop water park in ASEAN, which happens to be in the exact same mall as Space & Time Cube — zero extra travel, much more exciting, better value.",
@@ -1561,7 +1575,7 @@ buildPlacesChecklist('places-container', 'thailand-places-v2', {
     { name: "Harbor Island Water Park", cost: "From ฿380pp", booking: "Book online for discount", walkup: false, priority: 2 },
     { name: "Mahanakhon Skywalk", cost: "~฿1,200pp sunset", booking: "Book ahead — sunset slots sell out", walkup: false, priority: 1 },
     { name: "Akara Sky Hanuman", cost: "~฿500–1,500pp", booking: "Book ahead", walkup: false, priority: 2 },
-    { name: "Vertigo & Moon Bar (Banyan Tree)", cost: "~฿400–600 per cocktail", booking: "Table reservation required", walkup: false, priority: 1 },
+    { name: "Sky Bar / Sirocco (Lebua State Tower) — replaced Vertigo, which is closed till Nov 2026", cost: "Sky Bar: drinks only · Sirocco: ~฿3,000pp+", booking: "Sky Bar walk-in only, no reservations taken · Sirocco: call +66 2 624 9999 or WhatsApp", walkup: true, priority: 2 },
     { name: "Chao Phraya Dinner Cruise", cost: "~฿2,500–3,500pp", booking: "Book 2 days ahead", walkup: false, priority: 1 },
     { name: "Yaowarat (Chinatown)", cost: "Free · ~฿200–400pp food", booking: "Walk-up OK", walkup: true, priority: 3 },
     { name: "Thai spa (couples)", cost: "~฿1,500pp", booking: "Book 1 day ahead", walkup: false, priority: 2 },
@@ -1593,6 +1607,39 @@ buildPlacesChecklist('places-container', 'thailand-places-v2', {
   ]
 }, 'placesProgress');
 
+buildPlacesChecklist('foodlist-container', 'thailand-foodlist-v1', {
+  "Bangkok — chicken/egg dishes & restaurants": [
+    { name: "Khao Man Gai (Hainanese chicken rice) — Go-Ang Kaomunkai Pratunam", cost: "~฿40–60pp", booking: "Poonam Market, Pratunam — 5min walk from Baiyoke Sky, your birthday hotel. Michelin Bib Gourmand, 40+ years running", walkup: true, priority: 1 },
+    { name: "Pad Krapow Gai (basil chicken) — order 'Gai' specifically", cost: "~฿50–150pp", booking: "Available everywhere — default at most stalls is Moo (pork) unless you say Gai", walkup: true, priority: 2 },
+    { name: "Khao Mok Gai (Thai chicken biryani)", cost: "~฿50–100pp", booking: "Soi Arab area — Muslim-influenced, genuinely close to Indian flavors", walkup: true, priority: 2 },
+    { name: "Chicken Satay (Gai Satay)", cost: "~฿10–15 per skewer", booking: "Night markets — specify Gai, beef/pork satay sold alongside", walkup: true, priority: 3 },
+    { name: "Massaman Gai (Massaman chicken curry)", cost: "~฿80–150pp", booking: "Widely available — cardamom/cinnamon/peanuts, close to Indian curry profiles", walkup: true, priority: 3 },
+    { name: "Thai Fried Chicken (Gai Tod) with sticky rice", cost: "~฿60 for a large piece", booking: "Night markets — crispy, soy/garlic/cumin seasoned", walkup: true, priority: 3 },
+    { name: "Kai Jeaw Poo (crab omelette) — Raan Jay Fai", cost: "~฿800–1,200", booking: "⚠️ Contains crab, not pure chicken/egg. Michelin star, Netflix Street Food famous. Arrive 7 AM+ or expect hours-long queue", walkup: false, priority: 0 },
+    { name: "Kai Jeaw Poo (crab omelette) — Nhong Rim Klong (alternative)", cost: "~฿400–600", booking: "⚠️ Contains crab. Michelin Bib Gourmand, same dish as Jay Fai without the queue", walkup: true, priority: 0 },
+    { name: "Mango Sticky Rice", cost: "~฿60–100pp", booking: "Anywhere — dessert, fully safe", walkup: true, priority: 3 },
+  ],
+  "Phuket — chicken/egg dishes & restaurants": [
+    { name: "Chicken Rice — Kota Khao Mun Kai", cost: "~฿50–80pp", booking: "Phuket Town — the local favorite, 20+ years running, 'best Hainan chicken rice anywhere' per locals", walkup: true, priority: 1 },
+    { name: "Chicken Massaman Curry + roti — Aroon Po Chana", cost: "~฿60–100pp", booking: "Phuket Old Town — Muslim restaurant, famous for rotis, chicken massaman genuinely close to Indian flavors", walkup: true, priority: 1 },
+    { name: "O-Aew (shaved ice, fruit jelly, red beans, syrup)", cost: "~฿30–50", booking: "Old Town street stalls — the most distinctly Phuket dessert, fully safe, no meat", walkup: true, priority: 2 },
+    { name: "Mee Hokkien (Hokkien noodles) — ask for chicken/egg only version", cost: "~฿50–100pp", booking: "⚠️ Traditionally made with pork + seafood by default (Lock Tien, Ko Yoon, Mee Ton Poe all serve the classic mixed version) — ask explicitly if a chicken-only version exists before ordering", walkup: true, priority: 0 },
+    { name: "Moo Hong (braised pork belly) — Raya Restaurant", cost: "~฿150–250", booking: "⚠️ Pure pork dish, no chicken/egg alternative exists — skip entirely", walkup: true, priority: 0 },
+    { name: "Loba (deep-fried pork platter)", cost: "~฿100–200", booking: "⚠️ Pork dish — skip entirely", walkup: true, priority: 0 },
+    { name: "Kanta Phuket — Modern Peranakan (check menu for chicken options)", cost: "~฿200–500pp", booking: "The Memory at On On Hotel, Phang Nga Road — upscale, ask staff for chicken/egg-safe dishes specifically", walkup: false, priority: 3 },
+  ],
+  "7-Eleven bucket list — chicken/egg-safe": [
+    { name: "Basil Fried Rice with Chicken (Pad Kaprao Gai)", cost: "~฿45", booking: "Ready-meal counter — genuine Thai classic, safe and cheap", walkup: true, priority: 2 },
+    { name: "Original Cheese Toastie", cost: "~฿25–35", booking: "Toasted at the counter fresh — the most iconic 7-Eleven item, fully safe", walkup: true, priority: 1 },
+    { name: "Chicken Katsu Toastie/Onigiri", cost: "~฿25–45", booking: "Check the label — 'Katsu Gai' specifically, not katsu pork", walkup: true, priority: 2 },
+    { name: "Egg tart / Pineapple pie / Lava cake", cost: "~฿20–35", booking: "Dessert counter — all fully safe, no meat", walkup: true, priority: 3 },
+    { name: "Meiji Banana/Strawberry/Chocolate Milk + ice", cost: "~฿20–25", booking: "Fridge section — a genuine TikTok-famous combo, fully safe", walkup: true, priority: 3 },
+    { name: "Ham & Cheese / Bolognese / Pork Chop Toastie", cost: "~฿25–35", booking: "⚠️ Ham = pork, Bolognese = usually beef, Pork Chop = obviously pork — skip all three", walkup: true, priority: 0 },
+    { name: "Sticky rice 'burger' with Moo Ping or Kaprao Pork filling", cost: "~฿35–45", booking: "⚠️ Both fillings are pork by default — skip unless a chicken version is confirmed", walkup: true, priority: 0 },
+    { name: "Tuna Mayo / Salmon Onigiri", cost: "~฿25–35", booking: "Contains fish, not chicken/egg — optional if you're fine with seafood, otherwise skip", walkup: true, priority: 0 },
+  ]
+}, 'foodlistProgress');
+
 /* ---- Booking Checklist ---- */
 buildChecklist('checklist-container', 'thailand-checklist-v3', {
   "🔴 P1 — Book now, time-sensitive": [
@@ -1600,7 +1647,8 @@ buildChecklist('checklist-container', 'thailand-checklist-v3', {
     "Reserve Above Eleven for Sep 2 birthday — call 02 038 5111, Wednesday Ladies Night gets busy",
     "Book Mahanakhon Skywalk sunset ticket on Klook (~₹2,561–2,818) — free cancellation, no downside to locking in now",
     "Book Koh Phi Phi speedboat tour for Sep 6, earliest slot — tours are running through September, but weather-dependent same-day cancellation is genuinely common this month. Book with a free-reschedule operator (Klook recommended, ₹4,616)",
-    "Reserve Vertigo & Moon Bar table for Day 3 sunset — table reservation required, not walk-up"
+    "Book Suay restaurant online via TableCheck if within 24hrs of dining, or call +66 93 339 1890",
+    "Book Above Eleven via their Bistrochat booking page or Chope"
   ],
   "🟠 P2 — Book before departure (only ~3–4 days left, not '1–2 weeks' anymore)": [
     "Book Koh Larn / Coral Island tour for Sep 4 morning — confirm the Indian buffet package specifically",

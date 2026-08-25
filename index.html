@@ -259,6 +259,39 @@ body.dark .place-name { color: #e8eaeb; }
 body.dark .place-badge.cost { background: #16302a; color: #4CAF93; }
 body.dark .place-badge.booking { background: #3a3320; color: #d4b26a; }
 body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
+/* ---- Map pins ---- */
+.pin-item {
+  border: 1px solid #EEEDE6; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; background: white;
+}
+.pin-name { font-size: 13px; font-weight: 700; color: #2C2C2A; }
+.pin-thai { font-size: 13.5px; color: #0F6E56; margin-top: 3px; line-height: 1.5; }
+.pin-sub { font-size: 11.5px; color: #6b6a63; margin-top: 3px; line-height: 1.45; }
+.pin-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 9px; }
+.pin-btn {
+  font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 8px; cursor: pointer;
+  border: 1px solid #DCDACF; background: #F7F6F1; color: #4a4940; font-family: inherit;
+  text-decoration: none; display: inline-block; line-height: 1.4;
+}
+.pin-btn:hover { background: #EEEDE6; }
+.pin-btn.maps { background: #E1F5EE; border-color: #b8e0d2; color: #0F6E56; }
+.pin-btn.maps:hover { background: #cfeee1; }
+.pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+.pin-app-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px; }
+.pin-app-btn {
+  font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 9px;
+  border: 1px solid #DCDACF; background: white; color: #2C2C2A; text-decoration: none;
+}
+.pin-app-btn:hover { background: #F7F6F1; }
+body.dark .pin-item { background: #1e2427; border-color: #333; }
+body.dark .pin-name { color: #e8eaeb; }
+body.dark .pin-thai { color: #4CAF93; }
+body.dark .pin-sub { color: #9a9a92; }
+body.dark .pin-btn { background: #262d31; border-color: #3a4247; color: #c8ccce; }
+body.dark .pin-btn:hover { background: #2f373c; }
+body.dark .pin-btn.maps { background: #16302a; border-color: #23503f; color: #4CAF93; }
+body.dark .pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+body.dark .pin-app-btn { background: #1e2427; border-color: #3a4247; color: #e8eaeb; }
+
 .mini-progress { font-size: 11px; color: #6b6a63; margin-bottom: 8px; }
 
 /* ---- Restaurant / info cards ---- */
@@ -429,6 +462,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       <div class="tab" data-panel="foodlist">🍴 Food Bucket List</div>
       <div class="tab" data-panel="expenses">💰 Expenses</div>
       <div class="tab" data-panel="budget">🧾 Expected Budget</div>
+      <div class="tab" data-panel="pins">📍 Map Pins</div>
     </div>
   </div>
 </div>
@@ -1136,6 +1170,36 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     </div>
   </div>
 
+  <!-- ============ MAP PINS ============ -->
+  <div class="panel" id="panel-pins">
+    <div class="section-title">Map Pins</div>
+    <div class="section-desc">
+      Every place, with its <strong>Thai name</strong> ready to copy. Grab and Bolt have no public
+      deep link that pre-fills a destination — so the workflow is: tap <strong>Copy Thai</strong>,
+      open the app, paste into the destination box. Works for taxi drivers too — show them the Thai text.
+    </div>
+
+    <div class="pin-app-row">
+      <a class="pin-app-btn" href="https://www.grab.com/th/en/transport/" target="_blank" rel="noopener">🚗 Open Grab</a>
+      <a class="pin-app-btn" href="https://bolt.eu/en/" target="_blank" rel="noopener">⚡ Open Bolt</a>
+      <a class="pin-app-btn" href="https://www.google.com/maps" target="_blank" rel="noopener">🗺️ Google Maps</a>
+    </div>
+
+    <div class="note-strip" style="margin-bottom:14px;">
+      <strong>Offline tip:</strong> before you fly, open Google Maps → your profile → Offline maps →
+      download Bangkok, Pattaya and Phuket. The Maps links below then still resolve without data.
+      Grab and Bolt both need a live connection.
+    </div>
+
+    <div id="pins-container"></div>
+
+    <div class="note-strip">
+      Thai names are the ones drivers actually recognise — English transliterations often don't land.
+      Where a place is known by its English name locally (malls, hotels, beach clubs), the Thai line is
+      the transliteration Thai speakers use, not a translation.
+    </div>
+  </div>
+
 </div>
 
 </div>
@@ -1333,7 +1397,7 @@ const days = [
       ["Evening","Khao San Road","Street food, live music. Just a street — no ticket of any kind", "Free entry, ~฿200–500pp food", "No BTS/MRT nearby — Grab from Old City ~15–20min (~฿100–150)"],
     ]},
   { title: "DAY 3 · Sun 30 Aug", sub: "Markets + Mahanakhon + rooftop + Asiatique", birthday:false,
-    note: "MBK moved to Day 1 (shopped alongside the DJI drone) — Chatuchak now gets full breathing room. Mahanakhon, Vertigo, and Asiatique all sit on/near the same Silom BTS line running down to the river, so no backtracking. This is the longest day of the trip (8 AM–~10 PM) — treat Asiatique as energy-permitting, not a hard commitment, especially after Chatuchak, Mahanakhon, and Vertigo.",
+    note: "MBK moved to Day 1 (shopped alongside the DJI drone) — Chatuchak now gets full breathing room. Mahanakhon, Sky Bar, and Asiatique all sit on/near the same Silom BTS line running down to the river, so no backtracking. This is the longest day of the trip (8 AM–~10 PM) — treat Asiatique as energy-permitting, not a hard commitment, especially after Chatuchak, Mahanakhon, and Sky Bar.",
     items: [
       ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS. No rush to leave early now that MBK isn't later today", "Free entry, shopping variable", "BTS to Mo Chit — direct from Sukhumvit hotels, ~30–40min"],
       ["4:30 PM","Mahanakhon Skywalk","Thailand's tallest observation deck (314m), glass floor at 310m, 74th/78th floor. Sunset ticket window 4–6:30 PM — book online for a discount", "~฿1,200pp sunset (~฿880pp daytime, ฿2,400 for 2 at sunset)", "BTS Mo Chit → Siam (interchange) → Chong Nonsi (Silom line), ~35–40min total"],
@@ -1642,6 +1706,167 @@ buildPlacesChecklist('foodlist-container', 'thailand-foodlist-v1', {
     { name: "Tuna Mayo / Salmon Onigiri", cost: "~฿25–35", booking: "Contains fish, not chicken/egg — optional if you're fine with seafood, otherwise skip", walkup: true, priority: 0 },
   ]
 }, 'foodlistProgress');
+
+/* ============ MAP PINS ============ */
+function copyToClipboard(text, btn) {
+  const done = () => {
+    const original = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('done'); }, 1400);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) { window.prompt('Copy this:', text); }
+  document.body.removeChild(ta);
+}
+
+function buildMapPins(containerId, groups) {
+  const container = document.getElementById(containerId);
+
+  Object.keys(groups).forEach(groupName => {
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'check-group';
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'check-group-title';
+    titleDiv.textContent = groupName;
+    groupDiv.appendChild(titleDiv);
+
+    groups[groupName].forEach(pin => {
+      const query = pin.q || pin.name;
+      const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+
+      const row = document.createElement('div');
+      row.className = 'pin-item';
+
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'pin-name';
+      nameDiv.textContent = pin.name;
+      row.appendChild(nameDiv);
+
+      if (pin.thai) {
+        const thaiDiv = document.createElement('div');
+        thaiDiv.className = 'pin-thai';
+        thaiDiv.textContent = pin.thai;
+        row.appendChild(thaiDiv);
+      }
+
+      if (pin.sub) {
+        const subDiv = document.createElement('div');
+        subDiv.className = 'pin-sub';
+        subDiv.textContent = pin.sub;
+        row.appendChild(subDiv);
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'pin-actions';
+
+      const mapsLink = document.createElement('a');
+      mapsLink.className = 'pin-btn maps';
+      mapsLink.href = mapsUrl;
+      mapsLink.target = '_blank';
+      mapsLink.rel = 'noopener';
+      mapsLink.textContent = '📍 Maps';
+      actions.appendChild(mapsLink);
+
+      if (pin.thai) {
+        const copyThai = document.createElement('button');
+        copyThai.className = 'pin-btn';
+        copyThai.textContent = 'Copy Thai';
+        copyThai.addEventListener('click', () => copyToClipboard(pin.thai, copyThai));
+        actions.appendChild(copyThai);
+      }
+
+      const copyEn = document.createElement('button');
+      copyEn.className = 'pin-btn';
+      copyEn.textContent = 'Copy name';
+      copyEn.addEventListener('click', () => copyToClipboard(query, copyEn));
+      actions.appendChild(copyEn);
+
+      row.appendChild(actions);
+      groupDiv.appendChild(row);
+    });
+
+    container.appendChild(groupDiv);
+  });
+}
+
+buildMapPins('pins-container', {
+  "🏨 Your hotels — the pins you'll use most": [
+    { name: "ibis Styles Bangkok Sukhumvit 4", thai: "ไอบิส สไตล์ กรุงเทพ สุขุมวิท 4", sub: "28 Aug – 1 Sep · Soi Sukhumvit 4, nearest BTS Nana", q: "ibis Styles Bangkok Sukhumvit 4 Hotel" },
+    { name: "Baiyoke Sky Hotel (Space Zone)", thai: "โรงแรมใบหยกสกาย ราชเทวี", sub: "1–3 Sep · Pratunam / Ratchathewi — Manan's birthday, Sep 2", q: "Baiyoke Sky Hotel Bangkok" },
+    { name: "Centara Pattaya Hotel", thai: "โรงแรมเซ็นทารา พัทยา", sub: "3–4 Sep", q: "Centara Pattaya Hotel" },
+    { name: "Gate43 Airport Residence", thai: "เกท 43 แอร์พอร์ต เรสซิเดนซ์", sub: "4–5 Sep · near Suvarnabhumi, for the 06:50 Phuket flight", q: "Gate43 Airport Residence Bangkok" },
+    { name: "MAZI Design Hotel by Kalima", thai: "มาซิ ดีไซน์ โฮเทล บาย กะลิมา ป่าตอง", sub: "5–7 Sep · Patong, Phuket · ⚠️ unpaid ₹7,712", q: "MAZI Design Hotel by Kalima Patong" },
+    { name: "Oceanfront Beach Resort", thai: "โอเชี่ยนฟรอนท์ บีช รีสอร์ท ป่าตอง", sub: "7–9 Sep · Patong Beach · ⚠️ unpaid ₹14,516 · ฿3,000 cash deposit at check-in · wife's birthday, Sep 8", q: "Oceanfront Beach Resort Patong Phuket" },
+    { name: "Citrus Sukhumvit 11", thai: "ซิตรัส สุขุมวิท 11", sub: "9–10 Sep · last night · BTS Nana · ⚠️ unpaid ₹3,981", q: "Citrus Sukhumvit 11 Bangkok" },
+  ],
+  "✈️ Airports": [
+    { name: "Suvarnabhumi Airport (BKK)", thai: "ท่าอากาศยานสุวรรณภูมิ", sub: "Arrive 28 Aug 15:40 · depart to Phuket 5 Sep 06:50 · fly home 10 Sep 14:40" },
+    { name: "Phuket International Airport (HKT)", thai: "ท่าอากาศยานนานาชาติภูเก็ต", sub: "Land 5 Sep 08:25 · depart 9 Sep 17:20 · ~45–60 min from Patong, leave early" },
+  ],
+  "🛕 Bangkok — temples & old city": [
+    { name: "Grand Palace & Wat Phra Kaew", thai: "พระบรมมหาราชวัง วัดพระแก้ว", sub: "฿500pp · dress code enforced: covered shoulders and knees" },
+    { name: "Wat Pho (Reclining Buddha)", thai: "วัดโพธิ์ ท่าเตียน", sub: "฿300pp · Thai massage school on site, ฿420pp" },
+    { name: "Wat Arun (Temple of Dawn)", thai: "วัดอรุณราชวราราม", sub: "฿200pp · cross by ฿5 ferry from Tha Tien pier" },
+    { name: "Yaowarat (Chinatown)", thai: "เยาวราช", sub: "Street food after dark · chicken/egg options plentiful" },
+    { name: "Khao San Road", thai: "ถนนข้าวสาร", sub: "Backpacker strip, night market" },
+    { name: "Song Wat Road", thai: "ถนนทรงวาด", sub: "Optional — old riverside street, cafés and murals" },
+  ],
+  "🏙️ Bangkok — views, malls & river": [
+    { name: "Mahanakhon SkyWalk", thai: "คิงเพาเวอร์ มหานคร สกายวอล์ค", sub: "BTS Chong Nonsi · book a sunset slot ahead, ~₹2,561pp on Klook", q: "King Power Mahanakhon SkyWalk Bangkok" },
+    { name: "Sky Bar / Sirocco, Lebua State Tower", thai: "เลอบัว สเตท ทาวเวอร์ สีลม", sub: "Day 3 evening — replaces Vertigo & Moon Bar (closed 16 Jun–30 Nov 2026) · BTS Saphan Taksin · Sky Bar is walk-in only", q: "Lebua at State Tower Bangkok" },
+    { name: "Above Eleven rooftop", thai: "อะบัฟ อีเลฟเว่น สุขุมวิท 11", sub: "Sep 2 — Manan's birthday · call 02 038 5111 · Soi Sukhumvit 11", q: "Above Eleven Rooftop Bar Bangkok" },
+    { name: "Akara Sky Hanuman", thai: "อาคารา สกาย หนุมาน", sub: "Sep 9 · book direct at akaraskyhanuman.com — cheaper than resellers", q: "Akara Sky Hanuman Bangkok" },
+    { name: "ICONSIAM & SookSiam", thai: "ไอคอนสยาม", sub: "Riverside mall · free shuttle boat from Sathorn pier" },
+    { name: "Asiatique The Riverfront", thai: "เอเชียทีค เดอะ ริเวอร์ฟร้อนท์", sub: "Night market · free shuttle boat from Sathorn pier" },
+    { name: "Chao Phraya dinner cruise — Sathorn (Central) Pier", thai: "ท่าเรือสาทร", sub: "Sep 1 · most cruises board here · book 2 days ahead", q: "Sathorn Pier Bangkok" },
+    { name: "MBK Center", thai: "มาบุญครอง เอ็มบีเค เซ็นเตอร์", sub: "BTS National Stadium · electronics, the DJI drone stop" },
+    { name: "Terminal 21 (Pier 21 food court)", thai: "เทอร์มินอล 21 อโศก", sub: "BTS Asok · cheap food court, ~฿50–100 a dish" },
+    { name: "Platinum Fashion Mall", thai: "แพลทินัม แฟชั่น มอลล์ ประตูน้ำ", sub: "Pratunam · walking distance from Baiyoke Sky" },
+    { name: "Chatuchak Weekend Market", thai: "ตลาดนัดจตุจักร", sub: "Sat & Sun only · MRT Kamphaeng Phet exit 2 is the best entrance" },
+    { name: "SEA LIFE Bangkok Ocean World", thai: "ซีไลฟ์ แบงคอก โอเชี่ยน เวิลด์", sub: "Under Siam Paragon · book online" },
+    { name: "Go-Ang Kaomunkai Pratunam (khao man gai)", thai: "ร้านข้าวมันไก่ประตูน้ำ โกอ่าง", sub: "Michelin Bib Gourmand · 5 min walk from Baiyoke Sky · chicken rice, safe for your diet" },
+    { name: "Bawarchi Indian Restaurant (Sukhumvit)", thai: "ร้านอาหารอินเดีย บาวาชี สุขุมวิท", sub: "Near Sukhumvit 4 — fallback for the ibis Styles nights", q: "Bawarchi Indian Restaurant Sukhumvit Bangkok" },
+  ],
+  "🌴 Pattaya": [
+    { name: "Sanctuary of Truth", thai: "ปราสาทสัจธรรม", sub: "~฿600pp · all-teak carved temple on the water" },
+    { name: "Art in Paradise Pattaya", thai: "อาร์ต อิน พาราไดซ์ พัทยา", sub: "3D illusion museum · no combo ticket with Ripley's, book separately" },
+    { name: "Ripley's Believe It or Not! Pattaya", thai: "ริปลีส์ พัทยา", sub: "Royal Garden Plaza, Beach Road · ฿650pp" },
+    { name: "Walking Street Pattaya", thai: "วอล์คกิ้งสตรีท พัทยา", sub: "Opens up after ~8 PM" },
+    { name: "Bali Hai Pier (Koh Larn ferry)", thai: "ท่าเรือแหลมบาลีฮาย", sub: "Sep 4 · ferries to Koh Larn leave from here · go early, back before checkout", q: "Bali Hai Pier Pattaya" },
+    { name: "Koh Larn (Coral Island)", thai: "เกาะล้าน", sub: "Sep 4 · Indian buffet package ~฿280pp via tripthaitour.com" },
+    { name: "Alibaba Tandoori Pattaya", thai: "ร้านอาหารอินเดีย อาลีบาบา พัทยา", sub: "Indian fallback in Pattaya", q: "Alibaba Tandoori Restaurant Pattaya" },
+  ],
+  "🏝️ Phuket": [
+    { name: "Patong Beach", thai: "หาดป่าตอง", sub: "Both Phuket hotels are here" },
+    { name: "Suay Restaurant Phuket", thai: "ร้านสวย ภูเก็ต", sub: "Sep 8, 7:30 PM — wife's birthday dinner · call +66 93 339 1890 · Old Phuket Town", q: "Suay Restaurant Phuket Town" },
+    { name: "Wat Chalong", thai: "วัดฉลอง", sub: "Phuket's largest temple · free, donation optional" },
+    { name: "Big Buddha of Phuket", thai: "พระพุทธมิ่งมงคลเอกนาคคีรี พระใหญ่ภูเก็ต", sub: "Steep winding road up — Grab it rather than scooter if wet" },
+    { name: "Old Phuket Town (Thalang Road)", thai: "เมืองเก่าภูเก็ต ถนนถลาง", sub: "Sino-Portuguese shophouses, cafés · Sunday walking street" },
+    { name: "Promthep Cape", thai: "แหลมพรหมเทพ", sub: "Sunset viewpoint at the southern tip · arrive ~45 min before sunset" },
+    { name: "Royal Phuket Marina / Ao Po Grand Marina", thai: "อ่าวปอ แกรนด์ มารีน่า", sub: "Sep 6 · common departure point for catamaran Phi Phi tours — confirm your pier with Seanery", q: "Ao Po Grand Marina Phuket" },
+    { name: "Rassada Pier (Phi Phi ferries)", thai: "ท่าเรือรัษฎา", sub: "The other common Phi Phi departure point — confirm which one applies", q: "Rassada Pier Phuket" },
+    { name: "Let's Relax Spa Patong", thai: "เล็ทส์ รีแลกซ์ สปา ป่าตอง", sub: "Sep 8 spa option · walkable from Oceanfront", q: "Let's Relax Spa Patong Phuket" },
+    { name: "Amritsr Restaurant Patong", thai: "ร้านอาหารอินเดีย อมฤตสร์ ป่าตอง", sub: "Indian fallback near Patong", q: "Amritsr Restaurant Patong Phuket" },
+  ],
+  "🏧 ATMs — withdraw ฿10,000+ per pull": [
+    { name: "AEON ATM (฿150 fee — the cheap one)", thai: "ตู้เอทีเอ็ม อิออน", sub: "Found inside Big C and Lotus's stores · use your Niyo Forex card · always beats the ฿250 bank ATMs", q: "AEON ATM Bangkok" },
+    { name: "Big C Rajdamri", thai: "บิ๊กซี ราชดำริ", sub: "Central Bangkok Big C — AEON ATM inside · opposite CentralWorld", q: "Big C Supercenter Rajdamri Bangkok" },
+  ],
+});
 
 /* ---- Booking Checklist ---- */
 buildChecklist('checklist-container', 'thailand-checklist-v3', {

@@ -1018,7 +1018,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
   <!-- ============ FOOD BUCKET LIST ============ -->
   <div class="panel" id="panel-foodlist">
     <div class="section-title">Food Bucket List</div>
-    <div class="section-desc">Real, named restaurants and dishes to cover — filtered for chicken/egg only, no pork, no beef. Check off as you go.</div>
+    <div class="section-desc">Real, named restaurants and dishes to cover across Bangkok, Pattaya, and Phuket — filtered for chicken/egg only, no pork, no beef. Indian options included where genuinely good. Check off as you go.</div>
     <div class="mini-progress" id="foodlistProgress">0 / 0 checked off</div>
     <div id="foodlist-container"></div>
     <div class="note-strip" style="margin-top:12px;">
@@ -1617,13 +1617,21 @@ buildPlacesChecklist('foodlist-container', 'thailand-foodlist-v1', {
     { name: "Thai Fried Chicken (Gai Tod) with sticky rice", cost: "~฿60 for a large piece", booking: "Night markets — crispy, soy/garlic/cumin seasoned", walkup: true, priority: 3 },
     { name: "Kai Jeaw (plain egg omelette)", cost: "~฿40–80", booking: "Anywhere — simple, safe, fully egg-based", walkup: true, priority: 3 },
     { name: "Fried Chicken — Polo Fried Chicken (Soi Polo)", cost: "~฿150–300pp", booking: "Lumphini area — 50+ years running, Michelin-recognized, called 'possibly the best bird in the city.' Signature dish IS chicken, not an add-on note", walkup: true, priority: 1 },
+    { name: "Bawarchi Indian Restaurant (butter chicken, biryani, kebabs)", cost: "~฿400–800pp", booking: "Near Sukhumvit 4 / Ambassador Hotel — genuinely 5min from your ibis Styles Sukhumvit 4 hotel. Mughlai cuisine, tandoor-cooked, chicken malai kebab is the standout", walkup: true, priority: 2 },
     { name: "Mango Sticky Rice", cost: "~฿60–100pp", booking: "Anywhere — dessert, fully safe", walkup: true, priority: 3 },
   ],
   "Phuket — chicken/egg dishes & restaurants": [
     { name: "Chicken Rice — Kota Khao Mun Kai", cost: "~฿50–80pp", booking: "Phuket Town — the local favorite, 20+ years running, 'best Hainan chicken rice anywhere' per locals", walkup: true, priority: 1 },
     { name: "Chicken Massaman Curry + roti — Aroon Po Chana", cost: "~฿60–100pp", booking: "Phuket Old Town — Muslim restaurant, famous for rotis, chicken massaman genuinely close to Indian flavors", walkup: true, priority: 1 },
+    { name: "Amritsr Restaurant (butter chicken, biryani, tandoori)", cost: "~฿400–800pp", booking: "Patong Beach — branded as the top Indian restaurant in Patong, genuinely close to Oceanfront Beach Resort, your birthday hotel", walkup: true, priority: 2 },
     { name: "O-Aew (shaved ice, fruit jelly, red beans, syrup)", cost: "~฿30–50", booking: "Old Town street stalls — the most distinctly Phuket dessert, fully safe, no meat", walkup: true, priority: 2 },
     { name: "Kanta Phuket — Modern Peranakan (check menu for chicken options)", cost: "~฿200–500pp", booking: "The Memory at On On Hotel, Phang Nga Road — upscale, ask staff for chicken/egg-safe dishes specifically", walkup: false, priority: 3 },
+  ],
+  "Pattaya — chicken/egg dishes & restaurants": [
+    { name: "Alibaba Tandoori & Curry (butter chicken, biryani, tandoori chicken)", cost: "~฿300–500pp", booking: "Central Pattaya Road — Pattaya's oldest Indian restaurant, 40+ years running, Mughal-style interior. The most established, safest bet in the city", walkup: true, priority: 1 },
+    { name: "Indian By Nature (butter chicken, biryani, tandoori specialities)", cost: "~฿400–700pp", booking: "Pattaya City — TripAdvisor Traveller's Choice + Thailand Tatler Best Restaurant award", walkup: true, priority: 2 },
+    { name: "Gai Yang (Isaan-style grilled chicken)", cost: "~฿100–200pp", booking: "Widely available at markets and street stalls — the genuine Pattaya/Isaan street food specialty, garlic-pepper-lemongrass marinade", walkup: true, priority: 2 },
+    { name: "Banaras 100% Pure Vegetarian Indian Restaurant", cost: "~฿250–450pp", booking: "⚠️ Pure vegetarian by strict Indian convention — may exclude egg too, not just meat. Worth calling ahead to confirm if egg dishes are on the menu", walkup: false, priority: 3 },
   ],
   "7-Eleven bucket list — chicken/egg-safe": [
     { name: "Basil Fried Rice with Chicken (Pad Kaprao Gai)", cost: "~฿45", booking: "Ready-meal counter — genuine Thai classic, safe and cheap", walkup: true, priority: 2 },

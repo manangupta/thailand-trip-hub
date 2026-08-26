@@ -276,6 +276,16 @@ body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
 .pin-btn.maps { background: #E1F5EE; border-color: #b8e0d2; color: #0F6E56; }
 .pin-btn.maps:hover { background: #cfeee1; }
 .pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+.day-item-pins { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+.day-pin-btn {
+  font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 8px; cursor: pointer;
+  border: 1px solid #DCDACF; background: #F7F6F1; color: #4a4940; font-family: inherit;
+  text-decoration: none; display: inline-block; line-height: 1.4;
+}
+.day-pin-btn.maps { background: #E1F5EE; border-color: #b8e0d2; color: #0F6E56; }
+.day-pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+body.dark .day-pin-btn { background: #1e2427; border-color: #444; color: #d8dbdd; }
+body.dark .day-pin-btn.maps { background: #16302a; border-color: #235043; color: #7fd3b8; }
 .day-card.is-today { border-color: #0F6E56; border-width: 2px; box-shadow: 0 0 0 3px rgba(15,110,86,.12); }
 .day-card.is-today .day-head { background: #0F6E56; }
 .day-card.birthday.is-today .day-head { background: #D85A30; }
@@ -1532,6 +1542,89 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
+const PIN_GROUPS = {
+  "🏨 Your hotels — the pins you'll use most": [
+    { name: "ibis Styles Bangkok Sukhumvit 4", thai: "ไอบิส สไตล์ กรุงเทพ สุขุมวิท 4", sub: "28 Aug – 1 Sep · Soi Sukhumvit 4, nearest BTS Nana", q: "ibis Styles Bangkok Sukhumvit 4 Hotel" },
+    { name: "Baiyoke Sky Hotel (Space Zone)", thai: "โรงแรมใบหยกสกาย ราชเทวี", sub: "1–3 Sep · Pratunam / Ratchathewi — Manan's birthday, Sep 2", q: "Baiyoke Sky Hotel Bangkok" },
+    { name: "Centara Pattaya Hotel", thai: "โรงแรมเซ็นทารา พัทยา", sub: "3–4 Sep", q: "Centara Pattaya Hotel" },
+    { name: "Gate43 Airport Residence", thai: "เกท 43 แอร์พอร์ต เรสซิเดนซ์", sub: "4–5 Sep · near Suvarnabhumi, for the 06:50 Phuket flight", q: "Gate43 Airport Residence Bangkok" },
+    { name: "Patong Resort", thai: "ป่าตอง รีสอร์ท", sub: "5–7 Sep · Patong, Phuket · ✓ paid ₹6,892 · 208 Rai-Uthit 200 Pee Rd", q: "Patong Resort 208 Rai-Uthit 200 Pee Road Patong Beach Phuket" },
+    { name: "Oceanfront Beach Resort", thai: "โอเชี่ยนฟรอนท์ บีช รีสอร์ท ป่าตอง", sub: "7–9 Sep · Phrabaramee Rd, Patong · ✓ paid ₹15,791 · ฿3,000 cash deposit at check-in · wife's birthday, Sep 8", q: "Oceanfront Beach Resort Patong Phuket" },
+    { name: "Citrus Sukhumvit 11", thai: "ซิตรัส สุขุมวิท 11", sub: "9–10 Sep · last night · BTS Nana · ✓ paid ₹4,493", q: "Citrus Sukhumvit 11 Bangkok" },
+  ],
+  "✈️ Airports": [
+    { name: "Suvarnabhumi Airport (BKK)", thai: "ท่าอากาศยานสุวรรณภูมิ", sub: "Arrive 28 Aug 15:40 · depart to Phuket 5 Sep 06:50 · fly home 10 Sep 14:40" },
+    { name: "Phuket International Airport (HKT)", thai: "ท่าอากาศยานนานาชาติภูเก็ต", sub: "Land 5 Sep 08:25 · depart 9 Sep 17:20 · ~45–60 min from Patong, leave early" },
+  ],
+  "🛕 Bangkok — temples & old city": [
+    { name: "Grand Palace & Wat Phra Kaew", thai: "พระบรมมหาราชวัง วัดพระแก้ว", sub: "฿500pp · dress code enforced: covered shoulders and knees" },
+    { name: "Wat Pho (Reclining Buddha)", thai: "วัดโพธิ์ ท่าเตียน", sub: "฿300pp · Thai massage school on site, ฿420pp" },
+    { name: "Wat Arun (Temple of Dawn)", thai: "วัดอรุณราชวราราม", sub: "฿200pp · cross by ฿5 ferry from Tha Tien pier" },
+    { name: "Yaowarat (Chinatown)", thai: "เยาวราช", sub: "Street food after dark · chicken/egg options plentiful" },
+    { name: "Khao San Road", thai: "ถนนข้าวสาร", sub: "Backpacker strip, night market" },
+    { name: "Song Wat Road", thai: "ถนนทรงวาด", sub: "Optional — old riverside street, cafés and murals" },
+  ],
+  "🏙️ Bangkok — views, malls & river": [
+    { name: "Mahanakhon SkyWalk", thai: "คิงเพาเวอร์ มหานคร สกายวอล์ค", sub: "BTS Chong Nonsi · book a sunset slot ahead, ~₹2,561pp on Klook", q: "King Power Mahanakhon SkyWalk Bangkok" },
+    { name: "Sky Bar / Sirocco, Lebua State Tower", thai: "เลอบัว สเตท ทาวเวอร์ สีลม", sub: "Day 3 evening — replaces Vertigo & Moon Bar (closed 16 Jun–30 Nov 2026) · BTS Saphan Taksin · Sky Bar is walk-in only", q: "Lebua at State Tower Bangkok" },
+    { name: "ICONSIAM & SookSiam", thai: "ไอคอนสยาม", sub: "Riverside mall · free shuttle boat from Sathorn pier" },
+    { name: "Asiatique The Riverfront", thai: "เอเชียทีค เดอะ ริเวอร์ฟร้อนท์", sub: "Night market · free shuttle boat from Sathorn pier" },
+    { name: "Chao Phraya dinner cruise — Sathorn (Central) Pier", thai: "ท่าเรือสาทร", sub: "Sep 1 · most cruises board here · book 2 days ahead", q: "Sathorn Pier Bangkok" },
+    { name: "MBK Center", thai: "มาบุญครอง เอ็มบีเค เซ็นเตอร์", sub: "BTS National Stadium · electronics, the DJI drone stop" },
+    { name: "Terminal 21 (Pier 21 food court)", thai: "เทอร์มินอล 21 อโศก", sub: "BTS Asok · cheap food court, ~฿50–100 a dish" },
+    { name: "Platinum Fashion Mall", thai: "แพลทินัม แฟชั่น มอลล์ ประตูน้ำ", sub: "Pratunam · walking distance from Baiyoke Sky · your free Sep 2 afternoon fallback" },
+    { name: "Harbor Island Water Park", thai: "ฮาร์เบอร์ ไอส์แลนด์ วอเตอร์ปาร์ค", sub: "Seacon Bangkae, 3rd floor · Day 4 · same mall as Space & Time Cube+", q: "Harbor Island Water Park Seacon Bangkae" },
+    { name: "Space & Time Cube+ Bangkok", thai: "สเปซ แอนด์ ไทม์ คิวบ์ พลัส", sub: "Seacon Bangkae, same mall as Harbor Island — Day 4, no travel between the two", q: "Space and Time Cube Plus Seacon Bangkae" },
+    { name: "Chatuchak Weekend Market", thai: "ตลาดนัดจตุจักร", sub: "Sat & Sun only · MRT Kamphaeng Phet exit 2 is the best entrance" },
+    { name: "SEA LIFE Bangkok Ocean World", thai: "ซีไลฟ์ แบงคอก โอเชี่ยน เวิลด์", sub: "Under Siam Paragon · book online" },
+    { name: "Go-Ang Kaomunkai Pratunam (khao man gai)", thai: "ร้านข้าวมันไก่ประตูน้ำ โกอ่าง", sub: "Michelin Bib Gourmand · 5 min walk from Baiyoke Sky · chicken rice, safe for your diet" },
+    { name: "Bawarchi Indian Restaurant (Sukhumvit)", thai: "ร้านอาหารอินเดีย บาวาชี สุขุมวิท", sub: "Near Sukhumvit 4 — fallback for the ibis Styles nights", q: "Bawarchi Indian Restaurant Sukhumvit Bangkok" },
+  ],
+  "🎂 Birthday candidates — none booked, none contacted": [
+    { name: "Khus Samui Spa", thai: "คุส สมุย สปา", sub: "Sep 2, 8 AM couples massage option — near Baiyoke Sky", q: "Khus Samui Spa Bangkok" },
+    { name: "Spa 1930", thai: "สปา 1930", sub: "Sep 2, 8 AM couples massage — alternative to Khus Samui, also near Baiyoke Sky", q: "Spa 1930 Bangkok" },
+    { name: "SIN Rooftop Bar", thai: "ซิน รูฟท็อป บาร์", sub: "Sep 2 birthday candidate — live DJs, check their event calendar before deciding", q: "SIN Rooftop Bar Bangkok" },
+    { name: "Octave Rooftop Lounge", thai: "อ็อกเทฟ รูฟท็อป เลาจน์", sub: "Sep 2 birthday candidate — Marriott Sukhumvit, multi-level DJ zone", q: "Octave Rooftop Lounge Bangkok Marriott Sukhumvit" },
+    { name: "Pla Seafood Sailing Club", thai: "พลา ซีฟู้ด เซลลิ่ง คลับ", sub: "Sep 8 birthday dinner candidate — beachfront, verify contact before relying on it", q: "Pla Seafood Sailing Club Phuket" },
+  ],
+  "🌴 Pattaya": [
+    { name: "Sanctuary of Truth", thai: "ปราสาทสัจธรรม", sub: "~฿600pp · all-teak carved temple on the water" },
+    { name: "Art in Paradise Pattaya", thai: "อาร์ต อิน พาราไดซ์ พัทยา", sub: "3D illusion museum · no combo ticket with Ripley's, book separately" },
+    { name: "Ripley's Believe It or Not! Pattaya", thai: "ริปลีส์ พัทยา", sub: "Royal Garden Plaza, Beach Road · ฿650pp" },
+    { name: "Walking Street Pattaya", thai: "วอล์คกิ้งสตรีท พัทยา", sub: "Opens up after ~8 PM" },
+    { name: "Bali Hai Pier (Koh Larn ferry)", thai: "ท่าเรือแหลมบาลีฮาย", sub: "Sep 4 · ferries to Koh Larn leave from here · go early, back before checkout", q: "Bali Hai Pier Pattaya" },
+    { name: "Koh Larn (Coral Island)", thai: "เกาะล้าน", sub: "Sep 4 · Indian buffet package ~฿280pp via tripthaitour.com" },
+    { name: "Alibaba Tandoori Pattaya", thai: "ร้านอาหารอินเดีย อาลีบาบา พัทยา", sub: "Indian fallback in Pattaya", q: "Alibaba Tandoori Restaurant Pattaya" },
+  ],
+  "🏝️ Phuket": [
+    { name: "Patong Beach", thai: "หาดป่าตอง", sub: "Both Phuket hotels are here" },
+    { name: "Wat Chalong", thai: "วัดฉลอง", sub: "Phuket's largest temple · free, donation optional" },
+    { name: "Big Buddha of Phuket", thai: "พระพุทธมิ่งมงคลเอกนาคคีรี พระใหญ่ภูเก็ต", sub: "Steep winding road up — Grab it rather than scooter if wet" },
+    { name: "Old Phuket Town (Thalang Road)", thai: "เมืองเก่าภูเก็ต ถนนถลาง", sub: "Sino-Portuguese shophouses, cafés · Sunday walking street" },
+    { name: "Promthep Cape", thai: "แหลมพรหมเทพ", sub: "Sunset viewpoint at the southern tip · arrive ~45 min before sunset" },
+    { name: "Royal Phuket Marina / Ao Po Grand Marina", thai: "อ่าวปอ แกรนด์ มารีน่า", sub: "Sep 6 · common departure point for catamaran Phi Phi tours — confirm your pier with Seanery", q: "Ao Po Grand Marina Phuket" },
+    { name: "Rassada Pier (Phi Phi ferries)", thai: "ท่าเรือรัษฎา", sub: "The other common Phi Phi departure point — confirm which one applies", q: "Rassada Pier Phuket" },
+    { name: "Let's Relax Spa Patong", thai: "เล็ทส์ รีแลกซ์ สปา ป่าตอง", sub: "Sep 8 spa option · walkable from Oceanfront", q: "Let's Relax Spa Patong Phuket" },
+    { name: "Amritsr Restaurant Patong", thai: "ร้านอาหารอินเดีย อมฤตสร์ ป่าตอง", sub: "Indian fallback near Patong", q: "Amritsr Restaurant Patong Phuket" },
+  ],
+  "🚨 Emergency — pin these before you need them": [
+    { name: "Bumrungrad International Hospital", thai: "โรงพยาบาลบำรุงราษฎร์", sub: "Sukhumvit Soi 3 · the standard tourist/expat hospital in Bangkok · ~5 min from ibis Styles Sukhumvit 4", q: "Bumrungrad International Hospital Bangkok" },
+    { name: "Bangkok Hospital Phuket", thai: "โรงพยาบาลกรุงเทพภูเก็ต", sub: "Phuket Town · ~30 min from Patong · for anything serious on the Phuket leg", q: "Bangkok Hospital Phuket" },
+    { name: "Patong Hospital", thai: "โรงพยาบาลป่าตอง", sub: "In Patong itself · minor issues, much closer than Phuket Town", q: "Patong Hospital Phuket" },
+    { name: "Embassy of India, Bangkok", thai: "สถานเอกอัครราชทูตอินเดีย กรุงเทพ", sub: "46 Soi Prasarnmitr (Sukhumvit 23), Wattana · walkable from both Sukhumvit hotels · lost passport goes here", q: "Embassy of India Bangkok Sukhumvit 23" },
+  ],
+  "🏧 ATMs — withdraw ฿10,000+ per pull": [
+    { name: "AEON ATM (฿150 fee — the cheap one)", thai: "ตู้เอทีเอ็ม อิออน", sub: "Found inside Big C and Lotus's stores · use your Niyo Forex card · always beats the ฿250 bank ATMs", q: "AEON ATM Bangkok" },
+    { name: "AEON ATM near Sukhumvit / Nana — live map search", thai: "ตู้เอทีเอ็ม อิออน สุขุมวิท", sub: "Walking distance from BOTH ibis Styles Sukhumvit 4 (28 Aug–1 Sep) and Citrus Sukhumvit 11 (9–10 Sep) · this pin runs a live Maps search rather than pointing at one confirmed machine — AEON moves its units, so check the map on the day", q: "AEON ATM Sukhumvit Bangkok" },
+    { name: "Big C Rajdamri", thai: "บิ๊กซี ราชดำริ", sub: "Central Bangkok Big C — AEON ATM inside · opposite CentralWorld", q: "Big C Supercenter Rajdamri Bangkok" },
+    { name: "Foodland Sukhumvit 5 (24hr) — ATM check", thai: "ฟู้ดแลนด์ สุขุมวิท 5", sub: "~5 min walk from ibis Styles Sukhumvit 4 · open 24hrs, has an ATM cluster — worth checking for an AEON unit before paying ฿250 at a bank machine", q: "Foodland Supermarket Sukhumvit 5 Bangkok" },
+  ],
+};
+
+// Flat index so Day-by-Day can pull the same pin data instead of duplicating it.
+const PIN_BY_NAME = {};
+Object.values(PIN_GROUPS).forEach(list => list.forEach(p => { PIN_BY_NAME[p.name] = p; }));
+
 /* ============ DAY-BY-DAY DATA ============ */
 const days = [
   { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok — check in ibis Styles Sukhumvit 4 + MBK shopping", birthday:false, stay: "ibis Styles Sukhumvit 4", stayNote: "check in from 2:00 PM · GH24121275735188",
@@ -1559,7 +1652,7 @@ const days = [
     ]},
   { title: "DAY 4 · Mon 31 Aug", sub: "Seacon Bangkae day — water park + Space & Time Cube", birthday:false, stay: "ibis Styles Sukhumvit 4", stayNote: "last night here — check out 12:00 PM tomorrow", note:"Muay Thai / Rajadamnern Stadium dropped — too costly for the value. Amphawa REMOVED, not just deprioritised: it runs Fri–Sun only and is an evening market (~11am–8pm, the firefly boats are the point), so a 7 AM Monday visit was impossible on both counts. The morning floating market people mean is Damnoen Saduak, which is a different place and further out — not worth the ~฿2,000 Grab return either. Swapped in Harbor Island, the largest rooftop water park in ASEAN, which happens to be in the exact same mall as Space & Time Cube — zero extra travel, much more exciting, better value.",
     items: [
-      ["Morning","Slow start — last full Bangkok morning","Deliberately unplanned. Amphawa was removed (Fri–Sun evenings only, so it never worked on a Monday). Sleep in, breakfast near the hotel, repack — the water park runs six hours and you fly to Phuket in four days on very little sleep", "~฿200–400pp breakfast", "Walkable around Sukhumvit 4"],
+      ["Morning","Slow start — last full Bangkok morning","Deliberately unplanned. Amphawa was removed (Fri–Sun evenings only, so it never worked on a Monday). Sleep in, breakfast near the hotel, repack — the water park runs six hours and you fly to Phuket in four days on very little sleep. If you want one gentle outing, Song Wat Road (old riverside street, cafés, murals) is the pinned option below", "~฿200–400pp breakfast", "Walkable around Sukhumvit 4"],
       ["11:00 AM","Harbor Island Water Park","Seacon Bangkae, 3rd floor. Largest rooftop water park in ASEAN — 18 slides incl. Thailand's steepest (66°), wave pool, lazy river. 6 hrs unlimited, towel/locker included", "From ฿380pp", "No direct BTS/MRT — Grab from Sukhumvit ~35–45min (~฿250–350)"],
       ["3:00 PM","Space & Time Cube+ Bangkok","Same mall, Seacon Bangkae — no travel needed between the two. Immersive digital art, Rail Cinema, VR zone, 1,500 sqm", "~฿400–600pp", "Same building as Harbor Island — no travel needed"],
       ["6:30 PM","Terminal 21 + Pier 21 food court","Airport-themed mall, cheap excellent street food. Asok BTS", "Free entry, ~฿200–400pp food", "Grab from Seacon Bangkae ~35–40min, or BTS/MRT interchange direct at Asok"],
@@ -1577,8 +1670,8 @@ const days = [
     items: [
       ["8:00 AM","Couples Thai massage","Khus Samui Spa or Spa 1930, ~1.5–2 hrs", "~฿1,500pp", "Grab from Baiyoke ~15–20min"],
       ["11:30 AM","Birthday lunch","Relaxed spot near hotel or a rooftop lunch", "~฿500–1,000pp", "Walk or short Grab depending on spot chosen"],
-      ["Afternoon","Free / flexible","Café hopping, 84th-floor revolving viewpoint (complimentary — included in your Baiyoke package), or just rest", "Free (included)", "Elevator within the hotel"],
-      ["7:00 PM","🔴 Birthday dinner — VENUE NOT BOOKED","Above Eleven dropped. Pick from the Birthday Dinners tab: SIN Rooftop or Octave (both Sukhumvit, DJ nights), or fall back to Baiyoke's own 84th-floor revolving deck, which is already included in your package. Most rooftops enforce smart casual — no sandals, no sleeveless for men", "~฿2,000–3,000pp if going out · free at Baiyoke", "Grab from Baiyoke ~20–25min (~฿150–200) for Sukhumvit rooftops"],
+      ["Afternoon","Free / flexible","Café hopping, 84th-floor revolving viewpoint (complimentary — included in your Baiyoke package), or just rest. Platinum Fashion Mall (pinned below) is a 5-min walk if you feel like shopping instead", "Free (included)", "Elevator within the hotel"],
+      ["7:00 PM","🔴 Birthday dinner — VENUE NOT BOOKED","Above Eleven dropped. Pick from the Birthday Dinners tab: SIN Rooftop or Octave (both Sukhumvit, DJ nights, both pinned on Map Pins), or fall back to Baiyoke's own 84th-floor revolving deck, which is already included in your package. Most rooftops enforce smart casual — no sandals, no sleeveless for men", "~฿2,000–3,000pp if going out · free at Baiyoke", "Grab from Baiyoke ~20–25min (~฿150–200) for Sukhumvit rooftops"],
     ]},
   { title: "DAY 7 · Thu 3 Sep", sub: "Bangkok to Pattaya + Art in Paradise + Ripley's", birthday:false, stay: "Centara Pattaya Hotel", stayNote: "check out Baiyoke 11:00 AM → check in from 3:00 PM · GH23044275257256",
     note: "Booking ID GH23044275257256 · Early check-in requested via special request. Alcazar swapped out for Art in Paradise + Ripley's. Tappia Floating Cafe removed entirely — mostly seafood, limited Indian food options. Removing it also fixed the pacing problem from before — everything now shifts earlier and Walking Street starts at a reasonable hour instead of past 10 PM.",
@@ -1618,7 +1711,7 @@ const days = [
     note: "Book earliest departure slot (7:00–7:30 AM). See Islands tab for Maya Bay/weather notes.",
     items: [
       ["7:30 AM","Speedboat pickup","Full-day tour, ~9–10 hrs", "~฿1,200–1,500pp", "Hotel pickup included in tour price — no separate transport needed"],
-      ["Day","Phi Phi Don, Pileh Lagoon, Monkey Beach, Bamboo Island","Snorkelling, lunch on beach included", "Included in tour", "By speedboat, included in tour"],
+      ["Day","Phi Phi Don, Pileh Lagoon, Monkey Beach, Bamboo Island","Snorkelling (gear included) and the Phi Phi viewpoint hike are both part of this tour, not separate bookings — lunch on the beach included", "Included in tour", "By speedboat, included in tour"],
       ["5:30 PM","Return to Patong","Early dinner, rest — big day", "~฿300–600pp", "Hotel drop-off included in tour"],
     ]},
   { title: "DAY 11 · Mon 7 Sep", sub: "Buffer day + move to Oceanfront Beach Resort", birthday:false, stay: "Oceanfront Beach Resort", stayNote: "check out Patong 12:00 PM → check in from 3:00 PM · GH22039276201846 · ฿3,000 cash deposit due now",
@@ -1636,7 +1729,7 @@ const days = [
       ["9:00 AM","Couples spa treatment","Bangtao or hotel spa, 2–3 hrs", "~฿2,000–3,000pp", "Grab from Oceanfront Beach Resort, ~15–25min depending on spa location"],
       ["12:00 PM","Birthday lunch","KEE Sky Lounge or Bang Po Seafood", "~฿800–1,500pp", "Grab, ~15–20min"],
       ["4:30 PM","Promthep Cape sunset","Champagne + snacks at viewpoint", "Free entry, ~฿500–1,000 total", "Grab, ~20min from most Phuket west-coast hotels"],
-      ["7:30 PM","🔴 Birthday dinner — VENUE NOT BOOKED","Suay dropped. Candidates in the Birthday Dinners tab: Oceanfront's own restaurant (cake is already being arranged there), Pla Seafood Sailing Club, or Amritsr in Patong", "~฿1,500–3,500pp depending on choice", "In-house needs no travel · Patong options ~5–15min Grab"],
+      ["7:30 PM","🔴 Birthday dinner — VENUE NOT BOOKED","Suay dropped. Candidates in the Birthday Dinners tab and pinned on Map Pins: Oceanfront's own restaurant (cake is already being arranged there), Pla Seafood Sailing Club, or Amritsr in Patong", "~฿1,500–3,500pp depending on choice", "In-house needs no travel · Patong options ~5–15min Grab"],
     ]},
   { title: "DAY 13 · Wed 9 Sep", sub: "Phuket to Bangkok — quiet last evening", birthday:false, stay: "Citrus Sukhumvit 11", stayNote: "room held to 2:00 PM at Oceanfront (requested) → check in from 2:00 PM · GH22039276202696",
     note: "Flight: HKT 17:20 → BKK 18:50 (Thai Vietjet VZ307) · Check out from Oceanfront Beach Resort by 11:00 AM — room requested until 2:00 PM so it is usable until the car leaves. Airport transfer requested from the resort for a ~2:00 PM departure; awaiting their quote. If chargeable above ~฿800, take a Grab instead (Patong → HKT is ~45–60min). Big Buddha moved to Day 9 (fills the morning gap after landing better than sitting here). Akara Sky Hanuman was dropped, so the evening is deliberately free — you land 6:50 PM and fly home the next afternoon, so an unplanned night near Sukhumvit 11 is no bad thing.",
@@ -1657,6 +1750,50 @@ const days = [
       ["8:30 PM","Flight departs — Pune to Delhi","AI 2548, arrive Delhi 22:55", "Flight paid", "—"],
     ]},
 ];
+
+/* Explicit item -> pin links, keyed by exact item title. One canonical pin per item;
+   ambiguous multi-option items (e.g. two birthday-dinner candidates) are left unlinked
+   on purpose rather than guessed. See PIN_BY_NAME above for the source data. */
+const ITEM_PIN_LINKS = {
+  "Land Bangkok": "Suvarnabhumi Airport (BKK)",
+  "Check in — ibis Styles Bangkok Sukhumvit 4": "ibis Styles Bangkok Sukhumvit 4",
+  "MBK Center — clothes + DJI drone": "MBK Center",
+  "Grand Palace & Wat Phra Kaew": "Grand Palace & Wat Phra Kaew",
+  "Wat Pho": "Wat Pho (Reclining Buddha)",
+  "Wat Arun": "Wat Arun (Temple of Dawn)",
+  "Khao San Road": "Khao San Road",
+  "Chatuchak Weekend Market": "Chatuchak Weekend Market",
+  "Mahanakhon Skywalk": "Mahanakhon SkyWalk",
+  "Sky Bar / Sirocco (Lebua State Tower)": "Sky Bar / Sirocco, Lebua State Tower",
+  "Asiatique The Riverfront (energy-permitting)": "Asiatique The Riverfront",
+  "Slow start — last full Bangkok morning": "Song Wat Road",
+  "Harbor Island Water Park": "Harbor Island Water Park",
+  "Space & Time Cube+ Bangkok": "Space & Time Cube+ Bangkok",
+  "Terminal 21 + Pier 21 food court": "Terminal 21 (Pier 21 food court)",
+  "SEA LIFE Bangkok Ocean World": "SEA LIFE Bangkok Ocean World",
+  "Check in — Baiyoke Sky Hotel": "Baiyoke Sky Hotel (Space Zone)",
+  "Couples Thai massage": "Khus Samui Spa",
+  "Free / flexible": "Platinum Fashion Mall",
+  "Sanctuary of Truth": "Sanctuary of Truth",
+  "Check in — Centara Pattaya Hotel": "Centara Pattaya Hotel",
+  "Art in Paradise": "Art in Paradise Pattaya",
+  "Ripley's Believe It or Not!": "Ripley's Believe It or Not! Pattaya",
+  "Walking Street": "Walking Street Pattaya",
+  "Koh Larn / Coral Island Tour": "Koh Larn (Coral Island)",
+  "Check in — Gate43 Airport Hotel": "Gate43 Airport Residence",
+  "Yaowarat (Chinatown), optional": "Yaowarat (Chinatown)",
+  "Drop luggage at Patong Resort": "Patong Resort",
+  "Wat Chalong": "Wat Chalong",
+  "Big Buddha of Phuket": "Big Buddha of Phuket",
+  "Check in — Patong Resort": "Patong Resort",
+  "Speedboat pickup": "Royal Phuket Marina / Ao Po Grand Marina",
+  "Option A: Old Phuket Town or beach time": "Old Phuket Town (Thalang Road)",
+  "If taking Option B: drop bags at Oceanfront first": "Oceanfront Beach Resort",
+  "Check in — Oceanfront Beach Resort": "Oceanfront Beach Resort",
+  "Couples spa treatment": "Let's Relax Spa Patong",
+  "Promthep Cape sunset": "Promthep Cape",
+  "Free evening near Sukhumvit 11": "Citrus Sukhumvit 11",
+};
 
 const daysContainer = document.getElementById('days-container');
 
@@ -1698,6 +1835,7 @@ days.forEach((d, i) => {
           <div class="day-time">${it[0]}</div>
           <div class="day-place"><b>${it[1]}</b>${it[2] ? `<span>${it[2]}</span>` : ''}${it[4] ? `<span class="day-transport">🚕 ${it[4]}</span>` : ''}</div>
           ${it[3] ? `<div class="day-cost">${it[3]}</div>` : ''}
+          ${itemPinHtml(it[1])}
         </div>
       `).join('')}
     </div>
@@ -1705,6 +1843,28 @@ days.forEach((d, i) => {
   card.querySelector('.day-head').addEventListener('click', () => card.classList.toggle('collapsed'));
   daysContainer.appendChild(card);
 });
+
+// Delegated: the Copy Thai buttons above are created via innerHTML, so one listener on the
+// container covers all of them, including any added later.
+daysContainer.addEventListener('click', e => {
+  const btn = e.target.closest('.day-copy-thai');
+  if (btn) copyToClipboard(btn.dataset.thai, btn);
+});
+
+function escAttr(str) { return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+
+function itemPinHtml(itemTitle) {
+  const pinName = ITEM_PIN_LINKS[itemTitle];
+  if (!pinName) return '';
+  const pin = PIN_BY_NAME[pinName];
+  if (!pin) return ''; // link table and pin data drifted apart — fail silently rather than break the render
+  const query = pin.q || pin.name;
+  const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+  return `<div class="day-item-pins">
+    <a class="day-pin-btn maps" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>
+    ${pin.thai ? `<button type="button" class="day-pin-btn day-copy-thai" data-thai="${escAttr(pin.thai)}">Copy Thai</button>` : ''}
+  </div>`;
+}
 
 function badgeFor(i) {
   const dd = dayDates[i];
@@ -2092,76 +2252,7 @@ function initPinSearch() {
   apply();
 }
 
-buildMapPins('pins-container', {
-  "🏨 Your hotels — the pins you'll use most": [
-    { name: "ibis Styles Bangkok Sukhumvit 4", thai: "ไอบิส สไตล์ กรุงเทพ สุขุมวิท 4", sub: "28 Aug – 1 Sep · Soi Sukhumvit 4, nearest BTS Nana", q: "ibis Styles Bangkok Sukhumvit 4 Hotel" },
-    { name: "Baiyoke Sky Hotel (Space Zone)", thai: "โรงแรมใบหยกสกาย ราชเทวี", sub: "1–3 Sep · Pratunam / Ratchathewi — Manan's birthday, Sep 2", q: "Baiyoke Sky Hotel Bangkok" },
-    { name: "Centara Pattaya Hotel", thai: "โรงแรมเซ็นทารา พัทยา", sub: "3–4 Sep", q: "Centara Pattaya Hotel" },
-    { name: "Gate43 Airport Residence", thai: "เกท 43 แอร์พอร์ต เรสซิเดนซ์", sub: "4–5 Sep · near Suvarnabhumi, for the 06:50 Phuket flight", q: "Gate43 Airport Residence Bangkok" },
-    { name: "Patong Resort", thai: "ป่าตอง รีสอร์ท", sub: "5–7 Sep · Patong, Phuket · ✓ paid ₹6,892 · 208 Rai-Uthit 200 Pee Rd", q: "Patong Resort 208 Rai-Uthit 200 Pee Road Patong Beach Phuket" },
-    { name: "Oceanfront Beach Resort", thai: "โอเชี่ยนฟรอนท์ บีช รีสอร์ท ป่าตอง", sub: "7–9 Sep · Phrabaramee Rd, Patong · ✓ paid ₹15,791 · ฿3,000 cash deposit at check-in · wife's birthday, Sep 8", q: "Oceanfront Beach Resort Patong Phuket" },
-    { name: "Citrus Sukhumvit 11", thai: "ซิตรัส สุขุมวิท 11", sub: "9–10 Sep · last night · BTS Nana · ✓ paid ₹4,493", q: "Citrus Sukhumvit 11 Bangkok" },
-  ],
-  "✈️ Airports": [
-    { name: "Suvarnabhumi Airport (BKK)", thai: "ท่าอากาศยานสุวรรณภูมิ", sub: "Arrive 28 Aug 15:40 · depart to Phuket 5 Sep 06:50 · fly home 10 Sep 14:40" },
-    { name: "Phuket International Airport (HKT)", thai: "ท่าอากาศยานนานาชาติภูเก็ต", sub: "Land 5 Sep 08:25 · depart 9 Sep 17:20 · ~45–60 min from Patong, leave early" },
-  ],
-  "🛕 Bangkok — temples & old city": [
-    { name: "Grand Palace & Wat Phra Kaew", thai: "พระบรมมหาราชวัง วัดพระแก้ว", sub: "฿500pp · dress code enforced: covered shoulders and knees" },
-    { name: "Wat Pho (Reclining Buddha)", thai: "วัดโพธิ์ ท่าเตียน", sub: "฿300pp · Thai massage school on site, ฿420pp" },
-    { name: "Wat Arun (Temple of Dawn)", thai: "วัดอรุณราชวราราม", sub: "฿200pp · cross by ฿5 ferry from Tha Tien pier" },
-    { name: "Yaowarat (Chinatown)", thai: "เยาวราช", sub: "Street food after dark · chicken/egg options plentiful" },
-    { name: "Khao San Road", thai: "ถนนข้าวสาร", sub: "Backpacker strip, night market" },
-    { name: "Song Wat Road", thai: "ถนนทรงวาด", sub: "Optional — old riverside street, cafés and murals" },
-  ],
-  "🏙️ Bangkok — views, malls & river": [
-    { name: "Mahanakhon SkyWalk", thai: "คิงเพาเวอร์ มหานคร สกายวอล์ค", sub: "BTS Chong Nonsi · book a sunset slot ahead, ~₹2,561pp on Klook", q: "King Power Mahanakhon SkyWalk Bangkok" },
-    { name: "Sky Bar / Sirocco, Lebua State Tower", thai: "เลอบัว สเตท ทาวเวอร์ สีลม", sub: "Day 3 evening — replaces Vertigo & Moon Bar (closed 16 Jun–30 Nov 2026) · BTS Saphan Taksin · Sky Bar is walk-in only", q: "Lebua at State Tower Bangkok" },
-    { name: "ICONSIAM & SookSiam", thai: "ไอคอนสยาม", sub: "Riverside mall · free shuttle boat from Sathorn pier" },
-    { name: "Asiatique The Riverfront", thai: "เอเชียทีค เดอะ ริเวอร์ฟร้อนท์", sub: "Night market · free shuttle boat from Sathorn pier" },
-    { name: "Chao Phraya dinner cruise — Sathorn (Central) Pier", thai: "ท่าเรือสาทร", sub: "Sep 1 · most cruises board here · book 2 days ahead", q: "Sathorn Pier Bangkok" },
-    { name: "MBK Center", thai: "มาบุญครอง เอ็มบีเค เซ็นเตอร์", sub: "BTS National Stadium · electronics, the DJI drone stop" },
-    { name: "Terminal 21 (Pier 21 food court)", thai: "เทอร์มินอล 21 อโศก", sub: "BTS Asok · cheap food court, ~฿50–100 a dish" },
-    { name: "Platinum Fashion Mall", thai: "แพลทินัม แฟชั่น มอลล์ ประตูน้ำ", sub: "Pratunam · walking distance from Baiyoke Sky" },
-    { name: "Chatuchak Weekend Market", thai: "ตลาดนัดจตุจักร", sub: "Sat & Sun only · MRT Kamphaeng Phet exit 2 is the best entrance" },
-    { name: "SEA LIFE Bangkok Ocean World", thai: "ซีไลฟ์ แบงคอก โอเชี่ยน เวิลด์", sub: "Under Siam Paragon · book online" },
-    { name: "Go-Ang Kaomunkai Pratunam (khao man gai)", thai: "ร้านข้าวมันไก่ประตูน้ำ โกอ่าง", sub: "Michelin Bib Gourmand · 5 min walk from Baiyoke Sky · chicken rice, safe for your diet" },
-    { name: "Bawarchi Indian Restaurant (Sukhumvit)", thai: "ร้านอาหารอินเดีย บาวาชี สุขุมวิท", sub: "Near Sukhumvit 4 — fallback for the ibis Styles nights", q: "Bawarchi Indian Restaurant Sukhumvit Bangkok" },
-  ],
-  "🌴 Pattaya": [
-    { name: "Sanctuary of Truth", thai: "ปราสาทสัจธรรม", sub: "~฿600pp · all-teak carved temple on the water" },
-    { name: "Art in Paradise Pattaya", thai: "อาร์ต อิน พาราไดซ์ พัทยา", sub: "3D illusion museum · no combo ticket with Ripley's, book separately" },
-    { name: "Ripley's Believe It or Not! Pattaya", thai: "ริปลีส์ พัทยา", sub: "Royal Garden Plaza, Beach Road · ฿650pp" },
-    { name: "Walking Street Pattaya", thai: "วอล์คกิ้งสตรีท พัทยา", sub: "Opens up after ~8 PM" },
-    { name: "Bali Hai Pier (Koh Larn ferry)", thai: "ท่าเรือแหลมบาลีฮาย", sub: "Sep 4 · ferries to Koh Larn leave from here · go early, back before checkout", q: "Bali Hai Pier Pattaya" },
-    { name: "Koh Larn (Coral Island)", thai: "เกาะล้าน", sub: "Sep 4 · Indian buffet package ~฿280pp via tripthaitour.com" },
-    { name: "Alibaba Tandoori Pattaya", thai: "ร้านอาหารอินเดีย อาลีบาบา พัทยา", sub: "Indian fallback in Pattaya", q: "Alibaba Tandoori Restaurant Pattaya" },
-  ],
-  "🏝️ Phuket": [
-    { name: "Patong Beach", thai: "หาดป่าตอง", sub: "Both Phuket hotels are here" },
-    { name: "Wat Chalong", thai: "วัดฉลอง", sub: "Phuket's largest temple · free, donation optional" },
-    { name: "Big Buddha of Phuket", thai: "พระพุทธมิ่งมงคลเอกนาคคีรี พระใหญ่ภูเก็ต", sub: "Steep winding road up — Grab it rather than scooter if wet" },
-    { name: "Old Phuket Town (Thalang Road)", thai: "เมืองเก่าภูเก็ต ถนนถลาง", sub: "Sino-Portuguese shophouses, cafés · Sunday walking street" },
-    { name: "Promthep Cape", thai: "แหลมพรหมเทพ", sub: "Sunset viewpoint at the southern tip · arrive ~45 min before sunset" },
-    { name: "Royal Phuket Marina / Ao Po Grand Marina", thai: "อ่าวปอ แกรนด์ มารีน่า", sub: "Sep 6 · common departure point for catamaran Phi Phi tours — confirm your pier with Seanery", q: "Ao Po Grand Marina Phuket" },
-    { name: "Rassada Pier (Phi Phi ferries)", thai: "ท่าเรือรัษฎา", sub: "The other common Phi Phi departure point — confirm which one applies", q: "Rassada Pier Phuket" },
-    { name: "Let's Relax Spa Patong", thai: "เล็ทส์ รีแลกซ์ สปา ป่าตอง", sub: "Sep 8 spa option · walkable from Oceanfront", q: "Let's Relax Spa Patong Phuket" },
-    { name: "Amritsr Restaurant Patong", thai: "ร้านอาหารอินเดีย อมฤตสร์ ป่าตอง", sub: "Indian fallback near Patong", q: "Amritsr Restaurant Patong Phuket" },
-  ],
-  "🚨 Emergency — pin these before you need them": [
-    { name: "Bumrungrad International Hospital", thai: "โรงพยาบาลบำรุงราษฎร์", sub: "Sukhumvit Soi 3 · the standard tourist/expat hospital in Bangkok · ~5 min from ibis Styles Sukhumvit 4", q: "Bumrungrad International Hospital Bangkok" },
-    { name: "Bangkok Hospital Phuket", thai: "โรงพยาบาลกรุงเทพภูเก็ต", sub: "Phuket Town · ~30 min from Patong · for anything serious on the Phuket leg", q: "Bangkok Hospital Phuket" },
-    { name: "Patong Hospital", thai: "โรงพยาบาลป่าตอง", sub: "In Patong itself · minor issues, much closer than Phuket Town", q: "Patong Hospital Phuket" },
-    { name: "Embassy of India, Bangkok", thai: "สถานเอกอัครราชทูตอินเดีย กรุงเทพ", sub: "46 Soi Prasarnmitr (Sukhumvit 23), Wattana · walkable from both Sukhumvit hotels · lost passport goes here", q: "Embassy of India Bangkok Sukhumvit 23" },
-  ],
-  "🏧 ATMs — withdraw ฿10,000+ per pull": [
-    { name: "AEON ATM (฿150 fee — the cheap one)", thai: "ตู้เอทีเอ็ม อิออน", sub: "Found inside Big C and Lotus's stores · use your Niyo Forex card · always beats the ฿250 bank ATMs", q: "AEON ATM Bangkok" },
-    { name: "AEON ATM near Sukhumvit / Nana — live map search", thai: "ตู้เอทีเอ็ม อิออน สุขุมวิท", sub: "Walking distance from BOTH ibis Styles Sukhumvit 4 (28 Aug–1 Sep) and Citrus Sukhumvit 11 (9–10 Sep) · this pin runs a live Maps search rather than pointing at one confirmed machine — AEON moves its units, so check the map on the day", q: "AEON ATM Sukhumvit Bangkok" },
-    { name: "Big C Rajdamri", thai: "บิ๊กซี ราชดำริ", sub: "Central Bangkok Big C — AEON ATM inside · opposite CentralWorld", q: "Big C Supercenter Rajdamri Bangkok" },
-    { name: "Foodland Sukhumvit 5 (24hr) — ATM check", thai: "ฟู้ดแลนด์ สุขุมวิท 5", sub: "~5 min walk from ibis Styles Sukhumvit 4 · open 24hrs, has an ATM cluster — worth checking for an AEON unit before paying ฿250 at a bank machine", q: "Foodland Supermarket Sukhumvit 5 Bangkok" },
-  ],
-});
-
+buildMapPins('pins-container', PIN_GROUPS);
 initPinSearch();
 
 /* ---- Booking Checklist ---- */

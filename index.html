@@ -169,17 +169,21 @@ html.pre-authed #authGate { display: none; }
 .day-body { padding: 10px 14px; }
 .day-card.collapsed .day-body { display: none; }
 .day-note { font-size: 11px; color: #8a7530; background: #FAEEDA; padding: 6px 9px; border-radius: 5px; margin-bottom: 8px; }
-.day-item { display: flex; gap: 10px; padding: 5px 0; border-bottom: 1px solid #F1EFE8; font-size: 12.5px; align-items: flex-start; }
+.day-item { padding: 5px 0; border-bottom: 1px solid #F1EFE8; font-size: 12.5px; }
 .day-item:last-child { border-bottom: none; }
+.day-item-head { display: flex; gap: 10px; align-items: flex-start; }
 .day-time { flex-shrink: 0; width: 68px; color: #6b6a63; font-weight: 600; font-size: 11.5px; }
-.day-place { flex: 1; }
+.day-place { flex: 1; min-width: 0; }
 .day-place b { display: block; color: #2C2C2A; }
 .day-place span { color: #6b6a63; font-size: 11.5px; }
-.day-cost { flex-shrink: 0; font-size: 11px; font-weight: 700; color: #0F6E56; background: #E1F5EE; padding: 3px 8px; border-radius: 10px; white-space: nowrap; margin-top: 1px; }
+/* Cost, transport, map/copy/expense buttons all wrap together in one row below the description
+   instead of competing with it for horizontal space — that's what squeezed the text into a
+   narrow column before. */
+.day-item-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; margin-left: 78px; }
+.day-cost { font-size: 11px; font-weight: 700; color: #0F6E56; background: #E1F5EE; padding: 3px 8px; border-radius: 10px; max-width: 100%; }
 body.dark .day-cost { background: #16302a; color: #4CAF93; }
-.day-transport { font-size: 11px; color: #8a6d1a; background: #FAEEDA; padding: 3px 8px; border-radius: 6px; margin-top: 5px; display: block; width: fit-content; }
-.day-place span.day-transport { color: #8a6d1a; }
-body.dark .day-transport, body.dark .day-place span.day-transport { background: #3a3320; color: #d4b26a; }
+.day-transport { font-size: 11px; color: #8a6d1a; background: #FAEEDA; padding: 3px 8px; border-radius: 6px; max-width: 100%; }
+body.dark .day-transport { background: #3a3320; color: #d4b26a; }
 
 /* ---- Hotel Tracker ---- */
 .urgency-banner {
@@ -287,13 +291,29 @@ body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
 body.dark .emergency-toggle { background: #33211c; border-color: #7a4433; color: #f0a084; }
 body.dark .emergency-toggle:hover { background: #3d2820; }
 #itineraryEmergencyCard .emergency-card { border-radius: 0 0 8px 8px; border-top: none; margin-bottom: 12px; margin-top: 0; }
+.tripmap-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: #6b6a63; margin: 10px 0; }
+.tripmap-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.tm-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.tm-dot.p1 { background: #D85A30; }
+.tm-dot.p2 { background: #BA7517; }
+.tm-dot.p3 { background: #0F6E56; }
+.tripmap-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.tripmap-filter {
+  font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+  border: 1px solid #DCDACF; background: #F7F6F1; color: #4a4940;
+  padding: 6px 14px; border-radius: 20px;
+}
+.tripmap-filter.active { background: #0F6E56; border-color: #0F6E56; color: #fff; }
+body.dark .tripmap-filter { background: #1e2427; border-color: #444; color: #d8dbdd; }
+body.dark .tripmap-legend { color: #a9adb0; }
+.tm-popup b { color: #2C2C2A; }
+.tm-popup .tm-meta { font-size: 11.5px; color: #6b6a63; margin-top: 4px; line-height: 1.5; }
 .day-log-btn {
   font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 8px; cursor: pointer;
   border: 1px solid #d9c37a; background: #FFF8E1; color: #8a6d1a; font-family: inherit;
   display: inline-block; line-height: 1.4;
 }
 body.dark .day-log-btn { background: #3a3320; border-color: #6b5423; color: #e8c483; }
-.day-item-pins { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
 .day-pin-btn {
   font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 8px; cursor: pointer;
   border: 1px solid #DCDACF; background: #F7F6F1; color: #4a4940; font-family: inherit;
@@ -522,6 +542,8 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     document.documentElement.classList.add('pre-authed');
   }
 </script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
 
@@ -563,6 +585,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       <div class="tab" data-panel="expenses">💰 Expenses</div>
       <div class="tab" data-panel="budget">🧾 Expected Budget</div>
       <div class="tab" data-panel="pins">📍 Map Pins</div>
+      <div class="tab" data-panel="tripmap">🗺️ Trip Map</div>
     </div>
   </div>
 </div>
@@ -1363,6 +1386,33 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     </div>
   </div>
 
+  <!-- ============ TRIP MAP ============ -->
+  <div class="panel" id="panel-tripmap">
+    <div class="section-title">Trip Map</div>
+    <div class="section-desc">
+      Every stop plotted with real coordinates, colour-coded by priority. Needs a live connection to
+      load the map tiles — Map Pins is the offline-safe way to get a Thai name to show a driver.
+    </div>
+    <div class="tripmap-legend">
+      <span><i class="tm-dot p1"></i> P1 — book now</span>
+      <span><i class="tm-dot p2"></i> P2 — book ahead</span>
+      <span><i class="tm-dot p3"></i> P3 — walk-up</span>
+    </div>
+    <div class="tripmap-filters" id="tripmapFilters">
+      <button type="button" class="tripmap-filter active" data-city="All">All</button>
+      <button type="button" class="tripmap-filter" data-city="Bangkok">Bangkok</button>
+      <button type="button" class="tripmap-filter" data-city="Pattaya">Pattaya</button>
+      <button type="button" class="tripmap-filter" data-city="Phuket">Phuket</button>
+    </div>
+    <div id="tripmap" style="height: 440px; border-radius: 8px; overflow: hidden; border: 1px solid #EEEDE6;"></div>
+    <div class="note-strip" style="margin-top:10px;">
+      Built from your Google Maps export — the coordinates are used as-is, but the day/date each stop
+      is tagged with here has been corrected against the confirmed itinerary (the export's own day
+      numbers didn't line up with what's actually booked). Tap a marker for the day, cost and current
+      booking status.
+    </div>
+  </div>
+
 </div>
 
 </div>
@@ -1653,6 +1703,108 @@ function emergencyCardHtml() {
 document.getElementById('overviewEmergencyCard').className = 'confirmed-box emergency-card';
 document.getElementById('overviewEmergencyCard').innerHTML = emergencyCardHtml();
 
+/* ============ TRIP MAP ============ */
+/* Coordinates and priority/cost/booking text come from the user's Google Maps export
+   (gemini-code-*.json). The export's own "day"/"date" fields were dropped: they compress
+   14 real days into 10 and mislabel several (e.g. its "Day 4 / 2 Sep" mixes stops that are
+   actually spread across Day 2, Day 4 and Day 6). The `day` field below is hand-checked
+   against the confirmed itinerary instead — see the days array above. */
+const TRIP_MAP_STOPS = [
+  { city: "Bangkok", name: "SEA LIFE Bangkok Ocean World", day: "Day 5 · 1 Sep", priority: "P2", cost: "฿900–1,200pp", booking: "Book online recommended", lat: 13.7460, lng: 100.5348 },
+  { city: "Bangkok", name: "MBK Center", day: "Day 1 · 28 Aug", priority: "P3", cost: "Free entry", booking: "Walk-up OK", lat: 13.7444, lng: 100.5300 },
+  { city: "Bangkok", name: "Mahanakhon Skywalk", day: "Day 3 · 30 Aug", priority: "P1", cost: "฿1,200pp", booking: "NOT BOOKED · book sunset slot on Klook", lat: 13.7234, lng: 100.5284 },
+  { city: "Bangkok", name: "Sky Bar / Sirocco (Lebua State Tower)", day: "Day 3 · 30 Aug", priority: "P2", cost: "Drinks only / ฿3,000pp+ dinner", booking: "Sky Bar walk-in · Sirocco call ahead", lat: 13.7214, lng: 100.5169 },
+  { city: "Bangkok", name: "Chatuchak Weekend Market", day: "Day 3 · 30 Aug", priority: "P2", cost: "Free", booking: "Walk-up OK (Sun only)", lat: 13.7999, lng: 100.5508 },
+  { city: "Bangkok", name: "Terminal 21 Asok & Pier 21", day: "Day 4 · 31 Aug", priority: "P3", cost: "฿200–400pp food", booking: "Walk-up OK", lat: 13.7375, lng: 100.5604 },
+  { city: "Bangkok", name: "Platinum Fashion Mall", day: "Day 6 · 2 Sep (free afternoon option)", priority: "P3", cost: "Free entry", booking: "Walk-up OK", lat: 13.7503, lng: 100.5398 },
+  { city: "Bangkok", name: "Asiatique The Riverfront", day: "Day 3 · 30 Aug (energy-permitting)", priority: "P3", cost: "฿300–800pp dinner", booking: "Walk-up OK", lat: 13.7047, lng: 100.5031 },
+  { city: "Bangkok", name: "Grand Palace & Wat Phra Kaew", day: "Day 2 · 29 Aug", priority: "P1", cost: "฿500pp", booking: "Walk-up only", lat: 13.7500, lng: 100.4913 },
+  { city: "Bangkok", name: "Wat Pho", day: "Day 2 · 29 Aug", priority: "P2", cost: "฿300pp + ฿420pp massage", booking: "Walk-up OK", lat: 13.7465, lng: 100.4933 },
+  { city: "Bangkok", name: "Wat Arun", day: "Day 2 · 29 Aug", priority: "P2", cost: "฿200pp", booking: "Walk-up OK", lat: 13.7437, lng: 100.4889 },
+  { city: "Bangkok", name: "Yaowarat Road & Song Wat Road", day: "Song Wat: Day 4 (31 Aug, optional) · Yaowarat: Day 8 (4 Sep, optional)", priority: "P3", cost: "฿200–400pp food", booking: "Walk-up OK", lat: 13.7411, lng: 100.5083 },
+  { city: "Bangkok", name: "ICONSIAM & SookSiam", day: "Day 5 · 1 Sep (alt to the dinner cruise)", priority: "P1", cost: "Free", booking: "Walk-up OK", lat: 13.7267, lng: 100.5108 },
+  { city: "Bangkok", name: "Chao Phraya Dinner Cruise", day: "Day 5 · 1 Sep (alt to ICONSIAM)", priority: "P1", cost: "฿2,500–3,500pp", booking: "NOT BOOKED · needs 2 days notice, boards at Sathorn Pier", lat: 13.7188, lng: 100.5134 },
+  { city: "Bangkok", name: "Couples Thai Massage (8:00 AM)", day: "Day 6 · 2 Sep", priority: "P2", cost: "฿1,500pp", booking: "NOT BOOKED · Khus Samui Spa or Spa 1930, 1 day notice", lat: 13.7380, lng: 100.5300 },
+  { city: "Bangkok", name: "Space & Time Cube+ Bangkok / Harbor Island", day: "Day 4 · 31 Aug", priority: "P2", cost: "฿380–600pp", booking: "Book online for discount", lat: 13.6890, lng: 100.6100 },
+  { city: "Bangkok", name: "Birthday Dinner Night Out", day: "Day 6 · 2 Sep", priority: "P1", cost: "฿2,000–3,000pp", booking: "NOT BOOKED · Above Eleven dropped, pick from Birthday Dinners tab", lat: 13.7400, lng: 100.5500 },
+  { city: "Bangkok", name: "Khao San Road", day: "Day 2 · 29 Aug, evening", priority: "P3", cost: "฿200–500pp", booking: "Walk-up OK", lat: 13.7589, lng: 100.4974 },
+  { city: "Pattaya", name: "Sanctuary of Truth", day: "Day 7 · 3 Sep", priority: "P2", cost: "฿600pp", booking: "Walk-up OK", lat: 12.9716, lng: 100.8893 },
+  { city: "Pattaya", name: "Art in Paradise", day: "Day 7 · 3 Sep", priority: "P2", cost: "฿400–500pp", booking: "Walk-up or combo online", lat: 12.9482, lng: 100.8897 },
+  { city: "Pattaya", name: "Ripley's Believe It or Not!", day: "Day 7 · 3 Sep", priority: "P2", cost: "฿650pp", booking: "Walk-up or combo online", lat: 12.9298, lng: 100.8781 },
+  { city: "Pattaya", name: "Walking Street Pattaya", day: "Day 7 · 3 Sep", priority: "P3", cost: "Free entry", booking: "Walk-up OK", lat: 12.9255, lng: 100.8722 },
+  { city: "Pattaya", name: "Koh Larn (Coral Island) Tour", day: "Day 8 · 4 Sep", priority: "P1", cost: "฿280pp + water sports", booking: "NOT BOOKED · confirm the Indian buffet package", lat: 12.9234, lng: 100.7850 },
+  { city: "Phuket", name: "Patong Beach", day: "Day 9–11 · 5–7 Sep", priority: "P3", cost: "Free", booking: "Walk-up OK", lat: 7.8966, lng: 98.2965 },
+  { city: "Phuket", name: "Koh Phi Phi Island Tour (Pileh, Monkey Beach, Bamboo)", day: "Day 10 · 6 Sep", priority: "P1", cost: "฿1,200–1,500pp", booking: "NOT BOOKED · pick a free-reschedule operator", lat: 7.7407, lng: 98.7784 },
+  { city: "Phuket", name: "Wat Chalong", day: "Day 9 · 5 Sep", priority: "P2", cost: "Free (donation)", booking: "Walk-up OK", lat: 7.8466, lng: 98.3370 },
+  { city: "Phuket", name: "Big Buddha of Phuket", day: "Day 9 · 5 Sep", priority: "P2", cost: "Free (donation)", booking: "Walk-up OK", lat: 7.8277, lng: 98.3129 },
+  { city: "Phuket", name: "Old Phuket Town", day: "Day 11 · 7 Sep (Option A)", priority: "P3", cost: "฿200–400pp café", booking: "Walk-up OK", lat: 7.8844, lng: 98.3892 },
+  { city: "Phuket", name: "Promthep Cape Sunset", day: "Day 12 · 8 Sep", priority: "P3", cost: "Free", booking: "Walk-up OK", lat: 7.7639, lng: 98.3053 },
+  { city: "Phuket", name: "Couples Spa (9:00 AM)", day: "Day 12 · 8 Sep", priority: "P2", cost: "฿2,000–3,000pp", booking: "NOT BOOKED · asked Oceanfront, awaiting reply", lat: 7.8966, lng: 98.2965 },
+  { city: "Phuket", name: "Phuket Birthday Dinner", day: "Day 12 · 8 Sep", priority: "P1", cost: "฿1,500–3,500pp", booking: "NOT BOOKED · dining in-house at Oceanfront recommended", lat: 7.8966, lng: 98.2965 },
+];
+
+const TRIPMAP_BOUNDS = {
+  All: [[6.5, 97.5], [14.5, 101.5]],
+  Bangkok: [[13.68, 100.47], [13.82, 100.62]],
+  Pattaya: [[12.90, 100.76], [12.99, 100.90]],
+  Phuket: [[7.72, 98.28], [7.92, 98.79]],
+};
+
+let tripMap = null;
+let tripMapMarkers = [];
+const PRIORITY_COLOR = { P1: '#D85A30', P2: '#BA7517', P3: '#0F6E56' };
+
+function initTripMap() {
+  if (tripMap) { tripMap.invalidateSize(); return; }
+  tripMap = L.map('tripmap', { scrollWheelZoom: true });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(tripMap);
+
+  TRIP_MAP_STOPS.forEach(stop => {
+    const marker = L.circleMarker([stop.lat, stop.lng], {
+      radius: 8,
+      color: '#fff',
+      weight: 2,
+      fillColor: PRIORITY_COLOR[stop.priority] || '#6b6a63',
+      fillOpacity: 0.9,
+    }).bindPopup(
+      `<div class="tm-popup"><b>${stop.name}</b><div class="tm-meta">${stop.day}<br>${stop.cost}<br>${stop.booking}</div></div>`
+    );
+    marker.stopCity = stop.city;
+    marker.addTo(tripMap);
+    tripMapMarkers.push(marker);
+  });
+
+  tripMap.fitBounds(TRIPMAP_BOUNDS.All, { animate: false });
+
+  document.getElementById('tripmapFilters').addEventListener('click', e => {
+    const btn = e.target.closest('.tripmap-filter');
+    if (!btn) return;
+    document.querySelectorAll('.tripmap-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const city = btn.dataset.city;
+    tripMapMarkers.forEach(m => {
+      const show = city === 'All' || m.stopCity === city;
+      if (show && !tripMap.hasLayer(m)) m.addTo(tripMap);
+      if (!show && tripMap.hasLayer(m)) tripMap.removeLayer(m);
+    });
+    // Leaflet caches the container's pixel size and doesn't always notice layout shifts
+    // elsewhere on the page (a day card expanding, a mobile browser's toolbar collapsing).
+    // A stale size makes fitBounds compute the wrong zoom — invalidateSize() first is cheap
+    // insurance against that.
+    tripMap.invalidateSize();
+    // animate:false makes this synchronous — no in-flight pan/zoom transition for a rapid
+    // second click to interrupt, which is what produced wrong zoom levels in testing.
+    tripMap.fitBounds(TRIPMAP_BOUNDS[city] || TRIPMAP_BOUNDS.All, { animate: false });
+  });
+}
+
+document.querySelector('.tab[data-panel="tripmap"]').addEventListener('click', () => {
+  setTimeout(initTripMap, 30); // let the panel become visible (display:block) before Leaflet measures it
+});
+
 /* ============ DAY-BY-DAY DATA ============ */
 const days = [
   { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok — check in ibis Styles Sukhumvit 4 + MBK shopping", birthday:false, stay: "ibis Styles Sukhumvit 4", stayNote: "check in from 2:00 PM · GH24121275735188",
@@ -1905,10 +2057,15 @@ days.forEach((d, i) => {
       ${d.note ? `<div class="day-note">${d.note}</div>` : ''}
       ${d.items.map(it => `
         <div class="day-item">
-          <div class="day-time">${it[0]}</div>
-          <div class="day-place"><b>${it[1]}</b>${it[2] ? `<span>${it[2]}</span>` : ''}${it[4] ? `<span class="day-transport">🚕 ${it[4]}</span>` : ''}</div>
-          ${it[3] ? `<div class="day-cost">${it[3]}</div>` : ''}
-          ${itemPinHtml(it[1])}${itemExpenseHtml(it[1], i)}
+          <div class="day-item-head">
+            <div class="day-time">${it[0]}</div>
+            <div class="day-place"><b>${it[1]}</b>${it[2] ? `<span>${it[2]}</span>` : ''}</div>
+          </div>
+          ${(it[3] || it[4] || ITEM_PIN_LINKS[it[1]] || ITEM_EXPENSE_LINKS[it[1]]) ? `<div class="day-item-meta">
+            ${it[3] ? `<span class="day-cost">${it[3]}</span>` : ''}
+            ${it[4] ? `<span class="day-transport">🚕 ${it[4]}</span>` : ''}
+            ${itemPinButtons(it[1])}${itemExpenseButton(it[1], i)}
+          </div>` : ''}
         </div>
       `).join('')}
     </div>
@@ -1939,27 +2096,23 @@ daysContainer.addEventListener('click', e => {
 
 function escAttr(str) { return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
 
-function itemExpenseHtml(itemTitle, dayIdx) {
+function itemExpenseButton(itemTitle, dayIdx) {
   const link = ITEM_EXPENSE_LINKS[itemTitle];
   if (!link) return '';
   const dd = dayDates[dayIdx];
   const dateStr = dd ? (dd.getFullYear() + '-' + String(dd.getMonth() + 1).padStart(2, '0') + '-' + String(dd.getDate()).padStart(2, '0')) : '';
-  return `<div class="day-item-pins">
-    <button type="button" class="day-log-btn" data-cat="${escAttr(link.category)}" data-desc="${escAttr(link.desc)}" data-date="${dateStr}">💰 Log expense</button>
-  </div>`;
+  return `<button type="button" class="day-log-btn" data-cat="${escAttr(link.category)}" data-desc="${escAttr(link.desc)}" data-date="${dateStr}">💰 Log expense</button>`;
 }
 
-function itemPinHtml(itemTitle) {
+function itemPinButtons(itemTitle) {
   const pinName = ITEM_PIN_LINKS[itemTitle];
   if (!pinName) return '';
   const pin = PIN_BY_NAME[pinName];
   if (!pin) return ''; // link table and pin data drifted apart — fail silently rather than break the render
   const query = pin.q || pin.name;
   const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
-  return `<div class="day-item-pins">
-    <a class="day-pin-btn maps" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>
-    ${pin.thai ? `<button type="button" class="day-pin-btn day-copy-thai" data-thai="${escAttr(pin.thai)}">Copy Thai</button>` : ''}
-  </div>`;
+  return `<a class="day-pin-btn maps" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>
+    ${pin.thai ? `<button type="button" class="day-pin-btn day-copy-thai" data-thai="${escAttr(pin.thai)}">Copy Thai</button>` : ''}`;
 }
 
 function badgeFor(i) {

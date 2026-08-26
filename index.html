@@ -569,7 +569,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       </table>
       <div class="detail-row" style="margin-top:8px;">
         <b>₹27,176 charged on 27 Aug</b> across the three rebooked stays; <b>₹79,489 on hotels in total</b>
-        across all seven, excluding the cancelled Aspen Suites (₹21,230) still awaiting a refund answer. Voucher totals for Patong (₹7,378)
+        across all seven. Voucher totals for Patong (₹7,378)
         and Citrus (₹4,597) run ₹486 and ₹103 above the wallet charges — a second payment line on each
         voucher was cut off, so confirm those in Goibibo rather than assuming they're unpaid; both vouchers
         say AMOUNT PAID in full.
@@ -612,7 +612,6 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
           <div class="detail-row"><b>Room:</b> Standard Room with 2 Single beds · Room Only</div>
           <div class="detail-row"><b>Check-in:</b> 2:00 PM · <b>Check-out:</b> 12:00 PM</div>
           <div class="detail-row">Paid ₹25,108 · Free cancellation till 25 Aug 2026, 1:59 PM Bangkok time</div>
-          <div class="detail-row" style="color:#b5451f;"><b>⚠️ Replaced Aspen Suites</b> — confirm whether the earlier Aspen payment (₹21,230, non-refundable) was refunded or lost</div>
         </div>
       </div>
     </div>
@@ -1464,7 +1463,7 @@ document.querySelectorAll('.tab').forEach(tab => {
 /* ============ DAY-BY-DAY DATA ============ */
 const days = [
   { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok — check in ibis Styles Sukhumvit 4 + MBK shopping", birthday:false, stay: "ibis Styles Sukhumvit 4", stayNote: "check in from 2:00 PM · GH24121275735188",
-    note: "Flights: DEL 04:30→BLR 07:20 (AI 2653), BLR 10:00→BKK 15:40 (AI 9071) · Booking ID GOFLISTAM2YH1595682. Aspen Suites was swapped for ibis Styles Sukhumvit 4 (paid ₹25,108) — confirm whether the earlier Aspen payment was refunded. Asiatique swapped for MBK — clothes + DJI drone shopping, so gear is ready to use from Day 2 onward.",
+    note: "Flights: DEL 04:30→BLR 07:20 (AI 2653), BLR 10:00→BKK 15:40 (AI 9071) · Booking ID GOFLISTAM2YH1595682. Asiatique swapped for MBK — clothes + DJI drone shopping, so gear is ready to use from Day 2 onward.",
     items: [
       ["15:40","Land Bangkok","Immigration + baggage claim (allow ~30–40min), then SIM card + Grab app", "~฿300", "Arrival hall — SIM counters right after immigration"],
       ["5:30 PM","Check in — ibis Styles Bangkok Sukhumvit 4","Booking ID GH24121275735188. Paid ₹25,108. Free cancellation was till 25 Aug 1:59 PM Bangkok time (past by check-in). Realistic timing: ~30–40min through immigration + ~45min–1hr transfer from landing", "Paid", "Grab ~45min–1hr from Suvarnabhumi (~฿300–400)"],
@@ -2026,7 +2025,6 @@ buildChecklist('checklist-container', 'thailand-checklist-v3', {
     "Download fresh vouchers for the three rebooked stays — Patong Resort, Oceanfront, Citrus all have new booking IDs",
     "Call Patong Resort (+66 76 340 551) about the renovation noted on the voucher — ask which floors, request a room away from it",
     "Note: Patong Resort has NO breakfast (MAZI did) — plan Sep 6 and Sep 7 mornings around that",
-    "Confirm whether the cancelled Aspen Suites payment (₹21,230) was refunded"
   ],
   "Closer to departure": [
     "Screenshot all confirmations (flights, hotels, tours, restaurants)",
@@ -2196,7 +2194,7 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
   const state = loadHotelState();
   const lines = ['Thailand Trip - Hotel Booking Status', new Date().toLocaleString(), ''];
   const stayNames = {
-    0: 'Bangkok - ibis Styles Bangkok Sukhumvit 4 (28 Aug - 1 Sep, 4 nights) -- BOOKED & PAID (₹25,108), Booking ID GH24121275735188 -- replaced Aspen Suites',
+    0: 'Bangkok - ibis Styles Bangkok Sukhumvit 4 (28 Aug - 1 Sep, 4 nights) -- BOOKED & PAID (₹25,108), Booking ID GH24121275735188 -- paid by UPI',
     1: 'Bangkok - Baiyoke Sky, Space Zone (1 Sep - 3 Sep, 2 nights, birthday) -- BOOKED, Booking ID GH29086275255330',
     2: 'Pattaya - Centara Pattaya Hotel (3 Sep - 4 Sep, 1 night) -- BOOKED & PAID, Booking ID GH23044275257256',
     3: 'Bangkok - Gate43 Airport Hotel (4 Sep - 5 Sep, 1 night) -- BOOKED & PAID, Booking ID GH23044275257592',
@@ -2251,11 +2249,13 @@ const EXP_SEED_APPLIED_KEY = 'thailand-expenses-seeds-applied-v1';
 // already been offered all of these, so they must never be re-added — even the ones
 // the user deliberately deleted.
 const LEGACY_SEED_IDS = ['s1','s1b','s2','s3','s4','s5','s6','s7','s8'];
+// Seeds withdrawn after shipping. Removing one from SEED_EXPENSES only stops NEW trackers
+// from getting it — these ids are also stripped from trackers that already stored it.
+const RETIRED_SEED_IDS = ['s1'];
 let selectedCurrency = 'THB';
 
 const SEED_EXPENSES = [
-  { id: 's1', date: '2026-08-13', category: '🏨 Hotels', desc: '⚠️ Aspen Suites Sukhumvit 2 (4 nights, non-refundable) — GH29086275256124 — CANCELLED, replaced by ibis Styles. Confirm refund status, delete this line if refunded', amount: 21230, currency: 'INR' },
-  { id: 's1b', date: '2026-08-20', category: '🏨 Hotels', desc: 'ibis Styles Bangkok Sukhumvit 4 (4 nights, 28 Aug–1 Sep) — GH24121275735188 — paid by UPI · replaced Aspen Suites', amount: 25108, currency: 'INR' },
+  { id: 's1b', date: '2026-08-20', category: '🏨 Hotels', desc: 'ibis Styles Bangkok Sukhumvit 4 (4 nights, 28 Aug–1 Sep) — GH24121275735188 — paid by UPI', amount: 25108, currency: 'INR' },
   { id: 's2', date: '2026-08-13', category: '🏨 Hotels', desc: 'Baiyoke Sky Hotel, Space Zone (2 nights, birthday stay) — GH29086275255330 — paid on HDFC ••••5444, converted to EMI', amount: 18862, currency: 'INR' },
   { id: 's3', date: '2026-08-13', category: '🏨 Hotels', desc: 'Centara Pattaya Hotel (1 night, Deluxe King + breakfast) — GH23044275257256 — paid on ICICI ••••7004', amount: 4937, currency: 'INR' },
   { id: 's4', date: '2026-08-13', category: '🏨 Hotels', desc: 'Gate43 Airport Hotel (1 night, Deluxe Double) — GH23044275257592 — paid on the Kiwi card (Yes Bank)', amount: 3406, currency: 'INR' },
@@ -2290,6 +2290,8 @@ function loadExpenses() {
     // should match its current definition. This lets corrections (a payment instrument, a
     // revised amount) reach trackers that were seeded before the correction was written.
     let changed = false;
+    const kept = list.filter(e => RETIRED_SEED_IDS.indexOf(e.id) === -1);
+    if (kept.length !== list.length) { list = kept; changed = true; }
     list = list.map(e => {
       const sd = SEED_EXPENSES.find(x => x.id === e.id);
       if (!sd) return e;

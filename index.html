@@ -276,6 +276,17 @@ body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
 .pin-btn.maps { background: #E1F5EE; border-color: #b8e0d2; color: #0F6E56; }
 .pin-btn.maps:hover { background: #cfeee1; }
 .pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+.emergency-toggle {
+  display: block; width: 100%; box-sizing: border-box; font-family: inherit;
+  font-size: 12.5px; font-weight: 700; cursor: pointer; text-align: left;
+  border: 1px solid #e3b088; background: #FFF7F2; color: #b5451f;
+  border-radius: 8px; padding: 9px 12px; margin-bottom: 10px;
+}
+.emergency-toggle:hover { background: #ffeee3; }
+.emergency-toggle.open { border-radius: 8px 8px 0 0; margin-bottom: 0; }
+body.dark .emergency-toggle { background: #33211c; border-color: #7a4433; color: #f0a084; }
+body.dark .emergency-toggle:hover { background: #3d2820; }
+#itineraryEmergencyCard .emergency-card { border-radius: 0 0 8px 8px; border-top: none; margin-bottom: 12px; margin-top: 0; }
 .day-item-pins { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
 .day-pin-btn {
   font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 8px; cursor: pointer;
@@ -584,23 +595,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       a <b>layover in Pune</b>, not a direct Bangkok–Delhi flight — see Day 14.
     </div>
 
-    <div class="confirmed-box emergency-card">
-      <div class="hotel-name emergency-title">🚨 Emergency — screenshot this page</div>
-      <table class="info-table" style="width:100%; font-size:12px;">
-        <tr><td><b>Tourist Police</b></td><td><b>1155</b> — English-speaking, 24h. This is the number to call first for theft, scams, disputes or anything involving police</td></tr>
-        <tr><td><b>Medical emergency / ambulance</b></td><td><b>1669</b> — national emergency line, 24h</td></tr>
-        <tr><td><b>General police / fire</b></td><td>191 (police) · 199 (fire)</td></tr>
-        <tr><td><b>TataAIG assistance</b></td><td>⚠️ FILL THIS IN — the 24h international assistance number is on your policy PDF (Order GTMSTDIS415217567580). Insurance you cannot phone at 2 AM is not insurance. Save it to both phones before you fly</td></tr>
-        <tr><td><b>Embassy of India, Bangkok</b></td><td>46 Soi Prasarnmitr (Sukhumvit 23), Wattana — walkable from both your Sukhumvit hotels. Confirm the current 24h emergency number on the embassy site and save it</td></tr>
-        <tr><td><b>Hospital — Bangkok</b></td><td>Bumrungrad International (Sukhumvit Soi 3) — the standard expat/tourist hospital, ~5 min from ibis Styles Sukhumvit 4</td></tr>
-        <tr><td><b>Hospital — Phuket</b></td><td>Patong Hospital for minor issues · Bangkok Hospital Phuket (Phuket Town, ~30 min from Patong) for anything serious. Verify on arrival rather than at 3 AM</td></tr>
-      </table>
-      <div class="detail-row" style="margin-top:8px;">
-        <b>Medication note:</b> you are carrying BP and diabetes medication for 14 days. If you need a
-        pharmacy, Thai pharmacies are widespread and well-stocked, but bring the pharmacy label or
-        prescription — generic names differ from Indian brand names, and staff will ask.
-      </div>
-    </div>
+    <div id="overviewEmergencyCard"></div>
 
     <div class="info-card">
       This page merges your full itinerary with a live hotel booking tracker — check the
@@ -618,6 +613,8 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       <span id="todayStripText"></span>
       <button type="button" class="today-jump" id="todayJumpBtn">Jump to today</button>
     </div>
+    <button type="button" class="emergency-toggle" id="emergencyToggleBtn">🚨 Emergency numbers</button>
+    <div id="itineraryEmergencyCard" style="display:none;"></div>
     <div id="days-container"></div>
   </div>
 
@@ -1625,6 +1622,31 @@ const PIN_GROUPS = {
 const PIN_BY_NAME = {};
 Object.values(PIN_GROUPS).forEach(list => list.forEach(p => { PIN_BY_NAME[p.name] = p; }));
 
+/* ============ EMERGENCY INFO — single source, rendered on Overview and Day-by-Day ============ */
+const EMERGENCY_ROWS = [
+  ["Tourist Police", "<b>1155</b> — English-speaking, 24h. This is the number to call first for theft, scams, disputes or anything involving police"],
+  ["Medical emergency / ambulance", "<b>1669</b> — national emergency line, 24h"],
+  ["General police / fire", "191 (police) · 199 (fire)"],
+  ["TataAIG assistance", "⚠️ FILL THIS IN — the 24h international assistance number is on your policy PDF (Order GTMSTDIS415217567580). Insurance you cannot phone at 2 AM is not insurance. Save it to both phones before you fly"],
+  ["Embassy of India, Bangkok", "46 Soi Prasarnmitr (Sukhumvit 23), Wattana — walkable from both your Sukhumvit hotels. Confirm the current 24h emergency number on the embassy site and save it"],
+  ["Hospital — Bangkok", "Bumrungrad International (Sukhumvit Soi 3) — the standard expat/tourist hospital, ~5 min from ibis Styles Sukhumvit 4"],
+  ["Hospital — Phuket", "Patong Hospital for minor issues · Bangkok Hospital Phuket (Phuket Town, ~30 min from Patong) for anything serious. Verify on arrival rather than at 3 AM"],
+];
+const EMERGENCY_MED_NOTE = "<b>Medication note:</b> you are carrying BP and diabetes medication for 14 days. If you need a pharmacy, Thai pharmacies are widespread and well-stocked, but bring the pharmacy label or prescription — generic names differ from Indian brand names, and staff will ask.";
+
+function emergencyCardHtml() {
+  return `
+    <div class="hotel-name emergency-title">🚨 Emergency — screenshot this page</div>
+    <table class="info-table" style="width:100%; font-size:12px;">
+      ${EMERGENCY_ROWS.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td></tr>`).join('')}
+    </table>
+    <div class="detail-row" style="margin-top:8px;">${EMERGENCY_MED_NOTE}</div>
+  `;
+}
+
+document.getElementById('overviewEmergencyCard').className = 'confirmed-box emergency-card';
+document.getElementById('overviewEmergencyCard').innerHTML = emergencyCardHtml();
+
 /* ============ DAY-BY-DAY DATA ============ */
 const days = [
   { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok — check in ibis Styles Sukhumvit 4 + MBK shopping", birthday:false, stay: "ibis Styles Sukhumvit 4", stayNote: "check in from 2:00 PM · GH24121275735188",
@@ -1923,6 +1945,21 @@ function badgeFor(i) {
     if (scrolled) return;
     scrolled = true;
     setTimeout(() => cards[openIdx].scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  });
+})();
+
+/* ---- Emergency numbers, reachable without leaving Day-by-Day ---- */
+(function initItineraryEmergency() {
+  const btn = document.getElementById('emergencyToggleBtn');
+  const box = document.getElementById('itineraryEmergencyCard');
+  if (!btn || !box) return;
+  box.className = 'confirmed-box emergency-card';
+  box.innerHTML = emergencyCardHtml();
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    box.style.display = open ? 'block' : 'none';
+    btn.classList.toggle('open', open);
   });
 })();
 

@@ -276,6 +276,28 @@ body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
 .pin-btn.maps { background: #E1F5EE; border-color: #b8e0d2; color: #0F6E56; }
 .pin-btn.maps:hover { background: #cfeee1; }
 .pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+.pin-search-wrap { position: relative; margin-bottom: 12px; }
+.pin-search {
+  width: 100%; box-sizing: border-box; font-family: inherit; font-size: 13px;
+  padding: 10px 34px 10px 34px; border-radius: 8px; border: 1px solid #DCDACF;
+  background: #F7F6F1 url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b6a63' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") no-repeat 10px center;
+  background-size: 16px 16px; color: #2C2C2A;
+}
+.pin-search:focus { outline: none; border-color: #0F6E56; background-color: white; }
+.pin-search-clear {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  border: none; background: transparent; cursor: pointer; font-size: 17px;
+  color: #6b6a63; padding: 4px 8px; line-height: 1; display: none; font-family: inherit;
+}
+.pin-search-clear:hover { color: #2C2C2A; }
+.pin-search-count { font-size: 11.5px; color: #6b6a63; margin: -4px 0 12px 2px; }
+.pin-no-results {
+  border: 1px dashed #DCDACF; border-radius: 8px; padding: 16px 14px;
+  text-align: center; font-size: 12.5px; color: #6b6a63;
+}
+body.dark .pin-search { background-color: #1e2427; border-color: #444; color: #d8dbdd; }
+body.dark .pin-search:focus { background-color: #262b2e; border-color: #4CAF93; }
+body.dark .pin-no-results { border-color: #444; }
 .pin-app-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px; }
 .pin-app-btn {
   font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 9px;
@@ -532,12 +554,13 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
         <tr><td><b>Oceanfront Beach Resort</b> · 7–9 Sep</td><td>₹15,791</td><td>ICICI ••••4009</td></tr>
         <tr><td><b>Citrus Sukhumvit 11</b> · 9–10 Sep</td><td>₹4,493</td><td>Kiwi card (Yes Bank) via goaxb wallet</td></tr>
         <tr><td><b>ibis Styles Sukhumvit 4</b> · 28 Aug–1 Sep</td><td>₹25,108</td><td>instrument not recorded</td></tr>
-        <tr><td><b>Baiyoke Sky, Space Zone</b> · 1–3 Sep</td><td>amount not recorded</td><td>instrument not recorded</td></tr>
-        <tr><td><b>Centara Pattaya</b> · 3–4 Sep</td><td>amount not recorded</td><td>instrument not recorded</td></tr>
-        <tr><td><b>Gate43 Airport Hotel</b> · 4–5 Sep</td><td>amount not recorded</td><td>instrument not recorded</td></tr>
+        <tr><td><b>Baiyoke Sky, Space Zone</b> · 1–3 Sep</td><td>₹18,862</td><td>instrument not recorded</td></tr>
+        <tr><td><b>Centara Pattaya</b> · 3–4 Sep</td><td>₹4,937</td><td>instrument not recorded</td></tr>
+        <tr><td><b>Gate43 Airport Hotel</b> · 4–5 Sep</td><td>₹3,406</td><td>instrument not recorded</td></tr>
       </table>
       <div class="detail-row" style="margin-top:8px;">
-        <b>₹27,176 charged on 27 Aug</b> across the three rebooked stays. Voucher totals for Patong (₹7,378)
+        <b>₹27,176 charged on 27 Aug</b> across the three rebooked stays; <b>₹79,489 on hotels in total</b>
+        across all seven, excluding the cancelled Aspen Suites (₹21,230) still awaiting a refund answer. Voucher totals for Patong (₹7,378)
         and Citrus (₹4,597) run ₹486 and ₹103 above the wallet charges — a second payment line on each
         voucher was cut off, so confirm those in Goibibo rather than assuming they're unpaid; both vouchers
         say AMOUNT PAID in full.
@@ -1225,7 +1248,17 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       Grab and Bolt both need a live connection.
     </div>
 
+    <div class="pin-search-wrap">
+      <input type="search" id="pinSearch" class="pin-search" autocomplete="off"
+             placeholder="Search pins — name, Thai, area, date…">
+      <button type="button" class="pin-search-clear" id="pinSearchClear" aria-label="Clear search">✕</button>
+    </div>
+    <div class="pin-search-count" id="pinSearchCount"></div>
+
     <div id="pins-container"></div>
+    <div class="pin-no-results" id="pinNoResults" style="display:none;">
+      No pins match that. Try a place name, a Thai word, or an area like <b>Patong</b> or <b>Sukhumvit</b>.
+    </div>
 
     <div class="note-strip">
       Thai names are the ones drivers actually recognise — English transliterations often don't land.
@@ -1784,6 +1817,7 @@ function buildMapPins(containerId, groups) {
 
       const row = document.createElement('div');
       row.className = 'pin-item';
+      row.dataset.search = [pin.name, pin.thai, pin.sub, query].filter(Boolean).join(' ').toLowerCase();
 
       const nameDiv = document.createElement('div');
       nameDiv.className = 'pin-name';
@@ -1835,6 +1869,47 @@ function buildMapPins(containerId, groups) {
 
     container.appendChild(groupDiv);
   });
+}
+
+/* ---- Map pin search ---- */
+function initPinSearch() {
+  const input = document.getElementById('pinSearch');
+  const clearBtn = document.getElementById('pinSearchClear');
+  const countEl = document.getElementById('pinSearchCount');
+  const noneEl = document.getElementById('pinNoResults');
+  const container = document.getElementById('pins-container');
+  if (!input || !container) return;
+
+  const rows = Array.from(container.querySelectorAll('.pin-item'));
+  const groups = Array.from(container.querySelectorAll('.check-group'));
+  const total = rows.length;
+
+  function apply() {
+    // Every term must match somewhere in the row, so "patong spa" narrows rather than widens.
+    const terms = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    rows.forEach(row => {
+      const hay = row.dataset.search || '';
+      const hit = terms.every(t => hay.indexOf(t) !== -1);
+      row.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    });
+    // Hide a group heading when nothing under it survived.
+    groups.forEach(g => {
+      const any = Array.from(g.querySelectorAll('.pin-item')).some(r => r.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    });
+    clearBtn.style.display = terms.length ? 'block' : 'none';
+    noneEl.style.display = shown === 0 ? '' : 'none';
+    countEl.textContent = terms.length ? (shown + ' of ' + total + ' pins') : (total + ' pins');
+  }
+
+  input.addEventListener('input', apply);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { input.value = ''; apply(); input.blur(); }
+  });
+  clearBtn.addEventListener('click', () => { input.value = ''; apply(); input.focus(); });
+  apply();
 }
 
 buildMapPins('pins-container', {
@@ -1901,6 +1976,8 @@ buildMapPins('pins-container', {
     { name: "Big C Rajdamri", thai: "บิ๊กซี ราชดำริ", sub: "Central Bangkok Big C — AEON ATM inside · opposite CentralWorld", q: "Big C Supercenter Rajdamri Bangkok" },
   ],
 });
+
+initPinSearch();
 
 /* ---- Booking Checklist ---- */
 buildChecklist('checklist-container', 'thailand-checklist-v3', {
@@ -2154,6 +2231,11 @@ try { applyHotelState(); } catch(e) { console.error('Hotel tracker init failed:'
 
 /* ============ EXPENSE TRACKER ============ */
 const EXP_STORAGE_KEY = 'thailand-expenses-v3';
+const EXP_SEED_APPLIED_KEY = 'thailand-expenses-seeds-applied-v1';
+// Seeds that shipped before seed-versioning existed. A tracker created back then has
+// already been offered all of these, so they must never be re-added — even the ones
+// the user deliberately deleted.
+const LEGACY_SEED_IDS = ['s1','s1b','s2','s3','s4','s5','s6','s7','s8'];
 let selectedCurrency = 'THB';
 
 const SEED_EXPENSES = [
@@ -2166,15 +2248,36 @@ const SEED_EXPENSES = [
   { id: 's6', date: '2026-09-05', category: '✈️ Flights', desc: 'Bangkok → Phuket (Thai Vietjet VZ314) — Booking No. 1365644496041394', amount: 17404, currency: 'INR' },
   { id: 's7', date: '2026-09-09', category: '✈️ Flights', desc: 'Phuket → Bangkok (Thai Vietjet VZ307) — Booking No. 1365644496041394', amount: 10474, currency: 'INR' },
   { id: 's8', date: '2026-09-10', category: '✈️ Flights', desc: 'Bangkok → Delhi', amount: 28702, currency: 'INR' },
+  { id: 's9', date: '2026-08-27', category: '🏨 Hotels', desc: 'Patong Resort (2 nights, 5–7 Sep, Superior Room, no meals) — GH20097276202354 — paid on the Kiwi card (Yes Bank) via goaxb wallet · replaced MAZI Design Hotel', amount: 6892, currency: 'INR' },
+  { id: 's10', date: '2026-08-27', category: '🏨 Hotels', desc: "Oceanfront Beach Resort (2 nights, 7–9 Sep, wife's birthday, Premier Comfy Room + breakfast) — GH22039276201846 — paid on ICICI ••••4009 · replaced Sunset Beach Resort", amount: 15791, currency: 'INR' },
+  { id: 's11', date: '2026-08-27', category: '🏨 Hotels', desc: 'Citrus Sukhumvit 11 (1 night, 9–10 Sep, Superior Room + breakfast) — GH22039276202696 — paid on the Kiwi card (Yes Bank) via goaxb wallet · replaced the dead ibis Styles booking', amount: 4493, currency: 'INR' },
 ];
 
 function loadExpenses() {
   try {
     const raw = localStorage.getItem(EXP_STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-    // First load: seed with known hotel costs
-    localStorage.setItem(EXP_STORAGE_KEY, JSON.stringify(SEED_EXPENSES));
-    return SEED_EXPENSES;
+    if (!raw) {
+      // First load: seed with known hotel and flight costs
+      localStorage.setItem(EXP_STORAGE_KEY, JSON.stringify(SEED_EXPENSES));
+      localStorage.setItem(EXP_SEED_APPLIED_KEY, JSON.stringify(SEED_EXPENSES.map(e => e.id)));
+      return SEED_EXPENSES;
+    }
+    let list = JSON.parse(raw);
+    let applied = null;
+    try { applied = JSON.parse(localStorage.getItem(EXP_SEED_APPLIED_KEY)); } catch(e) { applied = null; }
+    if (!Array.isArray(applied)) {
+      // Tracker predates seed-versioning: every legacy seed was already offered, so
+      // treat the whole legacy set as applied and let earlier deletions stand.
+      applied = LEGACY_SEED_IDS.slice();
+    }
+    const missing = SEED_EXPENSES.filter(sd => applied.indexOf(sd.id) === -1);
+    if (missing.length) {
+      list = list.concat(missing);
+      localStorage.setItem(EXP_STORAGE_KEY, JSON.stringify(list));
+      applied = applied.concat(missing.map(sd => sd.id));
+    }
+    localStorage.setItem(EXP_SEED_APPLIED_KEY, JSON.stringify(applied));
+    return list;
   } catch(e) { return []; }
 }
 
@@ -2329,6 +2432,7 @@ document.getElementById('expDownloadBtn').addEventListener('click', () => {
 document.getElementById('expResetBtn').addEventListener('click', () => {
   if (confirm('Clear ALL logged expenses, including the pre-filled hotel costs? This cannot be undone.')) {
     localStorage.removeItem(EXP_STORAGE_KEY);
+    localStorage.removeItem(EXP_SEED_APPLIED_KEY);
     renderExpenses();
   }
 });

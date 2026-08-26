@@ -287,6 +287,12 @@ body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
 body.dark .emergency-toggle { background: #33211c; border-color: #7a4433; color: #f0a084; }
 body.dark .emergency-toggle:hover { background: #3d2820; }
 #itineraryEmergencyCard .emergency-card { border-radius: 0 0 8px 8px; border-top: none; margin-bottom: 12px; margin-top: 0; }
+.day-log-btn {
+  font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 8px; cursor: pointer;
+  border: 1px solid #d9c37a; background: #FFF8E1; color: #8a6d1a; font-family: inherit;
+  display: inline-block; line-height: 1.4;
+}
+body.dark .day-log-btn { background: #3a3320; border-color: #6b5423; color: #e8c483; }
 .day-item-pins { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
 .day-pin-btn {
   font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 8px; cursor: pointer;
@@ -1817,6 +1823,51 @@ const ITEM_PIN_LINKS = {
   "Free evening near Sukhumvit 11": "Citrus Sukhumvit 11",
 };
 
+/* Explicit item -> expense-log links. Category must exactly match an <option value=""> in the
+   Expenses form. Only items with a real, not-yet-paid, out-of-pocket cost get one — hotels and
+   flights already sit in the Expenses seed, so linking them here would invite double-logging. */
+const ITEM_EXPENSE_LINKS = {
+  "Land Bangkok": { category: "🚕 Transport", desc: "SIM card + Grab from airport" },
+  "MBK Center — clothes + DJI drone": { category: "🛍️ Shopping", desc: "MBK Center — clothes / DJI drone" },
+  "Grand Palace & Wat Phra Kaew": { category: "🎟️ Activities & Tours", desc: "Grand Palace & Wat Phra Kaew entry" },
+  "Wat Pho": { category: "🎟️ Activities & Tours", desc: "Wat Pho entry + massage" },
+  "Wat Arun": { category: "🎟️ Activities & Tours", desc: "Wat Arun entry + ferry" },
+  "Khao San Road": { category: "🍜 Food & Dining", desc: "Khao San Road food" },
+  "Chatuchak Weekend Market": { category: "🛍️ Shopping", desc: "Chatuchak Weekend Market" },
+  "Mahanakhon Skywalk": { category: "🎟️ Activities & Tours", desc: "Mahanakhon Skywalk" },
+  "Sky Bar / Sirocco (Lebua State Tower)": { category: "🍜 Food & Dining", desc: "Sky Bar / Sirocco" },
+  "Asiatique The Riverfront (energy-permitting)": { category: "🍜 Food & Dining", desc: "Asiatique dinner" },
+  "Slow start — last full Bangkok morning": { category: "🍜 Food & Dining", desc: "Breakfast near Sukhumvit 4" },
+  "Harbor Island Water Park": { category: "🎟️ Activities & Tours", desc: "Harbor Island Water Park" },
+  "Space & Time Cube+ Bangkok": { category: "🎟️ Activities & Tours", desc: "Space & Time Cube+ Bangkok" },
+  "Terminal 21 + Pier 21 food court": { category: "🍜 Food & Dining", desc: "Terminal 21 / Pier 21 food court" },
+  "SEA LIFE Bangkok Ocean World": { category: "🎟️ Activities & Tours", desc: "SEA LIFE Ocean World" },
+  "ICONSIAM or Chao Phraya Dinner Cruise": { category: "🎟️ Activities & Tours", desc: "ICONSIAM visit / Chao Phraya Cruise" },
+  "Couples Thai massage": { category: "💆 Spa & Wellness", desc: "Couples Thai massage" },
+  "Birthday lunch": { category: "🍜 Food & Dining", desc: "Birthday lunch" },
+  "🔴 Birthday dinner — VENUE NOT BOOKED": { category: "🎂 Birthday extras", desc: "Birthday dinner" },
+  "Check out — Baiyoke Sky": { category: "🚕 Transport", desc: "Bangkok → Pattaya transfer" },
+  "Sanctuary of Truth": { category: "🎟️ Activities & Tours", desc: "Sanctuary of Truth entry" },
+  "Art in Paradise": { category: "🎟️ Activities & Tours", desc: "Art in Paradise" },
+  "Ripley's Believe It or Not!": { category: "🎟️ Activities & Tours", desc: "Ripley's Believe It or Not!" },
+  "Walking Street": { category: "🍜 Food & Dining", desc: "Walking Street food" },
+  "Koh Larn / Coral Island Tour": { category: "🎟️ Activities & Tours", desc: "Koh Larn tour extras (water sports etc.)" },
+  "Free / relaxed Pattaya afternoon": { category: "🍜 Food & Dining", desc: "Pattaya afternoon" },
+  "Collect luggage, depart for Bangkok": { category: "🚕 Transport", desc: "Pattaya → Bangkok transfer" },
+  "Yaowarat (Chinatown), optional": { category: "🍜 Food & Dining", desc: "Yaowarat (Chinatown) food" },
+  "Grab to Suvarnabhumi": { category: "🚕 Transport", desc: "Grab to Suvarnabhumi" },
+  "Casual dinner in Patong": { category: "🍜 Food & Dining", desc: "Dinner in Patong" },
+  "Speedboat pickup": { category: "🎟️ Activities & Tours", desc: "Phi Phi speedboat tour" },
+  "Return to Patong": { category: "🍜 Food & Dining", desc: "Dinner in Patong" },
+  "Option A: Old Phuket Town or beach time": { category: "🍜 Food & Dining", desc: "Old Phuket Town café" },
+  "Option B: Coral Island Sunset Catamaran": { category: "🎟️ Activities & Tours", desc: "Coral Island Sunset Catamaran" },
+  "Couples spa treatment": { category: "💆 Spa & Wellness", desc: "Couples spa treatment" },
+  "Promthep Cape sunset": { category: "🍜 Food & Dining", desc: "Promthep Cape — champagne/snacks" },
+  "Final beach swim / rest": null,
+  "Leave for the airport": { category: "🚕 Transport", desc: "Patong → HKT airport transfer" },
+  "Check out and leave for Suvarnabhumi": { category: "🚕 Transport", desc: "Citrus → Suvarnabhumi Grab" },
+};
+
 const daysContainer = document.getElementById('days-container');
 
 /* ---- Trip dates, derived from the day titles so they cannot drift ---- */
@@ -1857,7 +1908,7 @@ days.forEach((d, i) => {
           <div class="day-time">${it[0]}</div>
           <div class="day-place"><b>${it[1]}</b>${it[2] ? `<span>${it[2]}</span>` : ''}${it[4] ? `<span class="day-transport">🚕 ${it[4]}</span>` : ''}</div>
           ${it[3] ? `<div class="day-cost">${it[3]}</div>` : ''}
-          ${itemPinHtml(it[1])}
+          ${itemPinHtml(it[1])}${itemExpenseHtml(it[1], i)}
         </div>
       `).join('')}
     </div>
@@ -1869,11 +1920,34 @@ days.forEach((d, i) => {
 // Delegated: the Copy Thai buttons above are created via innerHTML, so one listener on the
 // container covers all of them, including any added later.
 daysContainer.addEventListener('click', e => {
-  const btn = e.target.closest('.day-copy-thai');
-  if (btn) copyToClipboard(btn.dataset.thai, btn);
+  const copyBtn = e.target.closest('.day-copy-thai');
+  if (copyBtn) copyToClipboard(copyBtn.dataset.thai, copyBtn);
+
+  const logBtn = e.target.closest('.day-log-btn');
+  if (logBtn) {
+    document.querySelector('.tab[data-panel="expenses"]').click();
+    const catEl = document.getElementById('expCategory');
+    const dateEl = document.getElementById('expDate');
+    const descEl = document.getElementById('expDesc');
+    catEl.value = logBtn.dataset.cat;
+    if (logBtn.dataset.date) dateEl.value = logBtn.dataset.date;
+    descEl.value = logBtn.dataset.desc;
+    document.getElementById('expAmount').focus();
+    document.getElementById('panel-expenses').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 });
 
 function escAttr(str) { return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+
+function itemExpenseHtml(itemTitle, dayIdx) {
+  const link = ITEM_EXPENSE_LINKS[itemTitle];
+  if (!link) return '';
+  const dd = dayDates[dayIdx];
+  const dateStr = dd ? (dd.getFullYear() + '-' + String(dd.getMonth() + 1).padStart(2, '0') + '-' + String(dd.getDate()).padStart(2, '0')) : '';
+  return `<div class="day-item-pins">
+    <button type="button" class="day-log-btn" data-cat="${escAttr(link.category)}" data-desc="${escAttr(link.desc)}" data-date="${dateStr}">💰 Log expense</button>
+  </div>`;
+}
 
 function itemPinHtml(itemTitle) {
   const pinName = ITEM_PIN_LINKS[itemTitle];

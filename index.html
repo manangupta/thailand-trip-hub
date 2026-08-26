@@ -276,6 +276,37 @@ body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
 .pin-btn.maps { background: #E1F5EE; border-color: #b8e0d2; color: #0F6E56; }
 .pin-btn.maps:hover { background: #cfeee1; }
 .pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+.day-card.is-today { border-color: #0F6E56; border-width: 2px; box-shadow: 0 0 0 3px rgba(15,110,86,.12); }
+.day-card.is-today .day-head { background: #0F6E56; }
+.day-card.birthday.is-today .day-head { background: #D85A30; }
+.day-card.is-past { opacity: .55; }
+.day-card.is-past .day-head { background: #6b6a63; }
+.day-badge {
+  display: inline-block; font-size: 9.5px; font-weight: 800; letter-spacing: .04em;
+  padding: 2px 7px; border-radius: 10px; margin-left: 7px; vertical-align: 1px;
+  background: #ffffff; color: #0F6E56;
+}
+.day-badge.tomorrow { background: rgba(255,255,255,.24); color: #fff; }
+.day-badge.past { background: rgba(255,255,255,.2); color: #fff; }
+.today-strip {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  flex-wrap: wrap; border: 1px solid #b8e0d2; background: #E1F5EE; color: #14513f;
+  border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; font-size: 12.5px;
+}
+.today-strip.pre { border-color: #f0d060; background: #FFF8E1; color: #8a6d1a; }
+.today-strip.post { border-color: #DCDACF; background: #F7F6F1; color: #4a4940; }
+.today-jump {
+  font-family: inherit; font-size: 11.5px; font-weight: 700; cursor: pointer;
+  border: 1px solid #0F6E56; background: #0F6E56; color: #fff;
+  padding: 6px 12px; border-radius: 8px; white-space: nowrap;
+}
+.today-jump:hover { background: #0c5946; }
+.today-strip.pre .today-jump { border-color: #BA7517; background: #BA7517; }
+.today-strip.post .today-jump { border-color: #6b6a63; background: #6b6a63; }
+body.dark .today-strip { background: #16302a; border-color: #235043; color: #7fd3b8; }
+body.dark .today-strip.pre { background: #3a3320; border-color: #6b5423; color: #e8c483; }
+body.dark .today-strip.post { background: #262b2e; border-color: #444; color: #c5c8ca; }
+body.dark .day-badge { background: #0F6E56; color: #fff; }
 .emergency-card {
   border: 1px solid #e3b088; background: #FFF7F2; border-left: 4px solid #D85A30;
   border-radius: 6px; padding: 12px 14px; margin-bottom: 14px;
@@ -573,6 +604,10 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
   <div class="panel" id="panel-itinerary">
     <div class="section-title">Day-by-Day Itinerary</div>
     <div class="section-desc">Tap any day to expand or collapse</div>
+    <div id="todayStrip" class="today-strip" style="display:none;">
+      <span id="todayStripText"></span>
+      <button type="button" class="today-jump" id="todayJumpBtn">Jump to today</button>
+    </div>
     <div id="days-container"></div>
   </div>
 
@@ -1624,12 +1659,36 @@ const days = [
 ];
 
 const daysContainer = document.getElementById('days-container');
+
+/* ---- Trip dates, derived from the day titles so they cannot drift ---- */
+const TRIP_YEAR = 2026;
+const MONTHS = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
+function dayDate(title) {
+  // "DAY 1 · Fri 28 Aug" -> Date(2026, 7, 28)
+  const m = title.match(/·\s*\w+\s+(\d{1,2})\s+(\w{3})/);
+  if (!m) return null;
+  const mon = MONTHS[m[2]];
+  if (mon === undefined) return null;
+  return new Date(TRIP_YEAR, mon, parseInt(m[1], 10));
+}
+function midnight(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+const TODAY = midnight(new Date());
+const dayDates = days.map(d => dayDate(d.title));
+const todayIndex = dayDates.findIndex(d => d && d.getTime() === TODAY.getTime());
+
 days.forEach((d, i) => {
   const card = document.createElement('div');
-  card.className = 'day-card' + (d.birthday ? ' birthday' : '') + ' collapsed';
+  const dd = dayDates[i];
+  let state = '';
+  if (dd) {
+    if (dd.getTime() === TODAY.getTime()) state = ' is-today';
+    else if (dd.getTime() < TODAY.getTime()) state = ' is-past';
+  }
+  card.className = 'day-card' + (d.birthday ? ' birthday' : '') + state + ' collapsed';
+  card.dataset.dayIndex = i;
   card.innerHTML = `
     <div class="day-head">
-      <div><div class="day-head-title">${d.title}</div><div class="day-head-sub">${d.sub}</div>${d.stayNote ? `<div class="day-stay">${d.stay ? `🏨 <b>${d.stay}</b> · ` : '✈️ '}${d.stayNote}</div>` : ''}</div>
+      <div><div class="day-head-title">${d.title}${badgeFor(i)}</div><div class="day-head-sub">${d.sub}</div>${d.stayNote ? `<div class="day-stay">${d.stay ? `🏨 <b>${d.stay}</b> · ` : '✈️ '}${d.stayNote}</div>` : ''}</div>
       <div class="day-toggle">▼</div>
     </div>
     <div class="day-body">
@@ -1646,8 +1705,66 @@ days.forEach((d, i) => {
   card.querySelector('.day-head').addEventListener('click', () => card.classList.toggle('collapsed'));
   daysContainer.appendChild(card);
 });
-// Expand day 1 by default
-if (daysContainer.firstChild) daysContainer.firstChild.classList.remove('collapsed');
+
+function badgeFor(i) {
+  const dd = dayDates[i];
+  if (!dd) return '';
+  const diff = Math.round((dd - TODAY) / 86400000);
+  if (diff === 0) return '<span class="day-badge">TODAY</span>';
+  if (diff === 1) return '<span class="day-badge tomorrow">TOMORROW</span>';
+  if (diff < 0) return '<span class="day-badge past">DONE</span>';
+  return '';
+}
+
+/* ---- Open on the day you are actually living, not Day 1 ---- */
+(function initTodayView() {
+  const strip = document.getElementById('todayStrip');
+  const text = document.getElementById('todayStripText');
+  const btn = document.getElementById('todayJumpBtn');
+  const cards = Array.from(daysContainer.children);
+  if (!cards.length) return;
+
+  const fmt = d => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+  const first = dayDates[0], last = dayDates[dayDates.length - 1];
+  let openIdx;
+
+  if (todayIndex >= 0) {
+    openIdx = todayIndex;
+    text.innerHTML = '📍 <b>Today is ' + days[todayIndex].title.replace(' · ', ' · ') + '</b>' +
+      (todayIndex + 1 < cards.length ? ' · tomorrow is ' + days[todayIndex + 1].title.split(' · ')[1] : ' · last day');
+    strip.classList.remove('pre', 'post');
+    btn.textContent = 'Jump to today';
+  } else if (first && TODAY < first) {
+    openIdx = 0;
+    const away = Math.round((first - TODAY) / 86400000);
+    text.innerHTML = '🛫 <b>Trip starts in ' + away + ' day' + (away === 1 ? '' : 's') + '</b> — ' + fmt(first) +
+      '. Showing Day 1; this switches to the live day automatically once you are travelling.';
+    strip.classList.add('pre'); strip.classList.remove('post');
+    btn.textContent = 'Go to Day 1';
+  } else {
+    openIdx = cards.length - 1;
+    text.innerHTML = '🏠 <b>Trip complete</b> — ' + fmt(first) + ' to ' + fmt(last) + '. Showing the last day.';
+    strip.classList.add('post'); strip.classList.remove('pre');
+    btn.textContent = 'Go to last day';
+  }
+
+  strip.style.display = 'flex';
+  cards[openIdx].classList.remove('collapsed');
+
+  function jump() {
+    cards[openIdx].classList.remove('collapsed');
+    cards[openIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  btn.addEventListener('click', jump);
+
+  let scrolled = false;
+  const itinTab = document.querySelector('.tab[data-panel="itinerary"]');
+  if (itinTab) itinTab.addEventListener('click', () => {
+    if (scrolled) return;
+    scrolled = true;
+    setTimeout(() => cards[openIdx].scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  });
+})();
 
 /* ============ GENERIC CHECKLIST BUILDER (used for Places, Booking Checklist, Packing) ============ */
 function buildChecklist(containerId, storageKey, groups, progressId) {

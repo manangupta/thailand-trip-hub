@@ -276,6 +276,17 @@ body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
 .pin-btn.maps { background: #E1F5EE; border-color: #b8e0d2; color: #0F6E56; }
 .pin-btn.maps:hover { background: #cfeee1; }
 .pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+.emergency-card {
+  border: 1px solid #e3b088; background: #FFF7F2; border-left: 4px solid #D85A30;
+  border-radius: 6px; padding: 12px 14px; margin-bottom: 14px;
+}
+.emergency-card .emergency-title { color: #b5451f; margin-bottom: 6px; }
+.emergency-card td, .emergency-card .detail-row { color: #6b3a28; }
+.emergency-card td b { color: #8a2f14; }
+body.dark .emergency-card { background: #33211c; border-color: #7a4433; border-left-color: #D85A30; }
+body.dark .emergency-card .emergency-title { color: #f0a084; }
+body.dark .emergency-card td, body.dark .emergency-card .detail-row { color: #e0c5bb; }
+body.dark .emergency-card td b { color: #ffb79c; }
 .day-stay {
   font-size: 11px; color: #0F6E56; background: #EAF7EF; border: 1px solid #d3ebe0;
   border-radius: 6px; padding: 4px 8px; margin-top: 6px; line-height: 1.45;
@@ -530,6 +541,24 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       deposit</b> for check-in, and send the birthday requests. Patong Resort's voucher warns that <b>guest
       room/floor services are under renovation</b> — worth a call before you fly. Also: the final flight home (10 Sep) has
       a <b>layover in Pune</b>, not a direct Bangkok–Delhi flight — see Day 14.
+    </div>
+
+    <div class="confirmed-box emergency-card">
+      <div class="hotel-name emergency-title">🚨 Emergency — screenshot this page</div>
+      <table class="info-table" style="width:100%; font-size:12px;">
+        <tr><td><b>Tourist Police</b></td><td><b>1155</b> — English-speaking, 24h. This is the number to call first for theft, scams, disputes or anything involving police</td></tr>
+        <tr><td><b>Medical emergency / ambulance</b></td><td><b>1669</b> — national emergency line, 24h</td></tr>
+        <tr><td><b>General police / fire</b></td><td>191 (police) · 199 (fire)</td></tr>
+        <tr><td><b>TataAIG assistance</b></td><td>⚠️ FILL THIS IN — the 24h international assistance number is on your policy PDF (Order GTMSTDIS415217567580). Insurance you cannot phone at 2 AM is not insurance. Save it to both phones before you fly</td></tr>
+        <tr><td><b>Embassy of India, Bangkok</b></td><td>46 Soi Prasarnmitr (Sukhumvit 23), Wattana — walkable from both your Sukhumvit hotels. Confirm the current 24h emergency number on the embassy site and save it</td></tr>
+        <tr><td><b>Hospital — Bangkok</b></td><td>Bumrungrad International (Sukhumvit Soi 3) — the standard expat/tourist hospital, ~5 min from ibis Styles Sukhumvit 4</td></tr>
+        <tr><td><b>Hospital — Phuket</b></td><td>Patong Hospital for minor issues · Bangkok Hospital Phuket (Phuket Town, ~30 min from Patong) for anything serious. Verify on arrival rather than at 3 AM</td></tr>
+      </table>
+      <div class="detail-row" style="margin-top:8px;">
+        <b>Medication note:</b> you are carrying BP and diabetes medication for 14 days. If you need a
+        pharmacy, Thai pharmacies are widespread and well-stocked, but bring the pharmacy label or
+        prescription — generic names differ from Indian brand names, and staff will ask.
+      </div>
     </div>
 
     <div class="info-card">
@@ -1216,9 +1245,9 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     <div class="budget-cat-card">
       <div class="budget-cat-header">
         <div class="budget-cat-name">🎟️ Activities & Attractions</div>
-        <div class="budget-cat-amt">~฿25,800</div>
+        <div class="budget-cat-amt">~฿23,800</div>
       </div>
-      <div class="budget-cat-desc">Temple tickets, Harbor Island, Space & Time Cube Bangkok, Mahanakhon Skywalk, Art in Paradise, Ripley's, Koh Larn tour, Phi Phi tour, spas. Space & Time Cube Pattaya dropped (swapped for Koh Larn), Alcazar dropped (swapped for Art in Paradise/Ripley's).</div>
+      <div class="budget-cat-desc">Temple tickets, Harbor Island, Space & Time Cube Bangkok, Mahanakhon Skywalk, Art in Paradise, Ripley's, Koh Larn tour, Phi Phi tour, spas. Dropped since the last estimate: Akara Sky Hanuman (−฿2,000, nothing replaced it), Space &amp; Time Cube Pattaya (swapped for Koh Larn), Alcazar (swapped for Art in Paradise/Ripley's), Amphawa (Fri–Sun evenings only, never viable on a Monday).</div>
     </div>
 
     <div class="budget-cat-card">
@@ -1293,7 +1322,10 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
 <script>
 /* ============ EXPECTED BUDGET ============ */
 (function() {
-  const FIXED_TOTAL = 10250 + 25800 + 30200; // Transfers + Activities + Food
+  const FIXED_TOTAL = 10250 + 23800 + 30200; // Transfers + Activities + Food
+  // Activities fell 25,800 -> 23,800: Akara Sky Hanuman (~฿1,000pp x2) was dropped and nothing
+  // replaced it. The two birthday dinners stay budgeted under Food — the venues changed, the
+  // spend did not.
   const shopInput = document.getElementById('budgetShopInput');
   const shopDisplay = document.getElementById('budgetShopDisplay');
   const grandTotal = document.getElementById('budgetGrandTotal');
@@ -1485,14 +1517,14 @@ const days = [
   { title: "DAY 3 · Sun 30 Aug", sub: "Markets + Mahanakhon + rooftop + Asiatique", birthday:false, stay: "ibis Styles Sukhumvit 4", stayNote: "night 3 of 4",
     note: "MBK moved to Day 1 (shopped alongside the DJI drone) — Chatuchak now gets full breathing room. Mahanakhon, Sky Bar, and Asiatique all sit on/near the same Silom BTS line running down to the river, so no backtracking. This is the longest day of the trip (8 AM–~10 PM) — treat Asiatique as energy-permitting, not a hard commitment, especially after Chatuchak, Mahanakhon, and Sky Bar.",
     items: [
-      ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS. No rush to leave early now that MBK isn't later today", "Free entry, shopping variable", "BTS to Mo Chit — direct from Sukhumvit hotels, ~30–40min"],
+      ["9:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS. No rush to leave early now that MBK isn't later today", "Free entry, shopping variable", "BTS to Mo Chit — direct from Sukhumvit hotels, ~30–40min"],
       ["4:30 PM","Mahanakhon Skywalk","Thailand's tallest observation deck (314m), glass floor at 310m, 74th/78th floor. Sunset ticket window 4–6:30 PM — book online for a discount", "~฿1,200pp sunset (~฿880pp daytime, ฿2,400 for 2 at sunset)", "BTS Mo Chit → Siam (interchange) → Chong Nonsi (Silom line), ~35–40min total"],
       ["7:00 PM","Sky Bar / Sirocco (Lebua State Tower)","Vertigo & Moon Bar is CLOSED for renovation (16 June–30 Nov 2026), swapped for this instead. Sky Bar itself is walk-in only, no reservation possible or needed. If you want to sit down for dinner, Sirocco takes reservations. Saphan Taksin BTS, ~7min walk", "Sky Bar: drinks only, no cover · Sirocco: dinner from ~฿3,000pp+", "BTS Chong Nonsi → Saphan Taksin (change at Sala Daeng/Si Lom), ~20–25min total"],
       ["9:00 PM","Asiatique The Riverfront (energy-permitting)","Riverside night market, food, shopping. Open till ~midnight, so no hard deadline — skip without guilt if the day's already been long", "Free entry, ~฿300–800pp dinner", "BTS Sala Daeng → Saphan Taksin (Silom line, end of the line) + free shuttle boat, ~20–25min total"],
     ]},
-  { title: "DAY 4 · Mon 31 Aug", sub: "Seacon Bangkae day — water park + Space & Time Cube", birthday:false, stay: "ibis Styles Sukhumvit 4", stayNote: "last night here — check out 12:00 PM tomorrow", note:"Muay Thai / Rajadamnern Stadium dropped — too costly for the value. Amphawa marked optional — the ~฿2,000 Grab return on top of the ~฿1,000–1,200pp tour made it poor value for what it offers. Swapped in Harbor Island, the largest rooftop water park in ASEAN, which happens to be in the exact same mall as Space & Time Cube — zero extra travel, much more exciting, better value.",
+  { title: "DAY 4 · Mon 31 Aug", sub: "Seacon Bangkae day — water park + Space & Time Cube", birthday:false, stay: "ibis Styles Sukhumvit 4", stayNote: "last night here — check out 12:00 PM tomorrow", note:"Muay Thai / Rajadamnern Stadium dropped — too costly for the value. Amphawa REMOVED, not just deprioritised: it runs Fri–Sun only and is an evening market (~11am–8pm, the firefly boats are the point), so a 7 AM Monday visit was impossible on both counts. The morning floating market people mean is Damnoen Saduak, which is a different place and further out — not worth the ~฿2,000 Grab return either. Swapped in Harbor Island, the largest rooftop water park in ASEAN, which happens to be in the exact same mall as Space & Time Cube — zero extra travel, much more exciting, better value.",
     items: [
-      ["7:00 AM","Amphawa Floating Market (optional)","Longtail boats, breakfast on water. Only worth it if you specifically want the floating-market experience — otherwise skip given the ~฿2,000 Grab return cost", "~฿1,000–1,200pp tour + ~฿2,000 Grab return", "Private tour van/car, ~1.5–2hrs each way — no BTS/MRT option"],
+      ["Morning","Slow start — last full Bangkok morning","Deliberately unplanned. Amphawa was removed (Fri–Sun evenings only, so it never worked on a Monday). Sleep in, breakfast near the hotel, repack — the water park runs six hours and you fly to Phuket in four days on very little sleep", "~฿200–400pp breakfast", "Walkable around Sukhumvit 4"],
       ["11:00 AM","Harbor Island Water Park","Seacon Bangkae, 3rd floor. Largest rooftop water park in ASEAN — 18 slides incl. Thailand's steepest (66°), wave pool, lazy river. 6 hrs unlimited, towel/locker included", "From ฿380pp", "No direct BTS/MRT — Grab from Sukhumvit ~35–45min (~฿250–350)"],
       ["3:00 PM","Space & Time Cube+ Bangkok","Same mall, Seacon Bangkae — no travel needed between the two. Immersive digital art, Rail Cinema, VR zone, 1,500 sqm", "~฿400–600pp", "Same building as Harbor Island — no travel needed"],
       ["6:30 PM","Terminal 21 + Pier 21 food court","Airport-themed mall, cheap excellent street food. Asok BTS", "Free entry, ~฿200–400pp food", "Grab from Seacon Bangkae ~35–40min, or BTS/MRT interchange direct at Asok"],
@@ -1500,7 +1532,7 @@ const days = [
   { title: "DAY 5 · Tue 1 Sep", sub: "Aquarium + shopping — move to Baiyoke Sky", birthday:false, stay: "Baiyoke Sky, Space Zone", stayNote: "check out ibis 12:00 PM → check in from 2:00 PM · GH29086275255330",
     note: "Check out ibis Styles Sukhumvit 4 (12:00 PM) → check in Baiyoke Sky, Space Zone (2:00 PM). High floor + birthday cake/decoration requested",
     items: [
-      ["11:00 AM","Check out — ibis Styles Sukhumvit 4","Booking ID GH24121275735188", "Paid", "—"],
+      ["11:30 AM","Check out — ibis Styles Sukhumvit 4","Booking ID GH24121275735188", "Paid", "—"],
       ["1:00 PM","SEA LIFE Bangkok Ocean World","Siam Paragon basement, ~2.5 hrs", "~฿900–1,200pp", "BTS to Siam — direct, ~20–25min from Sukhumvit"],
       ["3:00 PM","Check in — Baiyoke Sky Hotel","Deluxe, Space Zone (70th–74th floor). Booking ID GH29086275255330", "Paid", "Grab from Siam ~15–20min (~฿100–150), or hotel's free tuk-tuk shuttle from Ratchaprarop ARL/Phaya Thai BTS"],
       ["6:30 PM","ICONSIAM or Chao Phraya Dinner Cruise","Riverside mall / buffet + live music, book cruise 2 days ahead", "Mall free · Cruise ~฿2,500–3,500pp", "Free shuttle boat from Sathorn Pier, or Grab ~25–30min from Baiyoke"],
@@ -1516,7 +1548,7 @@ const days = [
   { title: "DAY 7 · Thu 3 Sep", sub: "Bangkok to Pattaya + Art in Paradise + Ripley's", birthday:false, stay: "Centara Pattaya Hotel", stayNote: "check out Baiyoke 11:00 AM → check in from 3:00 PM · GH23044275257256",
     note: "Booking ID GH23044275257256 · Early check-in requested via special request. Alcazar swapped out for Art in Paradise + Ripley's. Tappia Floating Cafe removed entirely — mostly seafood, limited Indian food options. Removing it also fixed the pacing problem from before — everything now shifts earlier and Walking Street starts at a reasonable hour instead of past 10 PM.",
     items: [
-      ["10:00 AM","Check out — Baiyoke Sky","Booking ID GH29086275255330, drive to Pattaya ~2 hrs via Grab/private car", "~฿1,500–2,000", "Grab or pre-booked private car, ~2hrs via motorway"],
+      ["10:30 AM","Check out — Baiyoke Sky","Booking ID GH29086275255330, drive to Pattaya ~2 hrs via Grab/private car", "~฿1,500–2,000", "Grab or pre-booked private car, ~2hrs via motorway"],
       ["1:00 PM","Sanctuary of Truth","Hand-carved wooden temple, ~1.5–2 hrs, tickets ~600฿", "~฿600pp (~฿1,200 for 2)", "Grab within Pattaya, ~15–20min from Central Pattaya"],
       ["3:00 PM","Check in — Centara Pattaya Hotel","Deluxe King, breakfast included. Rest, freshen up, grab a bite before heading out again", "Paid", "Grab from Sanctuary of Truth ~15–20min"],
       ["5:00 PM","Art in Paradise","3D interactive trick-art museum, 10 themed galleries, 100+ paintings you pose inside — great photo content for the new gear. ~1–1.5 hrs", "~฿400–500pp (~฿800–1,000 for 2)", "Grab from Centara, ~10–15min"],
@@ -1524,19 +1556,22 @@ const days = [
       ["8:30 PM","Walking Street","Casual dinner, neon-lit walk — now at a comfortable hour instead of late night", "Free entry, ~฿300–600pp food", "Walkable from Royal Garden Plaza, ~5–10min"],
     ]},
   { title: "DAY 8 · Fri 4 Sep", sub: "Koh Larn morning + relaxed Pattaya afternoon + Chinatown by metro", birthday:false, stay: "Gate43 Airport Hotel", stayNote: "check in from 11:30 AM · GH23044275257592 · 06:50 flight tomorrow, Grab not the shuttle",
-    note: "Late check-out requested from Centara (1:00 PM) · Gate43 Booking ID GH23044275257592. Checked out but staying in Pattaya till ~4–5 PM for a relaxed afternoon rather than rushing straight to Bangkok. This does compress the Chinatown window and the sleep buffer before tomorrow's 6:50 AM flight — keep the Bangkok evening tighter than before, and don't push the Chinatown return too late.",
+    note: "⚠️ Centara late check-out to 1:00 PM was REQUESTED but never confirmed — standard checkout is 12:00 PM and the Koh Larn tour returns ~12:30 PM. Settle this at check-in on the 3rd; if they say no, check out before the tour and leave the bags with the bell desk, which costs nothing and removes the clash entirely. Gate43 Booking ID GH23044275257592. Checked out but staying in Pattaya till ~4–5 PM for a relaxed afternoon rather than rushing straight to Bangkok. This does compress the Chinatown window and the sleep buffer before tomorrow's 6:50 AM flight — keep the Bangkok evening tighter than before, and don't push the Chinatown return too late.",
     items: [
       ["7:30 AM","Koh Larn / Coral Island Tour","Speedboat from Bali Hai Pier (~20–30min crossing), beach time, snorkeling. Indian buffet lunch + Hindi-speaking staff included. Water sports extra if wanted", "~฿280pp base (transfer+lunch) + ~฿500–2,000pp for optional water sports", "Hotel pickup included in tour"],
-      ["12:30 PM","Return to Centara, check out","Check out on time even though you're not leaving yet — store luggage with the hotel for the afternoon", "—", "Return transfer included in tour"],
+      ["12:30 PM","Return to Centara, check out","⚠️ This lands 30 min AFTER the standard 12:00 PM checkout. If the 1:00 PM late checkout was not confirmed at check-in, check out on the morning of the 4th BEFORE the tour and leave the bags with the bell desk", "—", "Return transfer included in tour"],
       ["1:00 PM","Free / relaxed Pattaya afternoon","Beach time, Central Festival Pattaya mall, or just a slow lunch — no fixed plan, this is deliberately unstructured after an active morning", "Variable, ~฿300–600pp if eating out", "Walkable around central Pattaya"],
       ["4:00 PM","Collect luggage, depart for Bangkok","~2 hrs via motorway — later departure means later arrival, budget accordingly", "~฿1,500–2,000", "Grab or pre-booked private car"],
       ["6:00 PM","Check in — Gate43 Airport Hotel","Drop bags, quick freshen up — less downtime than before given the later start", "Paid", "Direct from the Pattaya drive"],
       ["7:00 PM","Yaowarat (Chinatown), optional","Compressed window given the later Bangkok arrival — if energy's low, this is the easiest thing to skip entirely rather than cutting sleep further", "Free entry, ~฿200–400pp food", "ARL Suvarnabhumi → Makkasan (~25min) + short walk to connect → MRT Blue Line to Wat Mangkon (~15–20min)"],
       ["~9:30 PM","Return to Gate43","Same ARL+MRT route in reverse. This is the latest realistic return time to still get real sleep before the 6:50 AM flight", "Included in above", "MRT Wat Mangkon → Phetchaburi → walk to Makkasan → ARL to Suvarnabhumi"],
+      ["10:30 PM","Bags packed and alarms set for 04:15","Pack tonight, not in the morning. Keep out only what you need — you are up in under 6 hrs and Suvarnabhumi domestic still wants you there by 05:30", "—", "—"],
     ]},
   { title: "DAY 9 · Sat 5 Sep", sub: "Fly to Phuket — Wat Chalong + Big Buddha + Patong Resort", birthday:false, stay: "Patong Resort", stayNote: "check in from 3:00 PM · GH20097276202354 · NO breakfast · +66 76 340 551",
     note: "Flight: BKK 06:50 → HKT 08:25 (Thai Vietjet VZ314) · Check in: Patong Resort (GH20097276202354, PNR 0185696270, +66 76 340 551) — paid 27 Aug — ₹6,892 on the Kiwi card (Yes Bank) via the goaxb wallet. Superior Room with bathtub and balcony, NO breakfast — unlike MAZI, so budget for morning food. The voucher also warns guest room/floor services are under renovation; call ahead and ask for a room away from it. Replaced MAZI Design Hotel by Kalima, which had replaced Seaview Patong. Note check-in is 3:00 PM here, an hour later than MAZI's was. Big Buddha moved here from Day 13 (was optional/unused there) to fill the morning gap between landing and check-in. Tiger Kingdom noted but not scheduled — genuinely mixed reviews and animal welfare concerns (TripAdvisor itself won't sell bookings for it), worth deciding on your own rather than booking outright. An ethical no-riding elephant sanctuary is a cleaner alternative if you want an animal encounter.",
     items: [
+      ["04:15 AM","Wake — this is the hard morning of the trip","Roughly 5–6 hrs sleep after Chinatown. Gate43 exists to make this survivable: you are minutes from the terminal rather than crossing Bangkok", "—", "—"],
+      ["05:00 AM","Grab to Suvarnabhumi","Take a Grab, NOT the hotel shuttle — shuttles run fixed schedules that may not suit a 06:50 departure. Aim to be at the domestic counter by 05:30", "~฿150–250", "~10–15 min from Gate43"],
       ["6:50 AM","Flight to Phuket","Arrive ~8:45 AM", "Flight paid", "—"],
       ["9:30 AM","Drop luggage at Patong Resort","Most hotels accept bags before official check-in, even if the room isn't ready — worth doing here, check-in isn't till 3:00 PM", "—", "Grab from airport ~30min (~฿300–400)"],
       ["10:30 AM","Wat Chalong","Phuket's most important temple, free entry, genuinely worth seeing — no controversy attached, unlike some other Phuket attractions", "Free (donation optional)", "Grab from Patong ~20–25min"],
@@ -1556,6 +1591,7 @@ const days = [
     items: [
       ["11:00 AM","Check out — Patong Resort","Checkout by 12:00 PM", "Paid ✓", "—"],
       ["Midday","Option A: Old Phuket Town or beach time","Sino-Portuguese architecture, cafes, or just relax. Low-key, low-cost, easy to fit around the hotel move", "Free, ~฿200–400pp café", "Grab from Patong ~15–20min"],
+      ["11:00 AM","If taking Option B: drop bags at Oceanfront first","A sunset catamaran returns ~7 PM, so you cannot also check in at 3 PM. Drop the luggage on the way to the pier and check in properly that evening — Oceanfront is 5–10 min from Patong Resort", "—", "Grab, ~5–10 min up Phrabaramee Rd"],
       ["12:00 PM","Option B: Coral Island Sunset Catamaran","~5 hrs, snorkeling + sunset + dinner on the water. Phuket-based (not the Krabi '7 Island' tour — a real local alternative). Similar vibe to Phi Phi, so only pick this if you want more of that rather than a change of pace", "~฿1,500–2,500pp (~฿3,000–5,000 for 2)", "Hotel pickup typically included in tour price"],
       ["3:00 PM","Check in — Oceanfront Beach Resort","Booking ID GH22039276201846, PNR 0185696099 (the old GH26084275735628 is dead). Paid ✓ ₹15,791 — Premier Comfy Room with bathtub and balcony, breakfast now included. Genuinely well-reviewed (4/5 TripAdvisor, 8.6/10 Booking.com) — replaced Sunset Beach Resort. Bring ฿3,000 cash for the refundable deposit, and send the high floor/cake/decoration/spa requests — still not sent to this hotel", "Paid ✓ ₹15,791 (ICICI ••••4009) · ฿3,000 cash deposit", "Grab from Patong Resort, ~5–10min up Phrabaramee Rd"],
     ]},
@@ -1571,15 +1607,16 @@ const days = [
     note: "Flight: HKT 17:20 → BKK 18:50 (Thai Vietjet VZ307) · Check out from Oceanfront Beach Resort by 11:00 AM — room requested until 2:00 PM so it is usable until the car leaves. Airport transfer requested from the resort for a ~2:00 PM departure; awaiting their quote. If chargeable above ~฿800, take a Grab instead (Patong → HKT is ~45–60min). Big Buddha moved to Day 9 (fills the morning gap after landing better than sitting here). Akara Sky Hanuman was dropped, so the evening is deliberately free — you land 6:50 PM and fly home the next afternoon, so an unplanned night near Sukhumvit 11 is no bad thing.",
     items: [
       ["Morning","Final beach swim / rest","Relaxed last Phuket morning, no fixed plan", "—", "—"],
-      ["2:30 PM","Check out, Grab to airport","~45 min–1 hr", "~฿300–500", "Grab or hotel airport transfer"],
+      ["2:00 PM","Leave for the airport","Departure is 2:00 PM, matching the room-hold and transfer both requested from Oceanfront. Patong → HKT is 45–60 min, so you land at the terminal ~3:00 PM for a 5:20 PM flight", "~฿300–500 by Grab, or the Oceanfront transfer if their quote beats it", "Grab or the hotel transfer — whichever came back cheaper"],
       ["5:20 PM","Flight to Bangkok","Arrive 6:50 PM, check into Citrus Sukhumvit 11 (GH22039276202696, +66 2 302 3999) — paid, Superior Room with breakfast", "Flight paid · Hotel paid ✓", "Grab from Suvarnabhumi to Sukhumvit, ~45min–1hr (~฿300–400)"],
       ["8:30 PM","Free evening near Sukhumvit 11","Nothing booked. Soi 11 has plenty within walking distance of Citrus, and Nana BTS is a few minutes away if you want to go further", "Open", "Walkable from the hotel"],
     ]},
   { title: "DAY 14 · Thu 10 Sep", sub: "Depart Bangkok — via Pune, not direct", birthday:false, stay: null, stayNote: "flying home — no stay tonight",
     note: "Flight: BKK 14:40 → PNQ 17:25 (AI 9246), then PNQ 20:30 → DEL 22:55 (AI 2548) — Booking ID GOFLINTAMTP37869885. Genuine layover in Pune (~3hrs), not a direct flight — arrival in Delhi is 22:55, later than a direct routing would be. Check into Citrus Sukhumvit 11 the night before covers this early checkout.",
     items: [
-      ["Morning","Leisurely breakfast, final shopping","Relaxed pace", "~฿300–600pp", "Walk or short Grab near Citrus Sukhumvit 11"],
-      ["12:00 PM","Pack, check out, Grab to airport","", "~฿300–500", "Grab or Airport Rail Link (ARL) from Phaya Thai if traffic looks heavy"],
+      ["8:00 AM","Breakfast, final pack","Breakfast is included at Citrus. Keep the morning genuinely short — no shopping run, the airport departure is earlier than it looks", "Included", "At the hotel"],
+      ["10:30 AM","Check out and leave for Suvarnabhumi","⚠️ Do NOT leave this until noon. 45–60 min in midday traffic puts you at the terminal ~11:30, which is the buffer an INTERNATIONAL departure needs — Air India closes check-in 60 min out, and a missed 14:40 also loses the Pune–Delhi connection", "~฿300–500", "Grab · ARL from Phaya Thai is the fallback if traffic looks bad"],
+      ["11:30 AM","At the terminal — check in, immigration, VAT refund","If you claimed VAT on the DJI drone or any large purchase, the refund desk is BEFORE immigration and it queues", "—", "—"],
       ["2:40 PM","Flight departs — Bangkok to Pune","AI 9246, arrive Pune 17:25", "Flight paid", "—"],
       ["5:25 PM","Layover in Pune","~3hr connection — enough time to relax, not a tight transfer", "—", "—"],
       ["8:30 PM","Flight departs — Pune to Delhi","AI 2548, arrive Delhi 22:55", "Flight paid", "—"],
@@ -1994,6 +2031,12 @@ buildMapPins('pins-container', {
     { name: "Let's Relax Spa Patong", thai: "เล็ทส์ รีแลกซ์ สปา ป่าตอง", sub: "Sep 8 spa option · walkable from Oceanfront", q: "Let's Relax Spa Patong Phuket" },
     { name: "Amritsr Restaurant Patong", thai: "ร้านอาหารอินเดีย อมฤตสร์ ป่าตอง", sub: "Indian fallback near Patong", q: "Amritsr Restaurant Patong Phuket" },
   ],
+  "🚨 Emergency — pin these before you need them": [
+    { name: "Bumrungrad International Hospital", thai: "โรงพยาบาลบำรุงราษฎร์", sub: "Sukhumvit Soi 3 · the standard tourist/expat hospital in Bangkok · ~5 min from ibis Styles Sukhumvit 4", q: "Bumrungrad International Hospital Bangkok" },
+    { name: "Bangkok Hospital Phuket", thai: "โรงพยาบาลกรุงเทพภูเก็ต", sub: "Phuket Town · ~30 min from Patong · for anything serious on the Phuket leg", q: "Bangkok Hospital Phuket" },
+    { name: "Patong Hospital", thai: "โรงพยาบาลป่าตอง", sub: "In Patong itself · minor issues, much closer than Phuket Town", q: "Patong Hospital Phuket" },
+    { name: "Embassy of India, Bangkok", thai: "สถานเอกอัครราชทูตอินเดีย กรุงเทพ", sub: "46 Soi Prasarnmitr (Sukhumvit 23), Wattana · walkable from both Sukhumvit hotels · lost passport goes here", q: "Embassy of India Bangkok Sukhumvit 23" },
+  ],
   "🏧 ATMs — withdraw ฿10,000+ per pull": [
     { name: "AEON ATM (฿150 fee — the cheap one)", thai: "ตู้เอทีเอ็ม อิออน", sub: "Found inside Big C and Lotus's stores · use your Niyo Forex card · always beats the ฿250 bank ATMs", q: "AEON ATM Bangkok" },
     { name: "AEON ATM near Sukhumvit / Nana — live map search", thai: "ตู้เอทีเอ็ม อิออน สุขุมวิท", sub: "Walking distance from BOTH ibis Styles Sukhumvit 4 (28 Aug–1 Sep) and Citrus Sukhumvit 11 (9–10 Sep) · this pin runs a live Maps search rather than pointing at one confirmed machine — AEON moves its units, so check the map on the day", q: "AEON ATM Sukhumvit Bangkok" },
@@ -2080,7 +2123,8 @@ buildChecklist('prep-container', 'thailand-prep-v1', {
     "Save the TDAC QR code confirmation to your phone as well — screenshot, kept offline as the backup",
     "Print or screenshot return flight ticket (BKK → Delhi, 10 Sep)",
     "Print or screenshot all hotel confirmations for immigration if asked",
-    "Carry a printed bank statement or keep banking app balance visible (proof of funds may be checked)"
+    "Carry a printed bank statement or keep the banking app balance visible — Thai immigration can ask for proof of roughly ฿20,000 per couple in accessible funds",
+    "CONFIRM current entry rules for Indian passport holders before you fly — visa-free status for India has changed more than once recently. Two minutes on the Thai embassy site tonight; do not assume last year's rule still holds"
   ],
   "Driving — IDP": [
     "Pack the IDP — confirmed valid till Aug 2027, covering Category A (motorcycle) and Category B (car), so both a scooter and a car are legal",
@@ -2117,11 +2161,23 @@ buildChecklist('packing-container', 'thailand-packing-v1', {
   ],
   "Clothing": [
     "Smart-casual outfit (birthday dinners, rooftop dress codes)", "Lightweight scarf (temples)",
-    "2 swimsuits", "Comfortable walking shoes", "Flip-flops"
+    "2 swimsuits", "Comfortable walking shoes", "Flip-flops",
+    "Shoulders and knees covered for the Grand Palace — enforced at the gate, they rent cover-ups but the queue is miserable"
+  ],
+  "Monsoon kit — September is the wettest month on the Andaman coast": [
+    "Compact umbrella or packable poncho for both of you",
+    "DRY BAG for the Phi Phi speedboat (Sep 6) — phone, cash and passports get soaked on an open boat, and spray is guaranteed even on a calm day",
+    "Quick-dry shirt and shorts — cotton does not dry in Phuket humidity",
+    "Sandals with grip — wet marble temple floors and wet boat decks are both slippery",
+    "Waterproof phone pouch on a lanyard for the island day"
   ],
   "Health": [
     "SPF 50 sunscreen", "After-sun aloe", "Insect repellent",
-    "Paracetamol, Imodium, antihistamine", "Any regular medications"
+    "Paracetamol, Imodium, antihistamine",
+    "BP + diabetes medication: full 14-day supply PLUS ~5 days buffer, for delays and the Pune layover",
+    "SPLIT the medication across hand baggage and checked — never checked only. A delayed bag must not become a medical problem",
+    "Keep medication in ORIGINAL packaging with the pharmacy label, and carry a copy of the prescription",
+    "If carrying any injectable or a glucose meter, keep it in hand baggage with the prescription — security asks"
   ],
   "Gadgets": [
     "Phone + charger", "Power bank", "Camera / GoPro (Phi Phi day)"

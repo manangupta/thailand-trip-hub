@@ -427,6 +427,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       <div class="tab" data-panel="packing">Packing</div>
       <div class="tab" data-panel="food">🍜 Food & Phrases</div>
       <div class="tab" data-panel="foodlist">🍴 Food Bucket List</div>
+      <div class="tab" data-panel="mapnav">📍 Map & Navigate</div>
       <div class="tab" data-panel="expenses">💰 Expenses</div>
       <div class="tab" data-panel="budget">🧾 Expected Budget</div>
     </div>
@@ -1108,7 +1109,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
         <div class="budget-cat-name">🎟️ Activities & Attractions</div>
         <div class="budget-cat-amt">~฿25,800</div>
       </div>
-      <div class="budget-cat-desc">Temple tickets, Harbor Island, Space & Time Cube Bangkok, Mahanakhon Skywalk, Akara Sky Hanuman, Art in Paradise, Ripley's, Koh Larn tour, Phi Phi tour, spas. Space & Time Cube Pattaya dropped (swapped for Koh Larn), Alcazar dropped (swapped for Art in Paradise/Ripley's).</div>
+      <div class="budget-cat-desc">Temple tickets, Space & Time Cube Bangkok, Mahanakhon Skywalk, Akara Sky Hanuman, Art in Paradise, Ripley's, Koh Larn tour, Phi Phi tour, spas. Space & Time Cube Pattaya dropped (swapped for Koh Larn), Alcazar dropped (swapped for Art in Paradise/Ripley's), Harbor Island Water Park dropped.</div>
     </div>
 
     <div class="budget-cat-card">
@@ -1324,33 +1325,37 @@ const days = [
       ["5:30 PM","Check in — ibis Styles Bangkok Sukhumvit 4","Booking ID GH24121275735188. Paid ₹25,108. Free cancellation was till 25 Aug 1:59 PM Bangkok time (past by check-in). Realistic timing: ~30–40min through immigration + ~45min–1hr transfer from landing", "Paid", "Grab ~45min–1hr from Suvarnabhumi (~฿300–400)"],
       ["7:00 PM","MBK Center — clothes + DJI drone","Floor 5 has an authorized DJI store (haggle-friendly pricing). Browse the fashion floors too for trip outfits. Mall open till ~9–10 PM — tight after a long flight, but it's one stop, not a multi-mall run", "Clothes variable · DJI drone ~฿15,000–60,000+ (set this in the Shopping budget)", "Grab from hotel ~20–25min, or BTS to National Stadium via Siam interchange"],
     ]},
-  { title: "DAY 2 · Sat 29 Aug", sub: "Bangkok temples", birthday:false,
-    note: "None of today's stops need advance booking — all walk-up. Bring cash (small notes for Wat Arun especially).",
+  { title: "DAY 2 · Sat 29 Aug", sub: "MBK stroll + Terminal 21 + Chao Phraya Indian Buffet Cruise", birthday:false,
+    note: "Relaxed day after a tiring arrival. Temples moved to Day 4. MBK for a comfortable stroll (already familiar from Day 1), then Terminal 21 Asok for lunch, then head to Terminal 21 Rama 3 which is the actual boarding pier for the Indian buffet cruise. Zero transit between lunch and cruise boarding — same Terminal 21 brand, different building. Cruise booked same-day via WhatsApp +66 95-504-8282.",
     items: [
-      ["8:30 AM","Grand Palace & Wat Phra Kaew","Arrive early. Dress code: covered shoulders/knees. Walk-up only at West Gate (8:30 AM–3:30 PM) — no individual online ticketing exists, ignore third-party 'pre-booked' resellers", "฿500pp (฿1,000 for 2)", "MRT Blue Line to Sanam Chai + 10min walk (best option), or Grab ~25–30min (~฿150–250)"],
-      ["11:30 AM","Wat Pho","Reclining Buddha + traditional Thai foot massage. Walk-up at gate (official online option exists at watphobooking.com if booked 24hrs+ ahead, but not required)", "฿300pp entry + ฿420pp massage (฿1,440 for 2)", "5–7min walk from Grand Palace"],
-      ["1:30 PM","Wat Arun","Cross via longtail boat from Wat Pho pier. Cash only at entrance counter — no online booking exists for this one at all", "฿200pp (฿400 for 2) + ~฿5pp ferry", "Cross-river ferry from Tha Tien Pier, 3–5min"],
-      ["Evening","Khao San Road","Street food, live music. Just a street — no ticket of any kind", "Free entry, ~฿200–500pp food", "No BTS/MRT nearby — Grab from Old City ~15–20min (~฿100–150)"],
+      ["Late morning","MBK Center stroll","Already familiar from yesterday — relaxed browse, AC, no agenda", "Free entry, shopping variable", "Grab from ibis Styles ~20–25min, or BTS National Stadium via Siam interchange"],
+      ["1:30 PM","Lunch — Pier 21 food court, Terminal 21 Asok","Excellent cheap Thai food, fully AC, airport-themed mall. Asok BTS is one stop from Sukhumvit", "~฿200–400pp", "BTS Asok — direct from Sukhumvit hotels, ~5min"],
+      ["3:00 PM","Head to Terminal 21 Rama 3","This is a different Terminal 21 — the Rama 3 branch is the boarding pier for the Indian cruise. Counter at G floor opposite LYN Store", "Grab ~20–25min from Asok (~฿150–200)", "Grab is the only practical option here"],
+      ["6:00 PM","Check-in — Chao Phraya Princess Indian Buffet Cruise","Check-in counter at Terminal 21 Rama 3, G floor, Gate 4. Arrive early for window seats (upper deck in high demand)", "~฿1,500pp walk-in (฿3,000 for 2)", "Already at the pier"],
+      ["7:30 PM","Chao Phraya Princess Cruise","2 hrs — chicken masala, paneer, dal tadka, naan, aloo chaat, live music. Passes Grand Palace, Wat Arun, Rama VIII Bridge illuminated at night", "Included in ticket", "On the river"],
+      ["9:30 PM","Return, Grab to hotel","Easy end to the night", "~฿150–200", "Grab from Terminal 21 Rama 3 back to Sukhumvit"],
     ]},
-  { title: "DAY 3 · Sun 30 Aug", sub: "Markets + Mahanakhon + rooftop + Asiatique", birthday:false,
-    note: "MBK moved to Day 1 (shopped alongside the DJI drone) — Chatuchak now gets full breathing room. Mahanakhon, Vertigo, and Asiatique all sit on/near the same Silom BTS line running down to the river, so no backtracking. This is the longest day of the trip (8 AM–~10 PM) — treat Asiatique as energy-permitting, not a hard commitment, especially after Chatuchak, Mahanakhon, and Vertigo.",
+  { title: "DAY 3 · Sun 30 Aug", sub: "Markets + Mahanakhon + Sky Bar + Asiatique", birthday:false,
+    note: "Sunday only for Chatuchak — must happen today. Mahanakhon, Sky Bar (Sirocco/Lebua), and Asiatique all on the Silom BTS line — one continuous line to the river, no backtracking. Vertigo & Moon Bar CLOSED (renovation since June 2026) — replaced with Sky Bar/Sirocco at Lebua State Tower, same area. Treat Asiatique as energy-permitting.",
     items: [
-      ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS. No rush to leave early now that MBK isn't later today", "Free entry, shopping variable", "BTS to Mo Chit — direct from Sukhumvit hotels, ~30–40min"],
+      ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS. No rush to leave early", "Free entry, shopping variable", "BTS to Mo Chit — direct from Sukhumvit hotels, ~30–40min"],
       ["4:30 PM","Mahanakhon Skywalk","Thailand's tallest observation deck (314m), glass floor at 310m, 74th/78th floor. Sunset ticket window 4–6:30 PM — book online for a discount", "~฿1,200pp sunset (~฿880pp daytime, ฿2,400 for 2 at sunset)", "BTS Mo Chit → Siam (interchange) → Chong Nonsi (Silom line), ~35–40min total"],
-      ["7:00 PM","Sky Bar / Sirocco (Lebua State Tower)","Vertigo & Moon Bar is CLOSED for renovation (16 June–30 Nov 2026), swapped for this instead. Sky Bar itself is walk-in only, no reservation possible or needed. If you want to sit down for dinner, Sirocco takes reservations. Saphan Taksin BTS, ~7min walk", "Sky Bar: drinks only, no cover · Sirocco: dinner from ~฿3,000pp+", "BTS Chong Nonsi → Saphan Taksin (change at Sala Daeng/Si Lom), ~20–25min total"],
-      ["9:00 PM","Asiatique The Riverfront (energy-permitting)","Riverside night market, food, shopping. Open till ~midnight, so no hard deadline — skip without guilt if the day's already been long", "Free entry, ~฿300–800pp dinner", "BTS Sala Daeng → Saphan Taksin (Silom line, end of the line) + free shuttle boat, ~20–25min total"],
+      ["7:00 PM","Sky Bar / Sirocco (Lebua State Tower)","Vertigo & Moon Bar CLOSED for renovation (June–Nov 2026). Sky Bar is walk-in only, no reservation needed. For sit-down dinner, Sirocco takes reservations. Saphan Taksin BTS, ~7min walk", "Sky Bar: drinks only, no cover · Sirocco: dinner from ~฿3,000pp+", "BTS Chong Nonsi → Saphan Taksin (change at Sala Daeng), ~20–25min total"],
+      ["9:00 PM","Asiatique The Riverfront (energy-permitting)","Riverside night market, food, shopping. Open till midnight — skip without guilt if the day's already long", "Free entry, ~฿300–800pp dinner", "Free shuttle boat from Saphan Taksin pier, ~5min"],
     ]},
-  { title: "DAY 4 · Mon 31 Aug", sub: "Seacon Bangkae day — water park + Space & Time Cube", birthday:false, note:"Muay Thai / Rajadamnern Stadium dropped — too costly for the value. Amphawa marked optional — the ~฿2,000 Grab return on top of the ~฿1,000–1,200pp tour made it poor value for what it offers. Swapped in Harbor Island, the largest rooftop water park in ASEAN, which happens to be in the exact same mall as Space & Time Cube — zero extra travel, much more exciting, better value.",
+  { title: "DAY 4 · Mon 31 Aug", sub: "Bangkok Temples — dedicated full day", birthday:false,
+    note: "Temples moved here from Day 2 — well-rested and ready for the walking. Water park dropped entirely. Space & Time Cube moved to Day 5 morning. Check Grand Palace closure announcements the night before (Mon 31 Aug) via thailand.go.th — royal ceremonies can close it with short notice.",
     items: [
-      ["7:00 AM","Amphawa Floating Market (optional)","Longtail boats, breakfast on water. Only worth it if you specifically want the floating-market experience — otherwise skip given the ~฿2,000 Grab return cost", "~฿1,000–1,200pp tour + ~฿2,000 Grab return", "Private tour van/car, ~1.5–2hrs each way — no BTS/MRT option"],
-      ["11:00 AM","Harbor Island Water Park","Seacon Bangkae, 3rd floor. Largest rooftop water park in ASEAN — 18 slides incl. Thailand's steepest (66°), wave pool, lazy river. 6 hrs unlimited, towel/locker included", "From ฿380pp", "No direct BTS/MRT — Grab from Sukhumvit ~35–45min (~฿250–350)"],
-      ["3:00 PM","Space & Time Cube+ Bangkok","Same mall, Seacon Bangkae — no travel needed between the two. Immersive digital art, Rail Cinema, VR zone, 1,500 sqm", "~฿400–600pp", "Same building as Harbor Island — no travel needed"],
-      ["6:30 PM","Terminal 21 + Pier 21 food court","Airport-themed mall, cheap excellent street food. Asok BTS", "Free entry, ~฿200–400pp food", "Grab from Seacon Bangkae ~35–40min, or BTS/MRT interchange direct at Asok"],
+      ["8:30 AM","Grand Palace & Wat Phra Kaew","Arrive early to beat crowds and heat. Dress code: covered shoulders/knees. Walk-up only at West Gate (8:30 AM–3:30 PM) — no individual online ticketing", "฿500pp (฿1,000 for 2)", "MRT Blue Line to Sanam Chai + 10min walk (best option), or Grab ~25–30min (~฿150–250)"],
+      ["11:30 AM","Wat Pho","Reclining Buddha + traditional Thai foot massage — worth doing, especially after all the walking", "฿300pp entry + ฿420pp massage (฿1,440 for 2)", "5–7min walk from Grand Palace"],
+      ["1:30 PM","Wat Arun","Cross via longtail boat from Wat Pho pier. Cash only at entrance counter", "฿200pp (฿400 for 2) + ~฿5pp ferry", "Cross-river ferry from Tha Tien Pier, 3–5min"],
+      ["Evening","Khao San Road","Street food, live music. Casual wind-down after a full temple day", "Free entry, ~฿200–500pp food", "Grab from Old City ~15–20min (~฿100–150)"],
     ]},
-  { title: "DAY 5 · Tue 1 Sep", sub: "Aquarium + shopping — move to Baiyoke Sky", birthday:false,
-    note: "Check out ibis Styles Sukhumvit 4 (12:00 PM) → check in Baiyoke Sky, Space Zone (2:00 PM). High floor + birthday cake/decoration requested",
+  { title: "DAY 5 · Tue 1 Sep", sub: "Space & Time Cube + Aquarium + move to Baiyoke Sky", birthday:false,
+    note: "Check out ibis Styles Sukhumvit 4 (12:00 PM) → check in Baiyoke Sky, Space Zone (2:00 PM). Space & Time Cube moved here from Day 4 (water park dropped). High floor + birthday cake/decoration requested at Baiyoke.",
     items: [
-      ["11:00 AM","Check out — ibis Styles Sukhumvit 4","Booking ID GH24121275735188", "Paid", "—"],
+      ["10:00 AM","Space & Time Cube+ Bangkok","Seacon Bangkae, Phet Kasem Road. Immersive digital art, Rail Cinema, VR zone, 1,500 sqm — do this before checkout", "~฿400–600pp", "Grab from ibis Styles ~35–45min (~฿250–350)"],
+      ["11:00 AM","Check out — ibis Styles Sukhumvit 4","Booking ID GH24121275735188 — store luggage at Baiyoke if checking in early", "Paid", "Grab from Seacon Bangkae ~35min"],
       ["1:00 PM","SEA LIFE Bangkok Ocean World","Siam Paragon basement, ~2.5 hrs", "~฿900–1,200pp", "BTS to Siam — direct, ~20–25min from Sukhumvit"],
       ["3:00 PM","Check in — Baiyoke Sky Hotel","Deluxe, Space Zone (70th–74th floor). Booking ID GH29086275255330", "Paid", "Grab from Siam ~15–20min (~฿100–150), or hotel's free tuk-tuk shuttle from Ratchaprarop ARL/Phaya Thai BTS"],
       ["6:30 PM","ICONSIAM or Chao Phraya Dinner Cruise","Riverside mall / buffet + live music, book cruise 2 days ahead", "Mall free · Cruise ~฿2,500–3,500pp", "Free shuttle boat from Sathorn Pier, or Grab ~25–30min from Baiyoke"],
@@ -1572,7 +1577,7 @@ buildPlacesChecklist('places-container', 'thailand-places-v2', {
     { name: "ICONSIAM & SookSiam", cost: "Free · Cruise ~฿2,500–3,500pp", booking: "Cruise: book 2 days ahead", walkup: false, priority: 1 },
     { name: "Asiatique The Riverfront", cost: "Free · ~฿300–800pp dinner", booking: "Walk-up OK", walkup: true, priority: 3 },
     { name: "Amphawa Floating Market (optional)", cost: "~฿1,000–1,200pp tour", booking: "Book tour ahead", walkup: false, priority: 3 },
-    { name: "Harbor Island Water Park", cost: "From ฿380pp", booking: "Book online for discount", walkup: false, priority: 2 },
+    { name: "Space & Time Cube+ Bangkok", cost: "~฿400–600pp", booking: "Walk-up OK, online has small discount", walkup: true, priority: 2 },
     { name: "Mahanakhon Skywalk", cost: "~฿1,200pp sunset", booking: "Book ahead — sunset slots sell out", walkup: false, priority: 1 },
     { name: "Akara Sky Hanuman", cost: "~฿500–1,500pp", booking: "Book ahead", walkup: false, priority: 2 },
     { name: "Sky Bar / Sirocco (Lebua State Tower) — replaced Vertigo, which is closed till Nov 2026", cost: "Sky Bar: drinks only · Sirocco: ~฿3,000pp+", booking: "Sky Bar walk-in only, no reservations taken · Sirocco: call +66 2 624 9999 or WhatsApp", walkup: true, priority: 2 },
@@ -1664,7 +1669,7 @@ buildChecklist('checklist-container', 'thailand-checklist-v3', {
     "Coral Island Sunset Catamaran (Day 11) — decide morning-of vs Old Phuket Town, book once decided",
     "Space & Time Cube+ Pattaya (Day 8) — optional, walk-up is fine, only if there's spare time",
     "Identify a backup operator for Phi Phi in case Day 6 gets rescheduled to Day 7's buffer slot",
-    "Harbor Island Water Park + Space & Time Cube Bangkok (Day 4) — walk-up fine, online has a small discount"
+    "Space & Time Cube Bangkok (Day 5 morning) — walk-up fine, online has a small discount"
   ],
   "🔴 Urgent — payment deadline": [
     "Pay Oceanfront Beach Resort (₹14,516) by 11:59 PM IST, 28 Aug — pay before leaving India, not after landing",

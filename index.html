@@ -1340,10 +1340,13 @@ const days = [
       ["7:30 PM","🚢 Arena River Cruise — Indian Buffet Dinner","Full Indian buffet — Chicken Tikka, Biryani, Paneer, Dal Tadka, Samosa, Raita + live Indian singer. Passes Wat Arun, Grand Palace, Rama VIII Bridge all lit up at night", "Included in ticket", "On the river — AC lower deck, open-air upper deck"],
       ["9:30 PM","Return, Grab to hotel","", "~฿150–200", "Grab from Asiatique back to Sukhumvit"],
     ]},
-  { title: "DAY 4 · Mon 31 Aug", sub: "Space & Time Cube + Arena River Cruise (Indian Buffet)", birthday:false,
-    note: "Temples moved to Day 5 (Tue 1 Sep) — 70% rain chance today makes outdoor temple walking a bad idea. Tuesday is only 35% rain, by far the best window this week. Today is fully indoor: Space & Time Cube in the daytime, Arena River Cruise from Asiatique in the evening.",
+  { title: "DAY 4 · Mon 31 Aug", sub: "Space & Time Cube + SEA LIFE + Arena River Cruise", birthday:false,
+    note: "Temples moved to Day 5 (Tue 1 Sep) — 70% rain chance today makes outdoor temple walking a bad idea. Tuesday is only 35% rain, by far the best window this week. Today is fully indoor: Space & Time Cube at Seacon Bangkae in the morning, SEA LIFE at Siam Paragon in the afternoon, Arena River Cruise from Asiatique in the evening. Both Space & Time Cube (Booking ID 2045874330) and SEA LIFE (Booking ID 2045876764) booked on Agoda.",
     items: [
-      ["Late morning","Space & Time Cube+ Bangkok","Seacon Bangkae, Phet Kasem Road. Immersive digital art, Rail Cinema, VR zone, 1,500 sqm — fully indoor, no weather dependency", "~฿400–600pp", "Grab from ibis Styles ~35–45min (~฿250–350)"],
+      ["10:30 AM","Space & Time Cube+ Bangkok ✅ BOOKED","Seacon Bangkae, Floor B Room B43. Booking ID 2045874330 — show voucher at counter for wristbands. Weekday Rail Cinema = 30min (double the weekend slot). Great for Insta360 Luna content", "Paid ₹3,822 (2 guests)", "MRT Blue Line to Phasi Charoen (BL37) Exit 1 — 5min walk directly into mall"],
+      ["1:00 PM","Grab to Siam Paragon","~30–35min from Seacon Bangkae to BTS Siam area", "~฿200–250", "Grab — no direct MRT route between these two"],
+      ["2:00 PM","SEA LIFE Bangkok Ocean World ✅ BOOKED","Siam Paragon B1–B2. Booking ID 2045876764 — includes Admission + Glass Bottom Boat. Glowing Ocean limited exhibit on until 20 Sep — magical for night-sea photos. Skip Glass Bottom Boat if the queue looks long; the 270° tunnel is the real highlight", "Paid ₹5,906 (2 guests)", "Inside Siam Paragon — BTS Siam, direct mall access"],
+      ["4:30 PM","Head back to hotel, freshen up","Rest before the evening cruise", "~฿150–200 Grab", "Grab from Siam Paragon to Sukhumvit ~20min"],
       ["5:30 PM","Head to Asiatique","BTS to Saphan Taksin → free shuttle boat to Asiatique (10min, every 15–20min). Walk to Warehouse 3, Pier 1", "Free shuttle boat", "BTS Saphan Taksin → free shuttle"],
       ["7:00 PM","Check-in — Arena River Cruise (Indian Buffet)","Walk-in tickets at pier counter, cash or card. Ask for upper deck / window seats", "~฿1,500pp (฿3,000 for 2)", "Already at the pier"],
       ["7:30 PM","🚢 Arena River Cruise — Indian Buffet Dinner","Full Indian buffet — Chicken Tikka, Biryani, Paneer, Dal Tadka, Samosa, Raita + live Indian singer. Passes Wat Arun, Grand Palace, Rama VIII Bridge all lit up at night", "Included in ticket", "On the river — AC lower deck, open-air upper deck"],
@@ -1895,7 +1898,7 @@ document.getElementById('resetHotelsBtn').addEventListener('click', () => {
 try { applyHotelState(); } catch(e) { console.error('Hotel tracker init failed:', e); }
 
 /* ============ EXPENSE TRACKER ============ */
-const EXP_STORAGE_KEY = 'thailand-expenses-v3';
+const EXP_STORAGE_KEY = 'thailand-expenses-v4';
 let selectedCurrency = 'THB';
 
 const SEED_EXPENSES = [
@@ -1908,6 +1911,8 @@ const SEED_EXPENSES = [
   { id: 's6', date: '2026-09-05', category: '✈️ Flights', desc: 'Bangkok → Phuket (Thai Vietjet VZ314) — Booking No. 1365644496041394', amount: 17404, currency: 'INR' },
   { id: 's7', date: '2026-09-09', category: '✈️ Flights', desc: 'Phuket → Bangkok (Thai Vietjet VZ307) — Booking No. 1365644496041394', amount: 10474, currency: 'INR' },
   { id: 's8', date: '2026-09-10', category: '✈️ Flights', desc: 'Bangkok → Delhi', amount: 28702, currency: 'INR' },
+  { id: 'act1', date: '2026-08-30', category: '🎟️ Activities', desc: 'Space & Time Cube+ Bangkok — Main Hall + Rail Cinema, 2 guests, Mon 31 Aug — Booking ID 2045874330', amount: 3822, currency: 'INR' },
+  { id: 'act2', date: '2026-08-30', category: '🎟️ Activities', desc: 'SEA LIFE Bangkok Ocean World — Admission + Glass Bottom Boat, 2 guests, Mon 31 Aug — Booking ID 2045876764', amount: 5906, currency: 'INR' },
 ];
 
 function loadExpenses() {

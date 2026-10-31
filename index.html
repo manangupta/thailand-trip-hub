@@ -40,40 +40,6 @@ body.dark .check-group-title, body.dark .H2 { color: #4CAF93; }
 body.dark .day-place b, body.dark .exp-item-desc { color: #e8eaeb; }
 body.dark .overview-table td { border-color: #333; }
 
-/* ---- Auth Gate ---- */
-#authGate {
-  position: fixed; inset: 0; z-index: 5000;
-  background: linear-gradient(135deg, #0F6E56, #14181a);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-}
-.auth-card {
-  background: white; border-radius: 14px; padding: 32px 28px;
-  max-width: 340px; width: 100%; text-align: center;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-}
-.auth-card .flag { font-size: 32px; margin-bottom: 6px; }
-.auth-card h2 { font-size: 19px; color: #0F6E56; margin-bottom: 4px; }
-.auth-card p { font-size: 12.5px; color: #6b6a63; margin-bottom: 20px; }
-.auth-card input {
-  width: 100%; padding: 11px 12px; margin-bottom: 10px;
-  border: 1px solid #ddd; border-radius: 7px; font-size: 14px; font-family: inherit;
-}
-.auth-card input:focus { outline: none; border-color: #0F6E56; box-shadow: 0 0 0 2px rgba(15,110,86,0.15); }
-.auth-card button {
-  width: 100%; padding: 11px; border: none; border-radius: 7px;
-  background: #0F6E56; color: white; font-size: 14.5px; font-weight: 700; cursor: pointer; margin-top: 4px;
-}
-.auth-card button:hover { background: #0c5a46; }
-#authError { color: #D85A30; font-size: 12.5px; margin-top: 10px; display: none; font-weight: 600; }
-#appContent { display: none; }
-html.pre-authed #appContent { display: block; }
-html.pre-authed #authGate { display: none; }
-.logout-link {
-  position: fixed; top: 20px; right: 68px; z-index: 9999;
-  font-size: 11px; color: rgba(255,255,255,0.8); background: rgba(0,0,0,0.15);
-  padding: 6px 10px; border-radius: 20px; cursor: pointer; border: none;
-}
 
 .topbar {
   background: #0F6E56;
@@ -383,30 +349,9 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
   .day-time { width: 55px; }
 }
 </style>
-<script>
-  // Early check — avoids a flash of content before the main script runs
-  if (localStorage.getItem('thailand-trip-authed') === 'yes') {
-    document.documentElement.classList.add('pre-authed');
-  }
-</script>
 </head>
 <body>
 
-<div id="authGate">
-  <div class="auth-card">
-    <div class="flag">🇹🇭</div>
-    <h2>Thailand Trip 2026</h2>
-    <p>Private trip hub — enter your login to continue</p>
-    <form id="authForm">
-      <input type="text" id="authUser" placeholder="Username" autocomplete="username" required>
-      <input type="password" id="authPass" placeholder="Password" autocomplete="current-password" required>
-      <button type="submit">Log In</button>
-    </form>
-    <div id="authError">Incorrect username or password.</div>
-  </div>
-</div>
-
-<button class="logout-link" id="logoutBtn" title="Log out">Log out</button>
 <button class="dark-toggle" id="darkToggle" title="Toggle dark mode">🌙</button>
 
 <div id="appContent">
@@ -1199,95 +1144,6 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     if (!btn) return;
     const text = btn.getAttribute('data-thai');
     if (text) speak(text, btn);
-  });
-})();
-
-/* ============ AUTH GATE ============ */
-(function() {
-  // SHA-256 of "username:password" — not stored in plain text
-  const CORRECT_HASH = '83d57ef0a707897103d4d8e079bd2fbe39e7f2d13ef14285c0ca730cb80d0818';
-  const authGate = document.getElementById('authGate');
-  const appContent = document.getElementById('appContent');
-  const authForm = document.getElementById('authForm');
-  const authError = document.getElementById('authError');
-  const logoutBtn = document.getElementById('logoutBtn');
-  const submitBtn = authForm.querySelector('button[type="submit"]');
-
-  const LOCKOUT_KEY = 'thailand-trip-lockout';
-  const MAX_ATTEMPTS = 5;
-
-  async function sha256(str) {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-
-  function getLockoutState() {
-    try { return JSON.parse(sessionStorage.getItem(LOCKOUT_KEY) || '{"attempts":0,"until":0}'); }
-    catch(e) { return { attempts: 0, until: 0 }; }
-  }
-  function setLockoutState(s) { sessionStorage.setItem(LOCKOUT_KEY, JSON.stringify(s)); }
-
-  function applyLockoutUI() {
-    const s = getLockoutState();
-    const now = Date.now();
-    if (s.until > now) {
-      const secsLeft = Math.ceil((s.until - now) / 1000);
-      submitBtn.disabled = true;
-      submitBtn.textContent = `Try again in ${secsLeft}s`;
-      authError.textContent = 'Too many attempts — locked temporarily.';
-      authError.style.display = 'block';
-      setTimeout(applyLockoutUI, 1000);
-    } else {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Log In';
-    }
-  }
-  applyLockoutUI();
-
-  function unlock() {
-    authGate.style.display = 'none';
-    appContent.style.display = 'block';
-  }
-
-  if (localStorage.getItem('thailand-trip-authed') === 'yes') {
-    unlock();
-  }
-
-  authForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const s = getLockoutState();
-    if (s.until > Date.now()) { applyLockoutUI(); return; }
-
-    const u = document.getElementById('authUser').value.trim();
-    const p = document.getElementById('authPass').value;
-    const hash = await sha256(u + ':' + p);
-
-    if (hash === CORRECT_HASH) {
-      sessionStorage.removeItem(LOCKOUT_KEY);
-      localStorage.setItem('thailand-trip-authed', 'yes');
-      authError.style.display = 'none';
-      unlock();
-    } else {
-      const attempts = (s.attempts || 0) + 1;
-      let until = 0;
-      if (attempts >= MAX_ATTEMPTS) {
-        until = Date.now() + 30000; // 30s lockout after 5 failed attempts
-      }
-      setLockoutState({ attempts, until });
-      authError.textContent = attempts >= MAX_ATTEMPTS
-        ? 'Too many attempts — locked temporarily.'
-        : 'Incorrect username or password.';
-      authError.style.display = 'block';
-      applyLockoutUI();
-    }
-  });
-
-  logoutBtn.addEventListener('click', function() {
-    localStorage.removeItem('thailand-trip-authed');
-    appContent.style.display = 'none';
-    authGate.style.display = 'flex';
-    document.getElementById('authUser').value = '';
-    document.getElementById('authPass').value = '';
   });
 })();
 

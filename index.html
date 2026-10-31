@@ -135,17 +135,21 @@ body.dark .overview-table td { border-color: #333; }
 .day-body { padding: 10px 14px; }
 .day-card.collapsed .day-body { display: none; }
 .day-note { font-size: 11px; color: #8a7530; background: #FAEEDA; padding: 6px 9px; border-radius: 5px; margin-bottom: 8px; }
-.day-item { display: flex; gap: 10px; padding: 5px 0; border-bottom: 1px solid #F1EFE8; font-size: 12.5px; align-items: flex-start; }
+.day-item { padding: 5px 0; border-bottom: 1px solid #F1EFE8; font-size: 12.5px; }
 .day-item:last-child { border-bottom: none; }
+.day-item-head { display: flex; gap: 10px; align-items: flex-start; }
 .day-time { flex-shrink: 0; width: 68px; color: #6b6a63; font-weight: 600; font-size: 11.5px; }
-.day-place { flex: 1; }
+.day-place { flex: 1; min-width: 0; }
 .day-place b { display: block; color: #2C2C2A; }
 .day-place span { color: #6b6a63; font-size: 11.5px; }
-.day-cost { flex-shrink: 0; font-size: 11px; font-weight: 700; color: #0F6E56; background: #E1F5EE; padding: 3px 8px; border-radius: 10px; white-space: nowrap; margin-top: 1px; }
+/* Cost, transport, map/copy/expense buttons all wrap together in one row below the description
+   instead of competing with it for horizontal space — that's what squeezed the text into a
+   narrow column before. */
+.day-item-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; margin-left: 78px; }
+.day-cost { font-size: 11px; font-weight: 700; color: #0F6E56; background: #E1F5EE; padding: 3px 8px; border-radius: 10px; max-width: 100%; }
 body.dark .day-cost { background: #16302a; color: #4CAF93; }
-.day-transport { font-size: 11px; color: #8a6d1a; background: #FAEEDA; padding: 3px 8px; border-radius: 6px; margin-top: 5px; display: block; width: fit-content; }
-.day-place span.day-transport { color: #8a6d1a; }
-body.dark .day-transport, body.dark .day-place span.day-transport { background: #3a3320; color: #d4b26a; }
+.day-transport { font-size: 11px; color: #8a6d1a; background: #FAEEDA; padding: 3px 8px; border-radius: 6px; max-width: 100%; }
+body.dark .day-transport { background: #3a3320; color: #d4b26a; }
 
 /* ---- Hotel Tracker ---- */
 .urgency-banner {
@@ -225,6 +229,174 @@ body.dark .place-name { color: #e8eaeb; }
 body.dark .place-badge.cost { background: #16302a; color: #4CAF93; }
 body.dark .place-badge.booking { background: #3a3320; color: #d4b26a; }
 body.dark .place-badge.booking.walkup { background: #1e3320; color: #7dc47d; }
+/* ---- Map pins ---- */
+.pin-item {
+  border: 1px solid #EEEDE6; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; background: white;
+}
+.pin-name { font-size: 13px; font-weight: 700; color: #2C2C2A; }
+.pin-thai { font-size: 13.5px; color: #0F6E56; margin-top: 3px; line-height: 1.5; }
+.pin-sub { font-size: 11.5px; color: #6b6a63; margin-top: 3px; line-height: 1.45; }
+.pin-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 9px; }
+.pin-btn {
+  font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 8px; cursor: pointer;
+  border: 1px solid #DCDACF; background: #F7F6F1; color: #4a4940; font-family: inherit;
+  text-decoration: none; display: inline-block; line-height: 1.4;
+}
+.pin-btn:hover { background: #EEEDE6; }
+.pin-btn.maps { background: #E1F5EE; border-color: #b8e0d2; color: #0F6E56; }
+.pin-btn.maps:hover { background: #cfeee1; }
+.pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+.emergency-toggle {
+  display: block; width: 100%; box-sizing: border-box; font-family: inherit;
+  font-size: 12.5px; font-weight: 700; cursor: pointer; text-align: left;
+  border: 1px solid #e3b088; background: #FFF7F2; color: #b5451f;
+  border-radius: 8px; padding: 9px 12px; margin-bottom: 10px;
+}
+.emergency-toggle:hover { background: #ffeee3; }
+.emergency-toggle.open { border-radius: 8px 8px 0 0; margin-bottom: 0; }
+body.dark .emergency-toggle { background: #33211c; border-color: #7a4433; color: #f0a084; }
+body.dark .emergency-toggle:hover { background: #3d2820; }
+#itineraryEmergencyCard .emergency-card { border-radius: 0 0 8px 8px; border-top: none; margin-bottom: 12px; margin-top: 0; }
+.day-food {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+  font-size: 11px; background: #FFF3E0; border: 1px solid #f0d8a8;
+  border-radius: 6px; padding: 7px 9px; margin-bottom: 8px;
+}
+.day-food-title { font-weight: 700; color: #8a5a17; flex-basis: 100%; }
+.day-food-dish { color: #6b5a3a; }
+.day-food-dish b { color: #4a3a1a; }
+.day-food-phrases { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.day-food .speak-btn {
+  font-size: 10.5px; font-weight: 700; border: 1px solid #d9c37a; background: #fff;
+  color: #8a6d1a; border-radius: 8px; padding: 3px 8px; cursor: pointer; font-family: inherit;
+}
+.day-food .speak-btn.speaking { background: #8a6d1a; color: #fff; }
+body.dark .day-food { background: #3a2f1c; border-color: #6b5423; }
+body.dark .day-food-title { color: #e8c483; }
+body.dark .day-food-dish { color: #cbb98a; }
+body.dark .day-food-dish b { color: #f0dcb0; }
+body.dark .day-food .speak-btn { background: #1e2427; border-color: #6b5423; color: #e8c483; }
+.tripmap-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: #6b6a63; margin: 10px 0; }
+.tripmap-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.tm-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.tm-dot.p1 { background: #D85A30; }
+.tm-dot.p2 { background: #BA7517; }
+.tm-dot.p3 { background: #0F6E56; }
+.tripmap-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.tripmap-filter {
+  font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+  border: 1px solid #DCDACF; background: #F7F6F1; color: #4a4940;
+  padding: 6px 14px; border-radius: 20px;
+}
+.tripmap-filter.active { background: #0F6E56; border-color: #0F6E56; color: #fff; }
+body.dark .tripmap-filter { background: #1e2427; border-color: #444; color: #d8dbdd; }
+body.dark .tripmap-legend { color: #a9adb0; }
+.tm-popup b { color: #2C2C2A; }
+.tm-popup .tm-meta { font-size: 11.5px; color: #6b6a63; margin-top: 4px; line-height: 1.5; }
+.day-log-btn {
+  font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 8px; cursor: pointer;
+  border: 1px solid #d9c37a; background: #FFF8E1; color: #8a6d1a; font-family: inherit;
+  display: inline-block; line-height: 1.4;
+}
+body.dark .day-log-btn { background: #3a3320; border-color: #6b5423; color: #e8c483; }
+.day-pin-btn {
+  font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 8px; cursor: pointer;
+  border: 1px solid #DCDACF; background: #F7F6F1; color: #4a4940; font-family: inherit;
+  text-decoration: none; display: inline-block; line-height: 1.4;
+}
+.day-pin-btn.maps { background: #E1F5EE; border-color: #b8e0d2; color: #0F6E56; }
+.day-pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+body.dark .day-pin-btn { background: #1e2427; border-color: #444; color: #d8dbdd; }
+body.dark .day-pin-btn.maps { background: #16302a; border-color: #235043; color: #7fd3b8; }
+.day-card.is-today { border-color: #0F6E56; border-width: 2px; box-shadow: 0 0 0 3px rgba(15,110,86,.12); }
+.day-card.is-today .day-head { background: #0F6E56; }
+.day-card.birthday.is-today .day-head { background: #D85A30; }
+.day-card.is-past { opacity: .55; }
+.day-card.is-past .day-head { background: #6b6a63; }
+.day-badge {
+  display: inline-block; font-size: 9.5px; font-weight: 800; letter-spacing: .04em;
+  padding: 2px 7px; border-radius: 10px; margin-left: 7px; vertical-align: 1px;
+  background: #ffffff; color: #0F6E56;
+}
+.day-badge.tomorrow { background: rgba(255,255,255,.24); color: #fff; }
+.day-badge.past { background: rgba(255,255,255,.2); color: #fff; }
+.today-strip {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  flex-wrap: wrap; border: 1px solid #b8e0d2; background: #E1F5EE; color: #14513f;
+  border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; font-size: 12.5px;
+}
+.today-strip.pre { border-color: #f0d060; background: #FFF8E1; color: #8a6d1a; }
+.today-strip.post { border-color: #DCDACF; background: #F7F6F1; color: #4a4940; }
+.today-jump {
+  font-family: inherit; font-size: 11.5px; font-weight: 700; cursor: pointer;
+  border: 1px solid #0F6E56; background: #0F6E56; color: #fff;
+  padding: 6px 12px; border-radius: 8px; white-space: nowrap;
+}
+.today-jump:hover { background: #0c5946; }
+.today-strip.pre .today-jump { border-color: #BA7517; background: #BA7517; }
+.today-strip.post .today-jump { border-color: #6b6a63; background: #6b6a63; }
+body.dark .today-strip { background: #16302a; border-color: #235043; color: #7fd3b8; }
+body.dark .today-strip.pre { background: #3a3320; border-color: #6b5423; color: #e8c483; }
+body.dark .today-strip.post { background: #262b2e; border-color: #444; color: #c5c8ca; }
+body.dark .day-badge { background: #0F6E56; color: #fff; }
+.emergency-card {
+  border: 1px solid #e3b088; background: #FFF7F2; border-left: 4px solid #D85A30;
+  border-radius: 6px; padding: 12px 14px; margin-bottom: 14px;
+}
+.emergency-card .emergency-title { color: #b5451f; margin-bottom: 6px; }
+.emergency-card td, .emergency-card .detail-row { color: #6b3a28; }
+.emergency-card td b { color: #8a2f14; }
+body.dark .emergency-card { background: #33211c; border-color: #7a4433; border-left-color: #D85A30; }
+body.dark .emergency-card .emergency-title { color: #f0a084; }
+body.dark .emergency-card td, body.dark .emergency-card .detail-row { color: #e0c5bb; }
+body.dark .emergency-card td b { color: #ffb79c; }
+.day-stay {
+  font-size: 11px; color: #0F6E56; background: #EAF7EF; border: 1px solid #d3ebe0;
+  border-radius: 6px; padding: 4px 8px; margin-top: 6px; line-height: 1.45;
+  display: inline-block; max-width: 100%;
+}
+.day-stay b { font-weight: 700; }
+body.dark .day-stay { background: #16302a; border-color: #235043; color: #7fd3b8; }
+.day-card.birthday .day-stay { background: #FFF4E6; border-color: #f0d0a0; color: #8a5a17; }
+body.dark .day-card.birthday .day-stay { background: #3a2f1c; border-color: #6b5423; color: #e8c483; }
+.pin-search-wrap { position: relative; margin-bottom: 12px; }
+.pin-search {
+  width: 100%; box-sizing: border-box; font-family: inherit; font-size: 13px;
+  padding: 10px 34px 10px 34px; border-radius: 8px; border: 1px solid #DCDACF;
+  background: #F7F6F1 url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b6a63' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") no-repeat 10px center;
+  background-size: 16px 16px; color: #2C2C2A;
+}
+.pin-search:focus { outline: none; border-color: #0F6E56; background-color: white; }
+.pin-search-clear {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  border: none; background: transparent; cursor: pointer; font-size: 17px;
+  color: #6b6a63; padding: 4px 8px; line-height: 1; display: none; font-family: inherit;
+}
+.pin-search-clear:hover { color: #2C2C2A; }
+.pin-search-count { font-size: 11.5px; color: #6b6a63; margin: -4px 0 12px 2px; }
+.pin-no-results {
+  border: 1px dashed #DCDACF; border-radius: 8px; padding: 16px 14px;
+  text-align: center; font-size: 12.5px; color: #6b6a63;
+}
+body.dark .pin-search { background-color: #1e2427; border-color: #444; color: #d8dbdd; }
+body.dark .pin-search:focus { background-color: #262b2e; border-color: #4CAF93; }
+body.dark .pin-no-results { border-color: #444; }
+.pin-app-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 14px; }
+.pin-app-btn {
+  font-size: 12px; font-weight: 700; padding: 8px 14px; border-radius: 9px;
+  border: 1px solid #DCDACF; background: white; color: #2C2C2A; text-decoration: none;
+}
+.pin-app-btn:hover { background: #F7F6F1; }
+body.dark .pin-item { background: #1e2427; border-color: #333; }
+body.dark .pin-name { color: #e8eaeb; }
+body.dark .pin-thai { color: #4CAF93; }
+body.dark .pin-sub { color: #9a9a92; }
+body.dark .pin-btn { background: #262d31; border-color: #3a4247; color: #c8ccce; }
+body.dark .pin-btn:hover { background: #2f373c; }
+body.dark .pin-btn.maps { background: #16302a; border-color: #23503f; color: #4CAF93; }
+body.dark .pin-btn.done { background: #0F6E56; border-color: #0F6E56; color: white; }
+body.dark .pin-app-btn { background: #1e2427; border-color: #3a4247; color: #e8eaeb; }
+
 .mini-progress { font-size: 11px; color: #6b6a63; margin-bottom: 8px; }
 
 /* ---- Restaurant / info cards ---- */
@@ -349,6 +521,8 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
   .day-time { width: 55px; }
 }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
 
@@ -375,6 +549,8 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       <div class="tab" data-panel="mapnav">📍 Map & Navigate</div>
       <div class="tab" data-panel="expenses">💰 Expenses</div>
       <div class="tab" data-panel="budget">🧾 Expected Budget</div>
+      <div class="tab" data-panel="pins">📍 Map Pins</div>
+      <div class="tab" data-panel="tripmap">🗺️ Trip Map</div>
     </div>
   </div>
 </div>
@@ -397,27 +573,28 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       <tr><td>Bangkok (birthday)</td><td>1 Sep – 3 Sep</td><td>2</td><td>Manan's birthday (2 Sep, no travel) — Baiyoke Sky, Space Zone ✓ paid</td></tr>
       <tr><td>Pattaya</td><td>3 Sep – 4 Sep</td><td>1</td><td>Sanctuary of Truth, Alcazar — Centara Pattaya Hotel ✓ paid</td></tr>
       <tr><td>Bangkok</td><td>4 Sep – 5 Sep</td><td>1</td><td>Reset before Phuket flight — Gate43 Airport Hotel ✓ paid</td></tr>
-      <tr><td>Phuket (Patong)</td><td>5 Sep – 7 Sep</td><td>2</td><td>Phi Phi day trip — Patong Resort ✅ paid</td></tr>
-      <tr><td>Phuket (birthday)</td><td>7 Sep – 9 Sep</td><td>2</td><td>Wife's birthday — Oceanfront Beach Resort ⚠️ ₹14,516 due 28 Aug (departure day!)</td></tr>
-      <tr><td>Bangkok</td><td>9 Sep – 10 Sep</td><td>1</td><td>Departure via Pune layover — The House Pratunam ✅ paid</td></tr>
+      <tr><td>Phuket (Patong)</td><td>5 Sep – 7 Sep</td><td>2</td><td>Phi Phi day trip — Patong Resort ✓ paid</td></tr>
+      <tr><td>Phuket (birthday)</td><td>7 Sep – 9 Sep</td><td>2</td><td>Wife's birthday — Oceanfront Beach Resort ✓ paid</td></tr>
+      <tr><td>Bangkok</td><td>9 Sep – 10 Sep</td><td>1</td><td>Departure via Pune layover — The House Pratunam ✓ paid</td></tr>
     </table>
 
     <div class="change-box">
-      <b>Latest changes:</b> All 7 stays now have a real booking. Confirmed paid: ibis Styles (28 Aug–1
-      Sep), Baiyoke Sky, Centara Pattaya, Gate43, Oceanfront, The House Pratunam. Patong Resort (5–7
-      Sep) replaced MAZI Design Hotel — GH20097276202354, ₹7,378 paid in full. Check-in note flags
-      "Guest Room/Floor services under renovation" — worth a call ahead to confirm scope.
-      Aug), <b>Oceanfront Beach Resort</b> (7–9 Sep birthday stay, amount TBC — genuinely well-reviewed,
-      replaced the cancelled Sunset Beach Resort), <b>The House Pratunam</b> (9–10 Sep, ₹? paid — good
-      value 3-star, near the Indian food cluster in Pratunam, replaced Citrus Sukhumvit 11). Also discovered: the
-      final flight home (10 Sep) has a <b>layover in Pune</b>, not a direct Bangkok–Delhi flight — see
-      Day 14.
+      <b>Latest changes:</b> <b>All 7 stays are booked and paid — nothing outstanding.</b> <b>Patong Resort</b>
+      (5–7 Sep, ₹6,892) replaced MAZI Design Hotel by Kalima; <b>Oceanfront Beach Resort</b> (7–9 Sep birthday
+      stay, ₹15,791) came back with a new booking ID — check the Hotels tab, the old ID is dead; and
+      <b>The House Pratunam</b> (9–10 Sep, GH27132276919468) replaced Citrus Sukhumvit 11 — a good-value
+      3-star beside the Pratunam Indian food cluster. Still to do at Oceanfront: carry the <b>฿3,000 cash
+      deposit</b> for check-in. Patong Resort's voucher warns that <b>guest room/floor services are under
+      renovation</b> — worth a call. Also: the final flight home (10 Sep) has a <b>layover in Pune</b>, not a
+      direct Bangkok–Delhi flight — see Day 14.
     </div>
+
+    <div id="overviewEmergencyCard"></div>
 
     <div class="info-card">
       This page merges your full itinerary with a live hotel booking tracker — check the
       <b>Hotels</b> tab to see what's booked vs. still needed, and the other tabs for the full
-      day-by-day plan, island tour strategy, all 35 places, birthday dinner picks, and checklists.
+      day-by-day plan, island tour strategy, all 39 places, birthday dinner picks, and checklists.
       Everything you check off is saved automatically in this browser.
     </div>
   </div>
@@ -426,6 +603,12 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
   <div class="panel" id="panel-itinerary">
     <div class="section-title">Day-by-Day Itinerary</div>
     <div class="section-desc">Tap any day to expand or collapse</div>
+    <div id="todayStrip" class="today-strip" style="display:none;">
+      <span id="todayStripText"></span>
+      <button type="button" class="today-jump" id="todayJumpBtn">Jump to today</button>
+    </div>
+    <button type="button" class="emergency-toggle" id="emergencyToggleBtn">🚨 Emergency numbers</button>
+    <div id="itineraryEmergencyCard" style="display:none;"></div>
     <div id="days-container"></div>
   </div>
 
@@ -434,8 +617,37 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     <div class="section-title">Hotel Booking Tracker</div>
     <div class="section-desc">13 nights · 7 stays</div>
 
-    <div class="urgency-banner" style="background: #FDF1EA; border-color: #e3b088; border-left-color: #D85A30; color: #7a3319;">
-      ✅ <b>All 7 stays booked and paid.</b> Patong Resort (5–7 Sep) replaced MAZI Design Hotel. The House Pratunam (9–10 Sep) replaced Citrus Sukhumvit 11 — near the Pratunam Indian food cluster. Note: Patong Resort's check-in listing flags "Guest Room/Floor services under renovation" — worth a quick call to confirm scope.
+    <div class="urgency-banner" style="background: #EAF7EF; border-color: #9ed3ba; border-left-color: #0F6E56; color: #14513f;">
+      ✅ <b>All 7 stays paid — no payments outstanding.</b> Charged 27 Aug: Patong Resort ₹6,892 + Oceanfront ₹15,791 (see the payment ledger below for which card paid what). The 9–10 Sep stay later moved from Citrus Sukhumvit 11 to <b>The House Pratunam</b> (GH27132276919468, beside the Pratunam Indian food cluster) — its amount is not logged here. Still to carry: <b>฿3,000 cash deposit</b> at Oceanfront check-in (7 Sep, refundable).
+    </div>
+
+    <div class="confirmed-box" style="border:1px solid #EEEDE6; border-radius:6px; padding:12px 14px; margin-bottom:14px;">
+      <div class="hotel-name" style="margin-bottom:6px;">💳 Payment ledger — which card paid what</div>
+      <table class="info-table" style="width:100%; font-size:12px;">
+        <tr><td><b>Patong Resort</b> · 5–7 Sep</td><td>₹6,892</td><td>Kiwi card (Yes Bank) via goaxb wallet</td></tr>
+        <tr><td><b>Oceanfront Beach Resort</b> · 7–9 Sep</td><td>₹15,791</td><td>ICICI ••••4009</td></tr>
+        <tr><td><b>The House Pratunam</b> · 9–10 Sep</td><td>—</td><td>Booked ✓ — amount not recorded (replaced Citrus Sukhumvit 11, which was ₹4,493)</td></tr>
+        <tr><td><b>ibis Styles Sukhumvit 4</b> · 28 Aug–1 Sep</td><td>₹25,108</td><td>UPI</td></tr>
+        <tr><td><b>Baiyoke Sky, Space Zone</b> · 1–3 Sep</td><td>₹18,862</td><td>HDFC ••••5444 — <b>on EMI</b></td></tr>
+        <tr><td><b>Centara Pattaya</b> · 3–4 Sep</td><td>₹4,937</td><td>ICICI ••••7004</td></tr>
+        <tr><td><b>Gate43 Airport Hotel</b> · 4–5 Sep</td><td>₹3,406</td><td>Kiwi card (Yes Bank)</td></tr>
+      </table>
+      <div class="detail-row" style="margin-top:8px;">
+        <b>₹22,683 charged on 27 Aug</b> across the two rebooked stays that were paid then; <b>₹74,996 across the
+        six stays with a recorded amount</b>, with The House Pratunam on top of that. Patong's voucher total
+        (₹7,378) runs ₹486 above the wallet charge — a second payment line was cut off, but the voucher says
+        paid in full, so confirm in Goibibo rather than assuming it is unpaid.
+      </div>
+      <div class="detail-row" style="margin-top:6px;">
+        Every stay is now attributed. Only the Baiyoke booking is on <b>EMI</b> (HDFC ••••5444) —
+        that one keeps billing after you are home, so leave room for it rather than treating the trip
+        as fully paid off. Travel insurance sits in the Expenses tab: TataAIG $100k, ₹1,289.44 on ICICI.
+      </div>
+      <div class="detail-row" style="margin-top:6px;">
+        On the ground, different cards: <b>Niyo Forex</b> (Visa Platinum, zero markup) for ATM withdrawals,
+        <b>OneCard</b> for shopping, <b>$100 USD cash</b> for airport liquidity. Oceanfront also wants
+        <b>฿3,000 in cash</b> at check-in — not a card.
+      </div>
     </div>
 
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
@@ -464,7 +676,6 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
           <div class="detail-row"><b>Room:</b> Standard Room with 2 Single beds · Room Only</div>
           <div class="detail-row"><b>Check-in:</b> 2:00 PM · <b>Check-out:</b> 12:00 PM</div>
           <div class="detail-row">Paid ₹25,108 · Free cancellation till 25 Aug 2026, 1:59 PM Bangkok time</div>
-          <div class="detail-row" style="color:#b5451f;"><b>⚠️ Replaced Aspen Suites</b> — confirm whether the earlier Aspen payment (₹21,230, non-refundable) was refunded or lost</div>
         </div>
       </div>
     </div>
@@ -538,35 +749,42 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
         <div class="confirmed-box" style="margin-top:10px;">
           <div class="hotel-name">Patong Resort</div>
           <div class="detail-row"><b>Booking ID:</b> GH20097276202354 · <b>PNR:</b> 0185696270</div>
-          <div class="detail-row"><b>Room:</b> Superior Room with Bathtub and Balcony · No meals included</div>
-          <div class="detail-row"><b>Check-in:</b> 3:00 PM · <b>Check-out:</b> 12:00 PM</div>
-          <div class="detail-row"><b>Address:</b> 208 Rai-Uthit 200 Pee Road, Patong Beach</div>
-          <div class="detail-row">Total ₹7,378 · <b>Paid in full</b> · Replaced MAZI Design Hotel</div>
-          <div class="detail-row" style="color:#b5451f;"><b>⚠️ Check-in note says "Guest Room/Floor services under renovation"</b> — worth calling ahead to confirm scope before relying on it</div>
-          <div class="detail-row">Credit card for incidentals must be in primary guest's name (Manan). Late check-in fee applies 6:00 AM–1:30 PM — your ~2 PM arrival is outside this window, no extra charge. Airport shuttle available: ฿1,000/vehicle one-way (max 2) if preferred over the minivan</div>
+          <div class="detail-row"><b>Room:</b> 1 × Superior Room with Bathtub and Balcony · <b>No meals included</b> (MAZI had breakfast — budget for it)</div>
+          <div class="detail-row"><b>Check-in:</b> 3:00 PM · <b>Check-out:</b> 12:00 PM · 4★, couple friendly</div>
+          <div class="detail-row"><b>Address:</b> 208 Rai-Uthit 200 Pee Road, Patong Beach, Phuket 83150</div>
+          <div class="detail-row"><b>Phone:</b> +66 76 340 551 · +66 76 340 5514</div>
+          <div class="detail-row"><b>Paid ₹6,892</b> — Kiwi card (Yes Bank), via the goaxb wallet, 27 Aug. Voucher total ₹7,378, so ₹486 came off a second line the screenshot cut off — worth confirming in Goibibo</div>
+          <div class="detail-row">Replaced MAZI Design Hotel by Kalima, which replaced Seaview Patong</div>
+          <div class="detail-row">Phi Phi day trip is now Mon 7 Sep, picked up from and dropped back at this hotel. Check-in is 3:00 PM, an hour later than MAZI's — you land 08:25, so plan to drop bags and go.</div>
+          <div class="detail-row">Credit card for incidentals must be in the primary guest's name (Manan). Late check-in fee applies 6:00 AM–1:30 PM — a ~2 PM arrival is outside that window. Airport shuttle: ฿1,000/vehicle one-way (max 2) if you prefer it to the minivan</div>
+        </div>
+        <div class="pending-warning">
+          ⚠️ The voucher states <b>"Guest Room/Floor services are under renovation."</b> Worth a call to +66 76 340 551 before you fly to ask which floors are affected and request a room away from the work — this is exactly the kind of thing that made you drop Seaview Patong.
         </div>
       </div>
     </div>
 
-    <div class="stay-card pending" id="stay-5" data-nights="2">
-      <div class="stay-header pending-bg">
+    <div class="stay-card booked" id="stay-5" data-nights="2">
+      <div class="stay-header booked-bg">
         <div><div class="stay-city">🏝️ Phuket (Birthday stay)</div><div class="stay-dates">Mon 7 Sep → Wed 9 Sep</div></div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-          <span class="nights-badge">2 nights</span><span class="status-pill pending">PAYMENT DUE</span>
+          <span class="nights-badge">2 nights</span><span class="status-pill booked">BOOKED ✓</span>
         </div>
       </div>
       <div class="stay-body">
-        <div class="night-dots"><div class="night-dot unbooked">7</div><div class="night-dot unbooked">🎂8</div></div>
+        <div class="night-dots"><div class="night-dot booked">7</div><div class="night-dot booked">🎂8</div></div>
         <div class="confirmed-box" style="margin-top:10px;">
           <div class="hotel-name">Oceanfront Beach Resort</div>
-          <div class="detail-row"><b>Booking ID:</b> GH26084275735628 · <b>PNR:</b> 0185103126</div>
-          <div class="detail-row"><b>Room:</b> Premier Comfy Room with Bathtub and Balcony · No meals included</div>
-          <div class="detail-row"><b>Check-in:</b> 3:00 PM · <b>Check-out:</b> 11:00 AM</div>
-          <div class="detail-row">Total ₹14,516 · <b>Amount paid: ₹0</b></div>
+          <div class="detail-row"><b>Booking ID:</b> GH22039276201846 <span style="opacity:.7;">(new — replaces GH26084275735628)</span> · <b>PNR:</b> 0185696099</div>
+          <div class="detail-row"><b>Room:</b> 1 × Premier Comfy Room with Bathtub and Balcony · <b>Breakfast included</b> ✓ (the old booking had no meals — this one is better)</div>
+          <div class="detail-row"><b>Check-in:</b> 3:00 PM · <b>Check-out:</b> 11:00 AM · 5★ resort, couple friendly</div>
+          <div class="detail-row"><b>Address:</b> 320/2 Phrabaramee Road, Tambon Patong, Amphur Kathu, Phuket 83150</div>
+          <div class="detail-row"><b>Phone:</b> +66 76 683 200 · <b>Email:</b> info@oceanfrontphuket.com</div>
+          <div class="detail-row"><b>Paid ₹15,791</b> — ICICI ••••4009, 27 Aug (charged ₹15,791.30). Voucher total ₹15,790 · settled in full</div>
           <div class="detail-row">Replaced Sunset Beach Resort (cancelled, bad reviews). Genuinely well-reviewed: 4/5 TripAdvisor (336 reviews), 8.6/10 Booking.com (5,392 reviews). Reviews mention staff arrange birthday/honeymoon cakes and decorations — good sign for the birthday ask</div>
         </div>
         <div class="pending-warning">
-          ⚠️ Must pay ₹14,516 by <b>11:59 PM IST, Fri 28 Aug</b> — the same day you fly out. Pay before leaving India, not after landing. Also requires a mandatory <b>฿3,000 cash deposit at check-in</b> (refundable) — budget for this separately from general spending cash. High floor + cake/decoration + spa requests still need to be sent once paid.
+          ⚠️ Paid, but two things still open: a mandatory <b>฿3,000 cash deposit at check-in</b> (refundable) — budget this separately from general spending cash — and the <b>birthday requests</b> (high floor, cake, decoration, spa) which have <b>not</b> been sent to this hotel yet. They were written for Sunset Beach Resort, which was cancelled.
         </div>
       </div>
     </div>
@@ -587,6 +805,9 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
           <div class="detail-row"><b>Room:</b> Superior Double Room, 2 Adults</div>
           <div class="detail-row"><b>Check-in:</b> 2:00 PM · <b>Check-out:</b> 12:00 PM</div>
           <div class="detail-row">Booked — replaced Citrus Sukhumvit 11. Good-value 3-star, walking distance to the Pratunam Indian food cluster (Madras Darbar, Indian Express) and Pratunam Market — genuinely well-reviewed (8.4–8.6/10)</div>
+        </div>
+        <div class="pending-warning">
+          ℹ️ Departure the next day (10 Sep) has a <b>Pune layover</b> en route to Delhi, not a direct flight — see Day 14.
         </div>
       </div>
     </div>
@@ -612,11 +833,24 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
       cancelled for rain — only for wave height, decided morning-of. Reputable operators offer full
       refund or reschedule.
     </div>
+    <div class="info-card" style="border-color:#e3b088; background:#FFF7F2;">
+      <b>3. Patong Beach itself carries a real drowning risk during monsoon season</b> — rip currents
+      pull tourists out most years on Phuket's west coast, on days that can look calm from the shore.
+      Check the flag before swimming: red means stay out, don't swim alone even on a green day. This
+      is separate from the boat-tour weather calls above — a cancelled tour day doesn't mean the beach
+      itself is safe for a swim instead.
+    </div>
+    <div class="info-card" style="border-color:#e3b088; background:#FFF7F2;">
+      <b>4. Jet-ski rental scam</b> — well documented in Patong and Pattaya both: return the ski, get
+      shown "pre-existing damage" you supposedly caused, told to pay cash on the spot or police get
+      called. Not part of the plan, but if it comes up as a spontaneous beach activity, photograph and
+      video every existing scratch on the ski before you take it out.
+    </div>
 
     <div class="check-group-title" style="margin-top:14px;">The plan: primary day + buffer/move day</div>
     <table class="info-table" style="border:1px solid #EEEDE6;">
-      <tr><td>Sep 6 (Sat)</td><td>Koh Phi Phi speedboat trip — book earliest slot (7:00–7:30 AM)</td></tr>
-      <tr><td>Sep 7 (Sun)</td><td>Buffer + hotel move day — check out Patong Resort, check in Oceanfront Beach Resort. Reschedule slot if Phi Phi was cancelled.</td></tr>
+      <tr><td>Sep 6 (Sun)</td><td>Free day + evening show (Phi Phi was pushed to the 7th — sea conditions / booking)</td></tr>
+      <tr><td>Sep 7 (Mon)</td><td>Phi Phi trip (booked: Seven Plus Travel, Dream Voyager catamaran) + hotel move — hotel pickup 8:20 AM, back ~6:30 PM, then Patong Resort → Oceanfront Beach Resort</td></tr>
     </table>
 
     <div class="check-group-title" style="margin-top:16px;">Other island tours from Phuket</div>
@@ -648,37 +882,43 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
   <div class="panel" id="panel-restaurants">
     <div class="section-title">Birthday Dinners</div>
 
-    <div class="check-group-title">Manan's birthday — Sep 2, Bangkok</div>
+    <div class="urgency-banner">
+      🟡 <b>Sep 8 is the one still open.</b> Above Eleven (Sep 2) and Suay (Sep 8) were dropped, and
+      Akara Sky Hanuman (Sep 9) with them. Sep 2 has passed — Day 6 is logged as done (Bayleaf spa, checkout)
+      with the evening not recorded; Octave stays below as the recommendation that was on the table.
+      For Sep 8, <b>Oceanfront's own restaurant</b> is the recommended pick but isn't reserved yet — Sep 8 is
+      a Tuesday, so a few days' notice should be enough.
+    </div>
+
+    <div class="check-group-title">Manan's birthday — Sep 2, Bangkok · <b>day done, dinner not logged</b></div>
     <div class="info-card">
-      Rooftop party instead of fine dining — Sep 2, 2026 is a Wednesday, which lines up perfectly
-      with Above Eleven's weekly DJ night.
+      You're at Baiyoke Sky that night, so anything on the Sukhumvit/Silom rooftop circuit is a
+      20–25min Grab. Candidates, none contacted:
       <table class="info-table">
-        <tr><td>Above Eleven</td><td>33rd/34th floor, Fraser Suites Sukhumvit Soi 11. Wednesday "Ladies Night" with DJ Pepe — dinner + rooftop party combined, so no separate dinner needed. Peruvian-Japanese (Nikkei) menu. Dress: smart casual, no sandals/flip-flops, no sleeveless for men. Reservations recommended: 02 038 5111. ~10 min walk from Nana BTS, or ~580m via Soi 11.</td></tr>
+        <tr><td>⭐ Octave Rooftop Lounge <b>(recommended)</b></td><td>Marriott Sukhumvit, multi-level with a dedicated DJ zone, reliably busy midweek — best mix of view, food, and atmosphere for a birthday night out. Book a table a few days ahead, smart casual</td></tr>
+        <tr><td>SIN Rooftop Bar</td><td>Live DJs every night, themed party nights — good backup if Octave can't take a table, check their event calendar before committing</td></tr>
+        <tr><td>Sky Bar / Sirocco</td><td>Lebua State Tower — already your Day 3 evening plan, so probably don't repeat it here</td></tr>
+        <tr><td>Baiyoke's own 84th floor</td><td>Complimentary with your package — a zero-effort fallback if nothing gets booked</td></tr>
       </table>
     </div>
     <div class="note-strip">
-      Dropped: Sorn / Issaya Siamese Club (fine dining) — swapped for Above Eleven's rooftop party at
-      Manan's request. Also dropped earlier: Peppermint Saloon (Pattaya), never verified as a real listing.
-    </div>
-    <div class="check-group-title" style="margin-top:12px;">Backup rooftop options (if Above Eleven is fully booked)</div>
-    <div class="info-card">
-      <table class="info-table">
-        <tr><td>SIN Rooftop Bar</td><td>Live DJs every night, themed party nights — check their event calendar closer to the date</td></tr>
-        <tr><td>Octave Rooftop Lounge</td><td>Marriott Sukhumvit, multi-level with a dedicated DJ zone, nightly energetic crowd</td></tr>
-      </table>
+      Also dropped earlier: Sorn / Issaya Siamese Club (fine dining), and Peppermint Saloon (Pattaya),
+      which was never verified as a real listing.
     </div>
 
-    <div class="check-group-title" style="margin-top:16px;">Wife's birthday — Sep 8, Phuket</div>
+    <div class="check-group-title" style="margin-top:16px;">Wife's birthday — Sep 8, Phuket · <b>venue not chosen</b></div>
     <div class="info-card">
-      <b>Suay Restaurant</b> (Cherngtalay) — Michelin-recognized, farm-to-table Thai. Verified real listing.
+      You're at Oceanfront Beach Resort in Patong that night. Candidates, none contacted:
       <table class="info-table">
-        <tr><td>Address</td><td>4, 177/99 Moo 6, Tambon Srisoonthorn, Amphoe Thalang, Phuket 83110</td></tr>
-        <tr><td>Phone</td><td>+66 93 339 1890</td></tr>
-        <tr><td>Hours</td><td>4:00 PM – 11:00 PM daily</td></tr>
-        <tr><td>Price level</td><td>High (fine dining)</td></tr>
+        <tr><td>⭐ Oceanfront's own restaurant <b>(recommended)</b></td><td>Ask when you email them about the cake — keeps the cake and dinner in one place, zero Grab risk on the birthday itself. Confirm when you send the birthday-request email</td></tr>
+        <tr><td>Pla Seafood Sailing Club</td><td>Beachfront, more of an occasion — good pick if the in-house menu doesn't excite you, but verify contact details before relying on it</td></tr>
+        <tr><td>Amritsr Restaurant, Patong</td><td>Indian, close to the hotel — not a fine-dining birthday, but a safe known-quantity fallback</td></tr>
       </table>
     </div>
-    <div class="note-strip">Backup: Pla Seafood Sailing Club (beachfront) — verify contact before relying on it.</div>
+    <div class="note-strip">
+      Whatever you choose, remember the cake is being asked of the hotel, not the restaurant — so an
+      in-house dinner keeps the two in the same place.
+    </div>
   </div>
 
   <!-- ============ BOOKING CHECKLIST ============ -->
@@ -710,6 +950,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
         <tr><td>Return/onward ticket</td><td>Immigration may ask to see it — you already have this (return flight 10 Sep). Keep a printed copy</td></tr>
         <tr><td>Proof of funds</td><td>Officers occasionally check — ฿20,000 per person or ฿40,000 per family is the commonly cited figure. Indian travellers reportedly get asked more often than other nationalities — carry a printed bank statement or have your balance visible on your banking app</td></tr>
         <tr><td>Cash declaration</td><td>Declare if carrying over USD 20,000 equivalent (~฿450,000) — extremely unlikely to apply to you, just noted for completeness</td></tr>
+        <tr><td>Indian customs duty on the DJI drone</td><td>India's duty-free personal allowance for returning residents is <b>₹50,000</b>. The drone budget (₹43,000–₹1,73,000) can exceed that on its own — decide your ceiling with this in mind, and know which channel (green/red) you'd actually be in if asked at Delhi</td></tr>
       </table>
     </div>
     <div class="note-strip">
@@ -1001,6 +1242,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
           <option value="🚕 Transport">🚕 Transport</option>
           <option value="🛍️ Shopping">🛍️ Shopping</option>
           <option value="💆 Spa & Wellness">💆 Spa & Wellness</option>
+          <option value="🛡️ Insurance & Visa">🛡️ Insurance & Visa</option>
           <option value="🎂 Birthday extras">🎂 Birthday extras</option>
           <option value="📦 Other">📦 Other</option>
         </select>
@@ -1052,9 +1294,9 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     <div class="budget-cat-card">
       <div class="budget-cat-header">
         <div class="budget-cat-name">🎟️ Activities & Attractions</div>
-        <div class="budget-cat-amt">~฿25,800</div>
+        <div class="budget-cat-amt">~฿23,800</div>
       </div>
-      <div class="budget-cat-desc">Temple tickets, Space & Time Cube Bangkok, Mahanakhon Skywalk, Akara Sky Hanuman, Art in Paradise, Ripley's, Koh Larn tour, Phi Phi tour, spas. Space & Time Cube Pattaya dropped (swapped for Koh Larn), Alcazar dropped (swapped for Art in Paradise/Ripley's), Harbor Island Water Park dropped.</div>
+      <div class="budget-cat-desc">Temple tickets, Space &amp; Time Cube Bangkok, SEA LIFE, Mahanakhon Skywalk, Art in Paradise, Ripley's, Koh Larn tour, Phi Phi tour, spas. Dropped along the way: Akara Sky Hanuman (−฿2,000, nothing replaced it), Space &amp; Time Cube Pattaya (swapped for Koh Larn), Alcazar (swapped for Art in Paradise/Ripley's), Harbor Island Water Park, Amphawa (Fri–Sun evenings only, never viable on a Monday).</div>
     </div>
 
     <div class="budget-cat-card">
@@ -1062,7 +1304,7 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
         <div class="budget-cat-name">🍜 Food & Dining</div>
         <div class="budget-cat-amt">~฿30,200</div>
       </div>
-      <div class="budget-cat-desc">Every meal across all 14 days, including the two birthday dinners (Above Eleven ~฿5,000, Suay ~฿6,000) and the optional Chao Phraya cruise (~฿6,000) — the single biggest swing factor in this estimate. Skip the cruise for ICONSIAM instead and this drops by ~฿5,500.</div>
+      <div class="budget-cat-desc">Every meal across all 14 days, including the two birthday dinners (~฿5,000 and ~฿6,000 still reserved — Octave Rooftop Lounge and Oceanfront in-house are the recommended picks, neither booked yet) and the optional Chao Phraya cruise (~฿6,000) — the single biggest swing factor in this estimate. Skip the cruise for ICONSIAM instead and this drops by ~฿5,500.</div>
     </div>
 
     <div class="budget-cat-card">
@@ -1082,6 +1324,73 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
     </div>
   </div>
 
+  <!-- ============ MAP PINS ============ -->
+  <div class="panel" id="panel-pins">
+    <div class="section-title">Map Pins</div>
+    <div class="section-desc">
+      Every place, with its <strong>Thai name</strong> ready to copy. Grab and Bolt have no public
+      deep link that pre-fills a destination — so the workflow is: tap <strong>Copy Thai</strong>,
+      open the app, paste into the destination box. Works for taxi drivers too — show them the Thai text.
+    </div>
+
+    <div class="pin-app-row">
+      <a class="pin-app-btn" href="https://www.grab.com/th/en/transport/" target="_blank" rel="noopener">🚗 Open Grab</a>
+      <a class="pin-app-btn" href="https://bolt.eu/en/" target="_blank" rel="noopener">⚡ Open Bolt</a>
+      <a class="pin-app-btn" href="https://www.google.com/maps" target="_blank" rel="noopener">🗺️ Google Maps</a>
+    </div>
+
+    <div class="note-strip" style="margin-bottom:14px;">
+      <strong>Offline tip:</strong> before you fly, open Google Maps → your profile → Offline maps →
+      download Bangkok, Pattaya and Phuket. The Maps links below then still resolve without data.
+      Grab and Bolt both need a live connection.
+    </div>
+
+    <div class="pin-search-wrap">
+      <input type="search" id="pinSearch" class="pin-search" autocomplete="off"
+             placeholder="Search pins — name, Thai, area, date…">
+      <button type="button" class="pin-search-clear" id="pinSearchClear" aria-label="Clear search">✕</button>
+    </div>
+    <div class="pin-search-count" id="pinSearchCount"></div>
+
+    <div id="pins-container"></div>
+    <div class="pin-no-results" id="pinNoResults" style="display:none;">
+      No pins match that. Try a place name, a Thai word, or an area like <b>Patong</b> or <b>Sukhumvit</b>.
+    </div>
+
+    <div class="note-strip">
+      Thai names are the ones drivers actually recognise — English transliterations often don't land.
+      Where a place is known by its English name locally (malls, hotels, beach clubs), the Thai line is
+      the transliteration Thai speakers use, not a translation.
+    </div>
+  </div>
+
+  <!-- ============ TRIP MAP ============ -->
+  <div class="panel" id="panel-tripmap">
+    <div class="section-title">Trip Map</div>
+    <div class="section-desc">
+      Every stop plotted with real coordinates, colour-coded by priority. Needs a live connection to
+      load the map tiles — Map Pins is the offline-safe way to get a Thai name to show a driver.
+    </div>
+    <div class="tripmap-legend">
+      <span><i class="tm-dot p1"></i> P1 — book now</span>
+      <span><i class="tm-dot p2"></i> P2 — book ahead</span>
+      <span><i class="tm-dot p3"></i> P3 — walk-up</span>
+    </div>
+    <div class="tripmap-filters" id="tripmapFilters">
+      <button type="button" class="tripmap-filter active" data-city="All">All</button>
+      <button type="button" class="tripmap-filter" data-city="Bangkok">Bangkok</button>
+      <button type="button" class="tripmap-filter" data-city="Pattaya">Pattaya</button>
+      <button type="button" class="tripmap-filter" data-city="Phuket">Phuket</button>
+    </div>
+    <div id="tripmap" style="height: 440px; border-radius: 8px; overflow: hidden; border: 1px solid #EEEDE6;"></div>
+    <div class="note-strip" style="margin-top:10px;">
+      Built from your Google Maps export — the coordinates are used as-is, but the day/date each stop
+      is tagged with here has been corrected against the confirmed itinerary (the export's own day
+      numbers didn't line up with what's actually booked). Tap a marker for the day, cost and current
+      booking status.
+    </div>
+  </div>
+
 </div>
 
 </div>
@@ -1089,7 +1398,10 @@ body.dark .budget-shop-input-row input { background: #14181a; color: #d8dbdd; bo
 <script>
 /* ============ EXPECTED BUDGET ============ */
 (function() {
-  const FIXED_TOTAL = 10250 + 25800 + 30200; // Transfers + Activities + Food
+  const FIXED_TOTAL = 10250 + 23800 + 30200; // Transfers + Activities + Food
+  // Activities fell 25,800 -> 23,800: Akara Sky Hanuman (~฿1,000pp x2) was dropped and nothing
+  // replaced it. The two birthday dinners stay budgeted under Food — the venues changed, the
+  // spend did not.
   const shopInput = document.getElementById('budgetShopInput');
   const shopDisplay = document.getElementById('budgetShopDisplay');
   const grandTotal = document.getElementById('budgetGrandTotal');
@@ -1172,22 +1484,295 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
+const PIN_GROUPS = {
+  "🏨 Your hotels — the pins you'll use most": [
+    { name: "ibis Styles Bangkok Sukhumvit 4", thai: "ไอบิส สไตล์ กรุงเทพ สุขุมวิท 4", sub: "28 Aug – 1 Sep · Soi Sukhumvit 4, nearest BTS Nana", q: "ibis Styles Bangkok Sukhumvit 4 Hotel" },
+    { name: "Baiyoke Sky Hotel (Space Zone)", thai: "โรงแรมใบหยกสกาย ราชเทวี", sub: "1–3 Sep · Pratunam / Ratchathewi — Manan's birthday, Sep 2", q: "Baiyoke Sky Hotel Bangkok" },
+    { name: "Centara Pattaya Hotel", thai: "โรงแรมเซ็นทารา พัทยา", sub: "3–4 Sep", q: "Centara Pattaya Hotel" },
+    { name: "Gate43 Airport Residence", thai: "เกท 43 แอร์พอร์ต เรสซิเดนซ์", sub: "4–5 Sep · near Suvarnabhumi, for the 06:50 Phuket flight", q: "Gate43 Airport Residence Bangkok" },
+    { name: "Patong Resort", thai: "ป่าตอง รีสอร์ท", sub: "5–7 Sep · Patong, Phuket · ✓ paid ₹6,892 · 208 Rai-Uthit 200 Pee Rd", q: "Patong Resort 208 Rai-Uthit 200 Pee Road Patong Beach Phuket" },
+    { name: "Oceanfront Beach Resort", thai: "โอเชี่ยนฟรอนท์ บีช รีสอร์ท ป่าตอง", sub: "7–9 Sep · Phrabaramee Rd, Patong · ✓ paid ₹15,791 · ฿3,000 cash deposit at check-in · wife's birthday, Sep 8", q: "Oceanfront Beach Resort Patong Phuket" },
+    { name: "The House Pratunam", thai: "เดอะ เฮาส์ ประตูน้ำ", sub: "9–10 Sep · last night · Pratunam, beside the Indian food cluster · booked GH27132276919468", q: "The House Pratunam Bangkok" },
+  ],
+  "✈️ Airports": [
+    { name: "Suvarnabhumi Airport (BKK)", thai: "ท่าอากาศยานสุวรรณภูมิ", sub: "Arrive 28 Aug 15:40 · depart to Phuket 5 Sep 06:50 · fly home 10 Sep 14:40" },
+    { name: "Phuket International Airport (HKT)", thai: "ท่าอากาศยานนานาชาติภูเก็ต", sub: "Land 5 Sep 08:25 · depart 9 Sep 17:20 · ~45–60 min from Patong, leave early" },
+  ],
+  "🛕 Bangkok — temples & old city": [
+    { name: "Grand Palace & Wat Phra Kaew", thai: "พระบรมมหาราชวัง วัดพระแก้ว", sub: "฿500pp · dress code enforced: covered shoulders and knees" },
+    { name: "Wat Pho (Reclining Buddha)", thai: "วัดโพธิ์ ท่าเตียน", sub: "฿300pp · Thai massage school on site, ฿420pp" },
+    { name: "Wat Arun (Temple of Dawn)", thai: "วัดอรุณราชวราราม", sub: "฿200pp · cross by ฿5 ferry from Tha Tien pier" },
+    { name: "Yaowarat (Chinatown)", thai: "เยาวราช", sub: "Street food after dark · chicken/egg options plentiful" },
+    { name: "Khao San Road", thai: "ถนนข้าวสาร", sub: "Backpacker strip, night market" },
+    { name: "Song Wat Road", thai: "ถนนทรงวาด", sub: "Optional — old riverside street, cafés and murals" },
+  ],
+  "🏙️ Bangkok — views, malls & river": [
+    { name: "Mahanakhon SkyWalk", thai: "คิงเพาเวอร์ มหานคร สกายวอล์ค", sub: "BTS Chong Nonsi · book a sunset slot ahead, ~₹2,561pp on Klook", q: "King Power Mahanakhon SkyWalk Bangkok" },
+    { name: "Sky Bar / Sirocco, Lebua State Tower", thai: "เลอบัว สเตท ทาวเวอร์ สีลม", sub: "Day 3 evening — replaces Vertigo & Moon Bar (closed 16 Jun–30 Nov 2026) · BTS Saphan Taksin · Sky Bar is walk-in only", q: "Lebua at State Tower Bangkok" },
+    { name: "ICONSIAM & SookSiam", thai: "ไอคอนสยาม", sub: "Riverside mall · free shuttle boat from Sathorn pier" },
+    { name: "Asiatique The Riverfront", thai: "เอเชียทีค เดอะ ริเวอร์ฟร้อนท์", sub: "Night market · free shuttle boat from Sathorn pier" },
+    { name: "Chao Phraya dinner cruise — Sathorn (Central) Pier", thai: "ท่าเรือสาทร", sub: "Sep 1 · most cruises board here · book 2 days ahead", q: "Sathorn Pier Bangkok" },
+    { name: "MBK Center", thai: "มาบุญครอง เอ็มบีเค เซ็นเตอร์", sub: "BTS National Stadium · electronics, the DJI drone stop" },
+    { name: "Terminal 21 (Pier 21 food court)", thai: "เทอร์มินอล 21 อโศก", sub: "BTS Asok · cheap food court, ~฿50–100 a dish" },
+    { name: "Platinum Fashion Mall", thai: "แพลทินัม แฟชั่น มอลล์ ประตูน้ำ", sub: "Pratunam · walking distance from Baiyoke Sky · your free Sep 2 afternoon fallback" },
+    { name: "Space & Time Cube+ Bangkok", thai: "สเปซ แอนด์ ไทม์ คิวบ์ พลัส", sub: "Seacon Bangkae · Day 4 · done 31 Aug ✅", q: "Space and Time Cube Plus Seacon Bangkae" },
+    { name: "Chatuchak Weekend Market", thai: "ตลาดนัดจตุจักร", sub: "Sat & Sun only · MRT Kamphaeng Phet exit 2 is the best entrance" },
+    { name: "SEA LIFE Bangkok Ocean World", thai: "ซีไลฟ์ แบงคอก โอเชี่ยน เวิลด์", sub: "Under Siam Paragon · book online" },
+    { name: "Go-Ang Kaomunkai Pratunam (khao man gai)", thai: "ร้านข้าวมันไก่ประตูน้ำ โกอ่าง", sub: "Michelin Bib Gourmand · 5 min walk from Baiyoke Sky · chicken rice, safe for your diet" },
+    { name: "Bawarchi Indian Restaurant (Sukhumvit)", thai: "ร้านอาหารอินเดีย บาวาชี สุขุมวิท", sub: "Near Sukhumvit 4 — fallback for the ibis Styles nights", q: "Bawarchi Indian Restaurant Sukhumvit Bangkok" },
+  ],
+  "🎂 Birthday candidates — none booked, none contacted": [
+    { name: "Khus Samui Spa", thai: "คุส สมุย สปา", sub: "Sep 2, 8 AM couples massage option — near Baiyoke Sky", q: "Khus Samui Spa Bangkok" },
+    { name: "Spa 1930", thai: "สปา 1930", sub: "Sep 2, 8 AM couples massage — alternative to Khus Samui, also near Baiyoke Sky", q: "Spa 1930 Bangkok" },
+    { name: "SIN Rooftop Bar", thai: "ซิน รูฟท็อป บาร์", sub: "Sep 2 birthday candidate — live DJs, check their event calendar before deciding", q: "SIN Rooftop Bar Bangkok" },
+    { name: "Octave Rooftop Lounge", thai: "อ็อกเทฟ รูฟท็อป เลาจน์", sub: "Sep 2 birthday candidate — Marriott Sukhumvit, multi-level DJ zone", q: "Octave Rooftop Lounge Bangkok Marriott Sukhumvit" },
+    { name: "Pla Seafood Sailing Club", thai: "พลา ซีฟู้ด เซลลิ่ง คลับ", sub: "Sep 8 birthday dinner candidate — beachfront, verify contact before relying on it", q: "Pla Seafood Sailing Club Phuket" },
+  ],
+  "🌴 Pattaya": [
+    { name: "Sanctuary of Truth", thai: "ปราสาทสัจธรรม", sub: "~฿600pp · all-teak carved temple on the water" },
+    { name: "Art in Paradise Pattaya", thai: "อาร์ต อิน พาราไดซ์ พัทยา", sub: "3D illusion museum · no combo ticket with Ripley's, book separately" },
+    { name: "Ripley's Believe It or Not! Pattaya", thai: "ริปลีส์ พัทยา", sub: "Royal Garden Plaza, Beach Road · ฿650pp" },
+    { name: "Walking Street Pattaya", thai: "วอล์คกิ้งสตรีท พัทยา", sub: "Opens up after ~8 PM" },
+    { name: "Bali Hai Pier (Koh Larn ferry)", thai: "ท่าเรือแหลมบาลีฮาย", sub: "Sep 4 · ferries to Koh Larn leave from here · go early, back before checkout", q: "Bali Hai Pier Pattaya" },
+    { name: "Koh Larn (Coral Island)", thai: "เกาะล้าน", sub: "Sep 4 · Indian buffet package ~฿280pp via tripthaitour.com" },
+    { name: "Alibaba Tandoori Pattaya", thai: "ร้านอาหารอินเดีย อาลีบาบา พัทยา", sub: "Indian fallback in Pattaya", q: "Alibaba Tandoori Restaurant Pattaya" },
+  ],
+  "🏝️ Phuket": [
+    { name: "Patong Beach", thai: "หาดป่าตอง", sub: "Both Phuket hotels are here" },
+    { name: "Wat Chalong", thai: "วัดฉลอง", sub: "Phuket's largest temple · free, donation optional" },
+    { name: "Big Buddha of Phuket", thai: "พระพุทธมิ่งมงคลเอกนาคคีรี พระใหญ่ภูเก็ต", sub: "Steep winding road up — Grab it rather than scooter if wet" },
+    { name: "Old Phuket Town (Thalang Road)", thai: "เมืองเก่าภูเก็ต ถนนถลาง", sub: "Sino-Portuguese shophouses, cafés · Sunday walking street" },
+    { name: "Promthep Cape", thai: "แหลมพรหมเทพ", sub: "Sunset viewpoint at the southern tip · arrive ~45 min before sunset" },
+    { name: "Royal Phuket Marina / Ao Po Grand Marina", thai: "อ่าวปอ แกรนด์ มารีน่า", sub: "Sep 6 · common departure point for catamaran Phi Phi tours — confirm your pier with Seanery", q: "Ao Po Grand Marina Phuket" },
+    { name: "Rassada Pier (Phi Phi ferries)", thai: "ท่าเรือรัษฎา", sub: "The other common Phi Phi departure point — confirm which one applies", q: "Rassada Pier Phuket" },
+    { name: "Let's Relax Spa Patong", thai: "เล็ทส์ รีแลกซ์ สปา ป่าตอง", sub: "Sep 8 spa option · walkable from Oceanfront", q: "Let's Relax Spa Patong Phuket" },
+    { name: "Amritsr Restaurant Patong", thai: "ร้านอาหารอินเดีย อมฤตสร์ ป่าตอง", sub: "Indian fallback near Patong", q: "Amritsr Restaurant Patong Phuket" },
+  ],
+  "🚨 Emergency — pin these before you need them": [
+    { name: "Bumrungrad International Hospital", thai: "โรงพยาบาลบำรุงราษฎร์", sub: "Sukhumvit Soi 3 · the standard tourist/expat hospital in Bangkok · ~5 min from ibis Styles Sukhumvit 4", q: "Bumrungrad International Hospital Bangkok" },
+    { name: "Bangkok Hospital Phuket", thai: "โรงพยาบาลกรุงเทพภูเก็ต", sub: "Phuket Town · ~30 min from Patong · for anything serious on the Phuket leg", q: "Bangkok Hospital Phuket" },
+    { name: "Patong Hospital", thai: "โรงพยาบาลป่าตอง", sub: "In Patong itself · minor issues, much closer than Phuket Town", q: "Patong Hospital Phuket" },
+    { name: "Embassy of India, Bangkok", thai: "สถานเอกอัครราชทูตอินเดีย กรุงเทพ", sub: "46 Soi Prasarnmitr (Sukhumvit 23), Wattana · walkable from both Sukhumvit hotels · lost passport goes here", q: "Embassy of India Bangkok Sukhumvit 23" },
+  ],
+  "🏧 ATMs — withdraw ฿10,000+ per pull": [
+    { name: "AEON ATM (฿150 fee — the cheap one)", thai: "ตู้เอทีเอ็ม อิออน", sub: "Found inside Big C and Lotus's stores · use your Niyo Forex card · always beats the ฿250 bank ATMs", q: "AEON ATM Bangkok" },
+    { name: "AEON ATM near Sukhumvit / Nana — live map search", thai: "ตู้เอทีเอ็ม อิออน สุขุมวิท", sub: "Walking distance from ibis Styles Sukhumvit 4 (28 Aug–1 Sep) · this pin runs a live Maps search rather than pointing at one confirmed machine — AEON moves its units, so check the map on the day", q: "AEON ATM Sukhumvit Bangkok" },
+    { name: "Big C Rajdamri", thai: "บิ๊กซี ราชดำริ", sub: "Central Bangkok Big C — AEON ATM inside · opposite CentralWorld", q: "Big C Supercenter Rajdamri Bangkok" },
+    { name: "Foodland Sukhumvit 5 (24hr) — ATM check", thai: "ฟู้ดแลนด์ สุขุมวิท 5", sub: "~5 min walk from ibis Styles Sukhumvit 4 · open 24hrs, has an ATM cluster — worth checking for an AEON unit before paying ฿250 at a bank machine", q: "Foodland Supermarket Sukhumvit 5 Bangkok" },
+  ],
+};
+
+// Flat index so Day-by-Day can pull the same pin data instead of duplicating it.
+const PIN_BY_NAME = {};
+Object.values(PIN_GROUPS).forEach(list => list.forEach(p => { PIN_BY_NAME[p.name] = p; }));
+
+/* ============ EMERGENCY INFO — single source, rendered on Overview and Day-by-Day ============ */
+const EMERGENCY_ROWS = [
+  ["Tourist Police", "<b>1155</b> — English-speaking, 24h. This is the number to call first for theft, scams, disputes or anything involving police"],
+  ["Medical emergency / ambulance", "<b>1669</b> — national emergency line, 24h"],
+  ["General police / fire", "191 (police) · 199 (fire)"],
+  ["TataAIG assistance (emergency, Europ Assistance)", "<b>+91-22-6822-7600</b> (call-back facility available) — this is the number for a medical emergency or evacuation abroad, not general customer service. Email ea.tataclaims@europ-assistance.in"],
+  ["TataAIG customer support / claims", "022 6489 8282 or 1800 267 1955 (toll-free) — general policy queries and claims. WhatsApp +91 9136160375"],
+  ["Embassy of India, Bangkok", "46 Soi Prasarnmitr (Sukhumvit 23), Wattana — walkable from both your Sukhumvit hotels. Confirm the current 24h emergency number on the embassy site and save it"],
+  ["Hospital — Bangkok", "Bumrungrad International (Sukhumvit Soi 3) — the standard expat/tourist hospital, ~5 min from ibis Styles Sukhumvit 4"],
+  ["Hospital — Phuket", "Patong Hospital for minor issues · Bangkok Hospital Phuket (Phuket Town, ~30 min from Patong) for anything serious. Verify on arrival rather than at 3 AM"],
+];
+const EMERGENCY_MED_NOTE = "<b>Medication note:</b> you are carrying BP and diabetes medication for 14 days. If you need a pharmacy, Thai pharmacies are widespread and well-stocked, but bring the pharmacy label or prescription — generic names differ from Indian brand names, and staff will ask.";
+
+function emergencyCardHtml() {
+  return `
+    <div class="hotel-name emergency-title">🚨 Emergency — screenshot this page</div>
+    <table class="info-table" style="width:100%; font-size:12px;">
+      ${EMERGENCY_ROWS.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td></tr>`).join('')}
+    </table>
+    <div class="detail-row" style="margin-top:8px;">${EMERGENCY_MED_NOTE}</div>
+  `;
+}
+
+document.getElementById('overviewEmergencyCard').className = 'confirmed-box emergency-card';
+document.getElementById('overviewEmergencyCard').innerHTML = emergencyCardHtml();
+
+/* ============ TRIP MAP ============ */
+/* Coordinates and priority/cost/booking text come from the user's Google Maps export
+   (gemini-code-*.json). The export's own "day"/"date" fields were dropped: they compress
+   14 real days into 10 and mislabel several (e.g. its "Day 4 / 2 Sep" mixes stops that are
+   actually spread across Day 2, Day 4 and Day 6). The `day` field below is hand-checked
+   against the confirmed itinerary instead — see the days array above. */
+const TRIP_MAP_STOPS = [
+  { city: "Bangkok", name: "SEA LIFE Bangkok Ocean World", day: "Day 5 · 1 Sep", priority: "P2", cost: "฿900–1,200pp", booking: "Book online recommended", lat: 13.7460, lng: 100.5348 },
+  { city: "Bangkok", name: "MBK Center", day: "Day 1 · 28 Aug", priority: "P3", cost: "Free entry", booking: "Walk-up OK", lat: 13.7444, lng: 100.5300 },
+  { city: "Bangkok", name: "Mahanakhon Skywalk", day: "Day 3 · 30 Aug", priority: "P1", cost: "฿1,200pp", booking: "NOT BOOKED · book sunset slot on Klook", lat: 13.7234, lng: 100.5284 },
+  { city: "Bangkok", name: "Sky Bar / Sirocco (Lebua State Tower)", day: "Day 3 · 30 Aug", priority: "P2", cost: "Drinks only / ฿3,000pp+ dinner", booking: "Sky Bar walk-in · Sirocco call ahead", lat: 13.7214, lng: 100.5169 },
+  { city: "Bangkok", name: "Chatuchak Weekend Market", day: "Day 3 · 30 Aug", priority: "P2", cost: "Free", booking: "Walk-up OK (Sun only)", lat: 13.7999, lng: 100.5508 },
+  { city: "Bangkok", name: "Terminal 21 Asok & Pier 21", day: "Day 4 · 31 Aug", priority: "P3", cost: "฿200–400pp food", booking: "Walk-up OK", lat: 13.7375, lng: 100.5604 },
+  { city: "Bangkok", name: "Platinum Fashion Mall", day: "Day 6 · 2 Sep (free afternoon option)", priority: "P3", cost: "Free entry", booking: "Walk-up OK", lat: 13.7503, lng: 100.5398 },
+  { city: "Bangkok", name: "Asiatique The Riverfront", day: "Day 3 · 30 Aug (energy-permitting)", priority: "P3", cost: "฿300–800pp dinner", booking: "Walk-up OK", lat: 13.7047, lng: 100.5031 },
+  { city: "Bangkok", name: "Grand Palace & Wat Phra Kaew", day: "Day 2 · 29 Aug", priority: "P1", cost: "฿500pp", booking: "Walk-up only", lat: 13.7500, lng: 100.4913 },
+  { city: "Bangkok", name: "Wat Pho", day: "Day 2 · 29 Aug", priority: "P2", cost: "฿300pp + ฿420pp massage", booking: "Walk-up OK", lat: 13.7465, lng: 100.4933 },
+  { city: "Bangkok", name: "Wat Arun", day: "Day 2 · 29 Aug", priority: "P2", cost: "฿200pp", booking: "Walk-up OK", lat: 13.7437, lng: 100.4889 },
+  { city: "Bangkok", name: "Yaowarat Road & Song Wat Road", day: "Song Wat: Day 4 (31 Aug, optional) · Yaowarat: Day 8 (4 Sep, optional)", priority: "P3", cost: "฿200–400pp food", booking: "Walk-up OK", lat: 13.7411, lng: 100.5083 },
+  { city: "Bangkok", name: "ICONSIAM & SookSiam", day: "Day 5 · 1 Sep (alt to the dinner cruise)", priority: "P1", cost: "Free", booking: "Walk-up OK", lat: 13.7267, lng: 100.5108 },
+  { city: "Bangkok", name: "Chao Phraya Dinner Cruise", day: "Day 5 · 1 Sep (alt to ICONSIAM)", priority: "P1", cost: "฿2,500–3,500pp", booking: "NOT BOOKED · needs 2 days notice, boards at Sathorn Pier", lat: 13.7188, lng: 100.5134 },
+  { city: "Bangkok", name: "Couples Thai Massage (8:00 AM)", day: "Day 6 · 2 Sep", priority: "P2", cost: "฿1,500pp", booking: "NOT BOOKED · Khus Samui Spa or Spa 1930, 1 day notice", lat: 13.7380, lng: 100.5300 },
+  { city: "Bangkok", name: "Space & Time Cube+ Bangkok", day: "Day 4 · 31 Aug", priority: "P2", cost: "฿380–600pp", booking: "Done 31 Aug ✅", lat: 13.6890, lng: 100.6100 },
+  { city: "Bangkok", name: "Birthday Dinner Night Out", day: "Day 6 · 2 Sep", priority: "P1", cost: "฿2,000–3,000pp", booking: "NOT BOOKED · recommended: Octave Rooftop Lounge, see Birthday Dinners tab", lat: 13.7400, lng: 100.5500 },
+  { city: "Bangkok", name: "Khao San Road", day: "Day 2 · 29 Aug, evening", priority: "P3", cost: "฿200–500pp", booking: "Walk-up OK", lat: 13.7589, lng: 100.4974 },
+  { city: "Pattaya", name: "Sanctuary of Truth", day: "Day 7 · 3 Sep", priority: "P2", cost: "฿600pp", booking: "Walk-up OK", lat: 12.9716, lng: 100.8893 },
+  { city: "Pattaya", name: "Art in Paradise", day: "Day 7 · 3 Sep", priority: "P2", cost: "฿400–500pp", booking: "Walk-up or combo online", lat: 12.9482, lng: 100.8897 },
+  { city: "Pattaya", name: "Ripley's Believe It or Not!", day: "Day 7 · 3 Sep", priority: "P2", cost: "฿650pp", booking: "Walk-up or combo online", lat: 12.9298, lng: 100.8781 },
+  { city: "Pattaya", name: "Walking Street Pattaya", day: "Day 7 · 3 Sep", priority: "P3", cost: "Free entry", booking: "Walk-up OK", lat: 12.9255, lng: 100.8722 },
+  { city: "Pattaya", name: "Koh Larn (Coral Island) Tour", day: "Day 8 · 4 Sep", priority: "P1", cost: "฿280pp + water sports", booking: "NOT BOOKED · confirm the Indian buffet package", lat: 12.9234, lng: 100.7850 },
+  { city: "Phuket", name: "Patong Beach", day: "Day 9–11 · 5–7 Sep", priority: "P3", cost: "Free", booking: "Walk-up OK", lat: 7.8966, lng: 98.2965 },
+  { city: "Phuket", name: "Koh Phi Phi Island Tour (Pileh, Monkey Beach, Bamboo)", day: "Day 10 · 6 Sep", priority: "P1", cost: "฿1,200–1,500pp", booking: "NOT BOOKED · pick a free-reschedule operator", lat: 7.7407, lng: 98.7784 },
+  { city: "Phuket", name: "Wat Chalong", day: "Day 9 · 5 Sep", priority: "P2", cost: "Free (donation)", booking: "Walk-up OK", lat: 7.8466, lng: 98.3370 },
+  { city: "Phuket", name: "Big Buddha of Phuket", day: "Day 9 · 5 Sep", priority: "P2", cost: "Free (donation)", booking: "Walk-up OK", lat: 7.8277, lng: 98.3129 },
+  { city: "Phuket", name: "Old Phuket Town", day: "Day 11 · 7 Sep (Option A)", priority: "P3", cost: "฿200–400pp café", booking: "Walk-up OK", lat: 7.8844, lng: 98.3892 },
+  { city: "Phuket", name: "Promthep Cape Sunset", day: "Day 12 · 8 Sep", priority: "P3", cost: "Free", booking: "Walk-up OK", lat: 7.7639, lng: 98.3053 },
+  { city: "Phuket", name: "Couples Spa (9:00 AM)", day: "Day 12 · 8 Sep", priority: "P2", cost: "฿2,000–3,000pp", booking: "NOT BOOKED · asked Oceanfront, awaiting reply", lat: 7.8966, lng: 98.2965 },
+  { city: "Phuket", name: "Phuket Birthday Dinner", day: "Day 12 · 8 Sep", priority: "P1", cost: "฿1,500–3,500pp", booking: "NOT BOOKED · dining in-house at Oceanfront recommended", lat: 7.8966, lng: 98.2965 },
+];
+
+const TRIPMAP_BOUNDS = {
+  All: [[6.5, 97.5], [14.5, 101.5]],
+  Bangkok: [[13.68, 100.47], [13.82, 100.62]],
+  Pattaya: [[12.90, 100.76], [12.99, 100.90]],
+  Phuket: [[7.72, 98.28], [7.92, 98.79]],
+};
+
+let tripMap = null;
+let tripMapMarkers = [];
+const PRIORITY_COLOR = { P1: '#D85A30', P2: '#BA7517', P3: '#0F6E56' };
+
+function initTripMap() {
+  if (tripMap) { tripMap.invalidateSize(); return; }
+  tripMap = L.map('tripmap', { scrollWheelZoom: true });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(tripMap);
+
+  TRIP_MAP_STOPS.forEach(stop => {
+    const marker = L.circleMarker([stop.lat, stop.lng], {
+      radius: 8,
+      color: '#fff',
+      weight: 2,
+      fillColor: PRIORITY_COLOR[stop.priority] || '#6b6a63',
+      fillOpacity: 0.9,
+    }).bindPopup(
+      `<div class="tm-popup"><b>${stop.name}</b><div class="tm-meta">${stop.day}<br>${stop.cost}<br>${stop.booking}</div></div>`
+    );
+    marker.stopCity = stop.city;
+    marker.addTo(tripMap);
+    tripMapMarkers.push(marker);
+  });
+
+  tripMap.fitBounds(TRIPMAP_BOUNDS.All, { animate: false });
+
+  document.getElementById('tripmapFilters').addEventListener('click', e => {
+    const btn = e.target.closest('.tripmap-filter');
+    if (!btn) return;
+    document.querySelectorAll('.tripmap-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const city = btn.dataset.city;
+    tripMapMarkers.forEach(m => {
+      const show = city === 'All' || m.stopCity === city;
+      if (show && !tripMap.hasLayer(m)) m.addTo(tripMap);
+      if (!show && tripMap.hasLayer(m)) tripMap.removeLayer(m);
+    });
+    // Leaflet caches the container's pixel size and doesn't always notice layout shifts
+    // elsewhere on the page (a day card expanding, a mobile browser's toolbar collapsing).
+    // A stale size makes fitBounds compute the wrong zoom — invalidateSize() first is cheap
+    // insurance against that.
+    tripMap.invalidateSize();
+    // animate:false makes this synchronous — no in-flight pan/zoom transition for a rapid
+    // second click to interrupt, which is what produced wrong zoom levels in testing.
+    tripMap.fitBounds(TRIPMAP_BOUNDS[city] || TRIPMAP_BOUNDS.All, { animate: false });
+  });
+}
+
+document.querySelector('.tab[data-panel="tripmap"]').addEventListener('click', () => {
+  setTimeout(initTripMap, 30); // let the panel become visible (display:block) before Leaflet measures it
+});
+
+const FOODLIST_GROUPS = {
+  "Bangkok — chicken/egg dishes & restaurants": [
+    { name: "Khao Man Gai (Hainanese chicken rice) — Go-Ang Kaomunkai Pratunam", cost: "~฿40–60pp", booking: "Poonam Market, Pratunam — 5min walk from Baiyoke Sky, your birthday hotel. Michelin Bib Gourmand, 40+ years running", walkup: true, priority: 1 },
+    { name: "Pad Krapow Gai (basil chicken) — order 'Gai' specifically", cost: "~฿50–150pp", booking: "Available everywhere — default at most stalls is Moo (pork) unless you say Gai", walkup: true, priority: 2 },
+    { name: "Khao Mok Gai (Thai chicken biryani)", cost: "~฿50–100pp", booking: "Soi Arab area — Muslim-influenced, genuinely close to Indian flavors", walkup: true, priority: 2 },
+    { name: "Chicken Satay (Gai Satay)", cost: "~฿10–15 per skewer", booking: "Night markets — specify Gai, beef/pork satay sold alongside", walkup: true, priority: 3 },
+    { name: "Massaman Gai (Massaman chicken curry)", cost: "~฿80–150pp", booking: "Widely available — cardamom/cinnamon/peanuts, close to Indian curry profiles", walkup: true, priority: 3 },
+    { name: "Thai Fried Chicken (Gai Tod) with sticky rice", cost: "~฿60 for a large piece", booking: "Night markets — crispy, soy/garlic/cumin seasoned", walkup: true, priority: 3 },
+    { name: "Kai Jeaw (plain egg omelette)", cost: "~฿40–80", booking: "Anywhere — simple, safe, fully egg-based", walkup: true, priority: 3 },
+    { name: "Fried Chicken — Polo Fried Chicken (Soi Polo)", cost: "~฿150–300pp", booking: "Lumphini area — 50+ years running, Michelin-recognized, called 'possibly the best bird in the city.' Signature dish IS chicken, not an add-on note", walkup: true, priority: 1 },
+    { name: "Bawarchi Indian Restaurant (butter chicken, biryani, kebabs)", cost: "~฿400–800pp", booking: "Near Sukhumvit 4 / Ambassador Hotel — genuinely 5min from your ibis Styles Sukhumvit 4 hotel. Mughlai cuisine, tandoor-cooked, chicken malai kebab is the standout", walkup: true, priority: 2 },
+    { name: "Mango Sticky Rice", cost: "~฿60–100pp", booking: "Anywhere — dessert, fully safe", walkup: true, priority: 3 },
+  ],
+  "Phuket — chicken/egg dishes & restaurants": [
+    { name: "Chicken Rice — Kota Khao Mun Kai", cost: "~฿50–80pp", booking: "Phuket Town — the local favorite, 20+ years running, 'best Hainan chicken rice anywhere' per locals", walkup: true, priority: 1 },
+    { name: "Chicken Massaman Curry + roti — Aroon Po Chana", cost: "~฿60–100pp", booking: "Phuket Old Town — Muslim restaurant, famous for rotis, chicken massaman genuinely close to Indian flavors", walkup: true, priority: 1 },
+    { name: "Amritsr Restaurant (butter chicken, biryani, tandoori)", cost: "~฿400–800pp", booking: "Patong Beach — branded as the top Indian restaurant in Patong, genuinely close to Oceanfront Beach Resort, your birthday hotel", walkup: true, priority: 2 },
+    { name: "O-Aew (shaved ice, fruit jelly, red beans, syrup)", cost: "~฿30–50", booking: "Old Town street stalls — the most distinctly Phuket dessert, fully safe, no meat", walkup: true, priority: 2 },
+    { name: "Kanta Phuket — Modern Peranakan (check menu for chicken options)", cost: "~฿200–500pp", booking: "The Memory at On On Hotel, Phang Nga Road — upscale, ask staff for chicken/egg-safe dishes specifically", walkup: false, priority: 3 },
+  ],
+  "Pattaya — chicken/egg dishes & restaurants": [
+    { name: "Alibaba Tandoori & Curry (butter chicken, biryani, tandoori chicken)", cost: "~฿300–500pp", booking: "Central Pattaya Road — Pattaya's oldest Indian restaurant, 40+ years running, Mughal-style interior. The most established, safest bet in the city", walkup: true, priority: 1 },
+    { name: "Indian By Nature (butter chicken, biryani, tandoori specialities)", cost: "~฿400–700pp", booking: "Pattaya City — TripAdvisor Traveller's Choice + Thailand Tatler Best Restaurant award", walkup: true, priority: 2 },
+    { name: "Gai Yang (Isaan-style grilled chicken)", cost: "~฿100–200pp", booking: "Widely available at markets and street stalls — the genuine Pattaya/Isaan street food specialty, garlic-pepper-lemongrass marinade", walkup: true, priority: 2 },
+    { name: "Banaras 100% Pure Vegetarian Indian Restaurant", cost: "~฿250–450pp", booking: "⚠️ Pure vegetarian by strict Indian convention — may exclude egg too, not just meat. Worth calling ahead to confirm if egg dishes are on the menu", walkup: false, priority: 3 },
+  ],
+  "7-Eleven bucket list — chicken/egg-safe": [
+    { name: "Basil Fried Rice with Chicken (Pad Kaprao Gai)", cost: "~฿45", booking: "Ready-meal counter — genuine Thai classic, safe and cheap", walkup: true, priority: 2 },
+    { name: "Original Cheese Toastie", cost: "~฿25–35", booking: "Toasted at the counter fresh — the most iconic 7-Eleven item, fully safe", walkup: true, priority: 1 },
+    { name: "Chicken Katsu Toastie/Onigiri", cost: "~฿25–45", booking: "Check the label — 'Katsu Gai' specifically, not katsu pork", walkup: true, priority: 2 },
+    { name: "Egg tart / Pineapple pie / Lava cake", cost: "~฿20–35", booking: "Dessert counter — all fully safe, no meat", walkup: true, priority: 3 },
+    { name: "Meiji Banana/Strawberry/Chocolate Milk + ice", cost: "~฿20–25", booking: "Fridge section — a genuine TikTok-famous combo, fully safe", walkup: true, priority: 3 },
+    { name: "Tuna Mayo / Salmon Onigiri", cost: "~฿25–35", booking: "Contains fish, not chicken/egg — optional if you're fine with seafood, otherwise skip", walkup: true, priority: 0 },
+  ]
+};
+
+/* ---- City-aware food, surfaced on Day-by-Day instead of needing the Food Bucket List tab ---- */
+const CITY_FOODLIST_KEY = {
+  Bangkok: "Bangkok — chicken/egg dishes & restaurants",
+  Phuket: "Phuket — chicken/egg dishes & restaurants",
+  Pattaya: "Pattaya — chicken/egg dishes & restaurants",
+};
+const DIETARY_PHRASES = [
+  { label: "No pork", thai: "ไม่เอาเนื้อหมูค่ะ" },
+  { label: "No beef", thai: "ไม่เอาเนื้อวัวค่ะ" },
+  { label: "Chicken please", thai: "เอาไก่ค่ะ" },
+];
+
+function dayFoodHtml(city) {
+  const key = CITY_FOODLIST_KEY[city];
+  const list = key && FOODLIST_GROUPS[key];
+  if (!list) return '';
+  const picks = list.filter(d => d.priority === 1).slice(0, 2);
+  if (!picks.length) return '';
+  return `<div class="day-food">
+    <div class="day-food-title">🍜 ${city} pick${picks.length > 1 ? 's' : ''} today</div>
+    ${picks.map(d => `<span class="day-food-dish"><b>${d.name.split(' — ')[0].split(' (')[0]}</b> ${d.cost}</span>`).join('')}
+    <div class="day-food-phrases">
+      ${DIETARY_PHRASES.map(p => `<button type="button" class="speak-btn" data-thai="${p.thai}">🔊 ${p.label}</button>`).join('')}
+    </div>
+  </div>`;
+}
+
 /* ============ DAY-BY-DAY DATA ============ */
 const days = [
-  { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok — check in ibis Styles Sukhumvit 4 + MBK shopping", birthday:false,
-    note: "Flights: DEL 04:30→BLR 07:20 (AI 2653), BLR 10:00→BKK 15:40 (AI 9071) · Booking ID GOFLISTAM2YH1595682. Aspen Suites was swapped for ibis Styles Sukhumvit 4 (paid ₹25,108) — confirm whether the earlier Aspen payment was refunded. Asiatique swapped for MBK — clothes + DJI drone shopping, so gear is ready to use from Day 2 onward.",
+  { title: "DAY 1 · Fri 28 Aug", sub: "Arrive Bangkok — check in ibis Styles Sukhumvit 4 + MBK shopping", birthday:false, city: "Bangkok", stay: "ibis Styles Sukhumvit 4", stayNote: "check in from 2:00 PM · GH24121275735188",
+    note: "Flights: DEL 04:30→BLR 07:20 (AI 2653), BLR 10:00→BKK 15:40 (AI 9071) · Booking ID GOFLISTAM2YH1595682. Asiatique swapped for MBK — clothes + DJI drone shopping, so gear is ready to use from Day 2 onward.",
     items: [
       ["15:40","Land Bangkok","Immigration + baggage claim (allow ~30–40min), then SIM card + Grab app", "~฿300", "Arrival hall — SIM counters right after immigration"],
       ["5:30 PM","Check in — ibis Styles Bangkok Sukhumvit 4","Booking ID GH24121275735188. Paid ₹25,108. Free cancellation was till 25 Aug 1:59 PM Bangkok time (past by check-in). Realistic timing: ~30–40min through immigration + ~45min–1hr transfer from landing", "Paid", "Grab ~45min–1hr from Suvarnabhumi (~฿300–400)"],
-      ["7:00 PM","MBK Center — clothes + DJI drone","Floor 5 has an authorized DJI store (haggle-friendly pricing). Browse the fashion floors too for trip outfits. Mall open till ~9–10 PM — tight after a long flight, but it's one stop, not a multi-mall run", "Clothes variable · DJI drone ~฿15,000–60,000+ (set this in the Shopping budget)", "Grab from hotel ~20–25min, or BTS to National Stadium via Siam interchange"],
+      ["7:00 PM","MBK Center — clothes + DJI drone","Floor 5 has an authorized DJI store (haggle-friendly pricing). Browse the fashion floors too for trip outfits. Mall open till ~9–10 PM — tight after a long flight, but it's one stop, not a multi-mall run. India's duty-free allowance on return is ₹50,000 — keep the receipt and know your ceiling before you haggle past it", "Clothes variable · DJI drone ~฿15,000–60,000+ (set this in the Shopping budget)", "Grab from hotel ~20–25min, or BTS to National Stadium via Siam interchange"],
     ]},
-  { title: "DAY 2 · Sat 29 Aug", sub: "MBK stroll + Mahanakhon Skywalk ✅ DONE", birthday:false,
+  { title: "DAY 2 · Sat 29 Aug", sub: "MBK stroll + Mahanakhon Skywalk ✅ DONE", birthday:false, city: "Bangkok", stay: "ibis Styles Sukhumvit 4", stayNote: "night 2 of 4",
     note: "Actually done: MBK stroll in the afternoon, then Mahanakhon Skywalk instead of the dinner cruise. Cruise moved to Day 3 evening after Chatuchak. Terminal 21 Rama 3 info is also now outdated — Chao Phraya Princess Indian buffet moved to Charoennakorn Soi 61 pier as of July 2026. Arena River Cruise at Asiatique is the better Indian buffet option anyway.",
     items: [
       ["Afternoon","MBK Center stroll ✅","Relaxed browse, familiar from Day 1", "Done", "BTS National Stadium"],
       ["Evening","Mahanakhon Skywalk ✅","Thailand's tallest observation deck (314m), glass floor at 310m, sunset views", "Done", "BTS Chong Nonsi"],
     ]},
-  { title: "DAY 3 · Sun 30 Aug", sub: "Chatuchak + Arena River Cruise (Indian Buffet)", birthday:false,
+  { title: "DAY 3 · Sun 30 Aug", sub: "Chatuchak + Arena River Cruise (Indian Buffet)", birthday:false, city: "Bangkok", stay: "ibis Styles Sukhumvit 4", stayNote: "night 3 of 4",
     note: "Mahanakhon done on Day 2 — removed from today. Sky Bar also dropped. Evening is now the Arena River Cruise departing Asiatique — full Indian buffet, live Indian singer, same Saphan Taksin BTS line. Chatuchak is Sunday only so it stays as morning anchor.",
     items: [
       ["8:00 AM","Chatuchak Weekend Market","Sunday only — 15,000+ stalls, Mo Chit BTS. No rush to leave early", "Free entry, shopping variable", "BTS to Mo Chit — direct from Sukhumvit hotels, ~30–40min"],
@@ -1196,7 +1781,7 @@ const days = [
       ["7:30 PM","🚢 Arena River Cruise — Indian Buffet Dinner","Full Indian buffet — Chicken Tikka, Biryani, Paneer, Dal Tadka, Samosa, Raita + live Indian singer. Passes Wat Arun, Grand Palace, Rama VIII Bridge all lit up at night", "Included in ticket", "On the river — AC lower deck, open-air upper deck"],
       ["9:30 PM","Return, Grab to hotel","", "~฿150–200", "Grab from Asiatique back to Sukhumvit"],
     ]},
-  { title: "DAY 4 · Mon 31 Aug", sub: "SEA LIFE + Space & Time Cube + Nana Plaza ✅ DONE", birthday:false,
+  { title: "DAY 4 · Mon 31 Aug", sub: "SEA LIFE + Space & Time Cube + Nana Plaza ✅ DONE", birthday:false, city: "Bangkok", stay: "ibis Styles Sukhumvit 4", stayNote: "last night here — check out 12:00 PM tomorrow",
     note: "Completed: SEA LIFE Bangkok Ocean World (Siam Paragon) + Space & Time Cube+ (Seacon Bangkae). Tried Arena River Cruise at ICONSIAM pier but couldn't secure tickets. Ended the evening at Nana Plaza — walkable from ibis Styles. River cruise moved to a later evening.",
     items: [
       ["10:00 AM","SEA LIFE Bangkok Ocean World ✅","Siam Paragon B1–B2. Glowing Ocean exhibit + 270° tunnel. Booking ID 2045876764", "Paid ₹5,906", "BTS Asok → BTS Siam"],
@@ -1204,7 +1789,7 @@ const days = [
       ["Evening","ICONSIAM Pier — river cruise attempt","Couldn't secure tickets for the cruise", "—", "—"],
       ["Evening","Nana Plaza","Spontaneous — walkable from hotel, easy wind-down", "฿ variable", "Walking distance from ibis Styles"],
     ]},
-  { title: "DAY 5 · Tue 1 Sep", sub: "Temples + MBK + check in Baiyoke Sky ✅ DONE", birthday:false,
+  { title: "DAY 5 · Tue 1 Sep", sub: "Temples + MBK + check in Baiyoke Sky ✅ DONE", birthday:false, city: "Bangkok", stay: "Baiyoke Sky, Space Zone", stayNote: "check out ibis 12:00 PM → check in from 2:00 PM · GH29086275255330",
     note: "Completed: Grand Palace + Wat Phra Kaew + Wat Pho + Wat Arun all done in one morning. Checked into Baiyoke Sky. MBK visited for electronics.",
     items: [
       ["Morning","Store luggage + Grand Palace & Wat Phra Kaew ✅","Done", "฿500pp paid", "—"],
@@ -1213,14 +1798,14 @@ const days = [
       ["Afternoon","Check in — Baiyoke Sky Hotel ✅","Space Zone (70th–74th floor). Booking ID GH29086275255330", "Paid", "—"],
       ["Evening","MBK Center ✅","Electronics shopping done", "Variable", "—"],
     ]},
-  { title: "DAY 6 · Wed 2 Sep", sub: "🎂 MANAN'S BIRTHDAY — Bayleaf Spa + River Cruise ✅ DONE", birthday:true,
+  { title: "DAY 6 · Wed 2 Sep", sub: "🎂 MANAN'S BIRTHDAY — Bayleaf Spa + River Cruise ✅ DONE", birthday:true, city: "Bangkok", stay: "Baiyoke Sky, Space Zone", stayNote: "no travel today",
     note: "Completed: Bayleaf Massage & Onsen Spa (private onsen + aromatherapy couple package, ฿4,490 total). Checked out of Baiyoke Sky — views, stay and breakfast all great. Left one luggage at Baiyoke concierge for pickup on 9 Sep. River cruise and evening to be updated.",
     items: [
       ["Day","Bayleaf Massage & Onsen Spa ✅","Private onsen + aromatherapy couple package", "฿4,490 paid", "—"],
       ["Day","Checked out — Baiyoke Sky ✅","Great stay — views, Space Zone, birthday breakfast all excellent. Left 1 luggage at concierge for pickup 9 Sep", "Paid", "—"],
       ["Evening","River cruise / further activities","To be updated", "—", "—"],
     ]},
-  { title: "DAY 7 · Thu 3 Sep", sub: "Pattaya — arrived + Centara check-in + scooter ✅ DONE", birthday:false,
+  { title: "DAY 7 · Thu 3 Sep", sub: "Pattaya — arrived + Centara check-in + scooter ✅ DONE", birthday:false, city: "Pattaya", stay: "Centara Pattaya Hotel", stayNote: "check out Baiyoke 11:00 AM → check in from 3:00 PM · GH23044275257256",
     note: "Cab via EasyTaxi/WhatsApp — ฿1,200 all-inclusive to Centara Pattaya Hotel. Checked in and rented a scooter for the day. Places of interest to be confirmed — check tonight's reminder re: scooter-on-ferry policy for tomorrow's Koh Larn trip.",
     items: [
       ["Morning","Cab to Pattaya ✅","฿1,200 fixed all-inclusive via EasyTaxi/WhatsApp. Dropped at Centara Pattaya Hotel", "฿1,200 paid", "—"],
@@ -1228,15 +1813,17 @@ const days = [
       ["Day","Scooter rental ✅","Rented for the day", "—", "—"],
       ["Day","Walking Street ✅","Done", "Variable", "—"],
     ]},
-  { title: "DAY 8 · Fri 4 Sep", sub: "Koh Larn ferry + back to Bangkok ✅ DONE", birthday:false,
+  { title: "DAY 8 · Fri 4 Sep", sub: "Koh Larn ferry + back to Bangkok ✅ DONE", birthday:false, city: "Pattaya", stay: "Gate43 Airport Hotel", stayNote: "check in from 11:30 AM · GH23044275257592 · 06:50 flight tomorrow, Grab not the shuttle",
     note: "Koh Larn completed via ferry, then travelled back to Bangkok for the flight to Phuket. Gate43/Chinatown plan skipped — went straight to Suvarnabhumi instead.",
     items: [
       ["Morning","Koh Larn — public ferry ✅","Completed", "—", "—"],
       ["Day","Travel back to Bangkok ✅","Completed, heading to Suvarnabhumi for HKT flight", "—", "—"],
     ]},
-  { title: "DAY 9 · Sat 5 Sep", sub: "Fly to Phuket — Wat Chalong + Big Buddha + Patong Resort", birthday:false,
+  { title: "DAY 9 · Sat 5 Sep", sub: "Fly to Phuket — Wat Chalong + Big Buddha + Patong Resort", birthday:false, city: "Phuket", stay: "Patong Resort", stayNote: "check in from 3:00 PM · GH20097276202354 · NO breakfast · +66 76 340 551",
     note: "Flight: BKK 06:50 → HKT 08:25 (Thai Vietjet VZ314) · Check in: Patong Resort (GH20097276202354, PNR 0185696270) — paid in full, ₹7,378. Replaced MAZI Design Hotel. Check-in listing flags 'Guest Room/Floor services under renovation' — call ahead to confirm scope. Big Buddha moved here from Day 13 to fill the morning gap. Tiger Kingdom noted but not scheduled — genuinely mixed reviews and animal welfare concerns, worth deciding on your own. An ethical no-riding elephant sanctuary is a cleaner alternative if you want an animal encounter.",
     items: [
+      ["04:15 AM","Wake — this is the hard morning of the trip","Roughly 5–6 hrs sleep after Chinatown. Gate43 exists to make this survivable: you are minutes from the terminal rather than crossing Bangkok", "—", "—"],
+      ["05:00 AM","Grab to Suvarnabhumi","Take a Grab, NOT the hotel shuttle — shuttles run fixed schedules that may not suit a 06:50 departure. Aim to be at the domestic counter by 05:30", "~฿150–250", "~10–15 min from Gate43"],
       ["6:50 AM","Flight to Phuket","Arrive ~8:45 AM", "Flight paid", "—"],
       ["9:30 AM","Drop luggage at Patong Resort","Most hotels accept bags before official check-in, even if the room isn't ready", "—", "Grab from airport ~30min (~฿300–400)"],
       ["10:30 AM","Wat Chalong","Phuket's most important temple, free entry, genuinely worth seeing — no controversy attached, unlike some other Phuket attractions", "Free (donation optional)", "Grab from Patong ~20–25min"],
@@ -1244,13 +1831,13 @@ const days = [
       ["2:00 PM","Check in — Patong Resort","Superior Room with Bathtub and Balcony. Ask reception about the renovation note upon arrival", "Paid ₹7,378", "Grab from Big Buddha ~20min back to Patong"],
       ["Evening","Casual dinner in Patong","Rest before island day tomorrow", "~฿300–600pp", "Walkable within Patong Beach area"],
     ]},
-  { title: "DAY 10 · Sun 6 Sep", sub: "Free day + evening show booked", birthday:false,
+  { title: "DAY 10 · Sun 6 Sep", sub: "Free day + evening show booked", birthday:false, city: "Phuket", stay: "Patong Resort", stayNote: "night 2 of 2 — 7:00 AM Phi Phi start, no hotel breakfast",
     note: "Phi Phi confirmed for tomorrow instead of today via Seven Plus Travel (Dream Voyager catamaran). Evening show booked for tonight, 8:30 PM.",
     items: [
       ["Day","Free / flexible day","Phi Phi booking sorted for tomorrow instead", "—", "—"],
       ["8:30 PM","Evening show","Booked separately", "₹8,441 (2 guests)", "—"],
     ]},
-  { title: "DAY 11 · Mon 7 Sep", sub: "Koh Phi Phi day trip + move to Oceanfront Beach Resort", birthday:false,
+  { title: "DAY 11 · Mon 7 Sep", sub: "Koh Phi Phi day trip + move to Oceanfront Beach Resort", birthday:false, city: "Phuket", stay: "Oceanfront Beach Resort", stayNote: "check out Patong 12:00 PM → check in from 3:00 PM · GH22039276201846 · ฿3,000 cash deposit due now",
     note: "Booked with Seven Plus Travel — Dream Voyager Phi Phi, Maiton + Bamboo Island tour. Reference ID 469362154247197, DT ID BR-1444521765. Hotel pickup AND drop-off both included at Patong Resort — no separate Grab needed either way. 2pax vegetarian meal noted on the booking. Pickup window 8:20–8:30 AM. Complimentary transfer to Oceanfront Beach Resort requested via email — asked as a courtesy given the stay is already paid in full, not a paid add-on.",
     items: [
       ["8:00 AM","Pack, leave bags at Patong Resort lobby","Checkout is 12PM but pickup is 8:20-8:30 AM — ask reception to hold luggage in the lobby since you're being picked up and dropped off at the same hotel", "Paid, GH20097276202354", "—"],
@@ -1258,51 +1845,119 @@ const days = [
       ["Day","Phi Phi, Maiton & Bamboo Island tour","~8-9 hrs, vegetarian meal noted for both. Wear life jacket during all water activities per tour safety notice. Seasickness medicine available at the pier if needed", "₹6,551 paid (2 adults)", "By catamaran, included in tour"],
       ["~6:30 PM","Drop-off — back at Patong Resort","Tour drop-off is at Patong Resort directly — collect stored luggage here", "Included in tour", "Included drop-off, Patong Resort"],
       ["7:30 PM","Transfer to Oceanfront Beach Resort","Requested as complimentary courtesy via email — not guaranteed free, so keep a backup Grab in mind (~฿150–250) in case they decline or don't respond in time", "Requested free — email sent", "Local transfer, Patong → Oceanfront"],
-      ["Evening","Check in — Oceanfront Beach Resort","Booking ID GH26084275735628. High floor + birthday cake/decoration requested via email for tomorrow", "Paid", "—"],
+      ["Evening","Check in — Oceanfront Beach Resort","Booking ID GH22039276201846 (the old GH26084275735628 is dead). Bring ฿3,000 cash for the refundable deposit. High floor + birthday cake/decoration requested via email for tomorrow", "Paid ✓ ₹15,791 (ICICI ••••4009)", "—"],
     ]},
-  { title: "DAY 12 · Tue 8 Sep", sub: "🎂 WIFE'S BIRTHDAY — Phuket", birthday:true,
-    note: "Birthday flow: spa → lunch → sunset → dinner",
+  { title: "DAY 12 · Tue 8 Sep", sub: "🎂 WIFE'S BIRTHDAY — Phuket", birthday:true, city: "Phuket", stay: "Oceanfront Beach Resort", stayNote: "🎂 breakfast included · +66 76 683 200",
+    note: "Birthday flow: spa → lunch → sunset → dinner. Suay was dropped — recommended replacement is dining in-house at Oceanfront, ask about it in the same email where you arrange the cake. See the Birthday Dinners tab for backups if that doesn't work out.",
     items: [
       ["9:00 AM","Couples spa treatment","Bangtao or hotel spa, 2–3 hrs", "~฿2,000–3,000pp", "Grab from Oceanfront Beach Resort, ~15–25min depending on spa location"],
       ["12:00 PM","Birthday lunch","KEE Sky Lounge or Bang Po Seafood", "~฿800–1,500pp", "Grab, ~15–20min"],
       ["4:30 PM","Promthep Cape sunset","Champagne + snacks at viewpoint", "Free entry, ~฿500–1,000 total", "Grab, ~20min from most Phuket west-coast hotels"],
-      ["7:30 PM","Birthday dinner — Suay","Michelin-recognized, Cherngtalay. +66 93 339 1890", "~฿2,500–3,500pp", "Grab, ~30–40min from Patong-area hotels — book the ride in advance given the distance"],
+      ["7:30 PM","🎂 Birthday dinner — Oceanfront in-house (recommended)","Suay dropped, replaced by dinner at Oceanfront's own restaurant — confirm it in the same email you send about the cake, keeps both in one place with zero Grab risk on the night. Backups in the Birthday Dinners tab: Pla Seafood Sailing Club, or Amritsr in Patong", "~฿1,500–3,500pp depending on choice", "In-house needs no travel · Patong options ~5–15min Grab"],
     ]},
-  { title: "DAY 13 · Wed 9 Sep", sub: "Phuket to Bangkok + Akara Sky Hanuman", birthday:false,
-    note: "Flight: HKT 17:20 → BKK 18:50 (Thai Vietjet VZ307) · Check out from Oceanfront Beach Resort by 11:00 AM. Big Buddha moved to Day 9 (fills the morning gap after landing better than sitting here). Akara Sky Hanuman added for the evening — Bangkok's 2nd tallest rooftop (276m), nightly Thai cultural shows (~8 PM) including Muay Thai-inspired performances, a nice echo of the Muay Thai stadium visit we dropped earlier.",
+  { title: "DAY 13 · Wed 9 Sep", sub: "Phuket to Bangkok — quiet last evening", birthday:false, city: "Phuket", stay: "The House Pratunam", stayNote: "room held to 2:00 PM at Oceanfront (requested) → check in from 2:00 PM · GH27132276919468",
+    note: "Flight: HKT 17:20 → BKK 18:50 (Thai Vietjet VZ307) · Check out from Oceanfront Beach Resort by 11:00 AM — room requested until 2:00 PM so it is usable until the car leaves. Airport transfer requested from the resort for a ~2:00 PM departure; awaiting their quote. If chargeable above ~฿800, take a Grab instead (Patong → HKT is ~45–60min). Big Buddha moved to Day 9 (fills the morning gap after landing better than sitting here). Akara Sky Hanuman was dropped, so the evening is deliberately free — you land 6:50 PM and fly home the next afternoon, so an unplanned night near Sukhumvit 11 is no bad thing.",
     items: [
       ["Morning","Final beach swim / rest","Relaxed last Phuket morning, no fixed plan", "—", "—"],
-      ["2:30 PM","Check out, Grab to airport","~45 min–1 hr", "~฿300–500", "Grab or hotel airport transfer"],
-      ["5:20 PM","Flight to Bangkok","Arrive 6:50 PM, check into The House Pratunam", "Flight paid · Hotel paid", "Grab from Suvarnabhumi to Sukhumvit, ~45min–1hr (~฿300–400)"],
-      ["8:30 PM","Akara Sky Hanuman","One City Centre, floors 58–61 (276m up). Thai cultural rooftop — 360° views, nightly traditional dance + Muay Thai-inspired show (~8 PM), night market food, cocktails. Book online for the best rate", "~฿500–1,500pp depending on package", "BTS Sukhumvit line to Ploenchit — direct skywalk access from station, ~15–20min from ibis Styles"],
+      ["2:00 PM","Leave for the airport","Departure is 2:00 PM, matching the room-hold and transfer both requested from Oceanfront. Patong → HKT is 45–60 min, so you land at the terminal ~3:00 PM for a 5:20 PM flight", "~฿300–500 by Grab, or the Oceanfront transfer if their quote beats it", "Grab or the hotel transfer — whichever came back cheaper"],
+      ["5:20 PM","Flight to Bangkok","Arrive 6:50 PM, check into The House Pratunam (GH27132276919468) — paid, Superior Double", "Flight paid · Hotel paid ✓", "Grab from Suvarnabhumi to Sukhumvit, ~45min–1hr (~฿300–400)"],
+      ["8:30 PM","Free evening in Pratunam","Nothing booked. The Pratunam Indian food cluster (Madras Darbar, Indian Express) and Pratunam Market are walkable from The House Pratunam", "Open", "Walkable from the hotel"],
     ]},
-  { title: "DAY 14 · Thu 10 Sep", sub: "Depart Bangkok — via Pune, not direct", birthday:false,
-    note: "Flight: BKK 14:40 → PNQ 17:25 (AI 9246), then PNQ 20:30 → DEL 22:55 (AI 2548) — Booking ID GOFLINTAMTP37869885. Genuine layover in Pune (~3hrs), not a direct flight — arrival in Delhi is 22:55, later than a direct routing would be. Check into The House Pratunam the night before covers this early checkout. Pratunam area also means easy access to the Indian food cluster (Madras Darbar, Indian Express) for a final-night meal.",
+  { title: "DAY 14 · Thu 10 Sep", sub: "Depart Bangkok — via Pune, not direct", birthday:false, city: "Bangkok", stay: null, stayNote: "flying home — no stay tonight",
+    note: "Flight: BKK 14:40 → PNQ 17:25 (AI 9246), then PNQ 20:30 → DEL 22:55 (AI 2548) — Booking ID GOFLINTAMTP37869885. Genuine layover in Pune (~3hrs), not a direct flight — arrival in Delhi is 22:55, later than a direct routing would be. Checking into The House Pratunam the night before covers this early checkout.",
     items: [
-      ["Morning","Leisurely breakfast, final shopping","Relaxed pace — Pratunam Market and Platinum Fashion Mall both walkable", "~฿300–600pp", "Walk or short Grab near The House Pratunam"],
-      ["12:00 PM","Pack, check out, Grab to airport","", "~฿300–500", "Grab or Airport Rail Link (ARL) from Phaya Thai if traffic looks heavy"],
+      ["8:00 AM","Breakfast, final pack","Have breakfast near the hotel (check whether The House Pratunam includes it). Keep the morning genuinely short — no shopping run, the airport departure is earlier than it looks", "฿ varies", "Near the hotel"],
+      ["10:30 AM","Check out and leave for Suvarnabhumi","⚠️ Do NOT leave this until noon. 45–60 min in midday traffic puts you at the terminal ~11:30, which is the buffer an INTERNATIONAL departure needs — Air India closes check-in 60 min out, and a missed 14:40 also loses the Pune–Delhi connection", "~฿300–500", "Grab · ARL from Phaya Thai is the fallback if traffic looks bad"],
+      ["11:30 AM","At the terminal — check in, immigration, VAT refund","If you claimed VAT on the DJI drone or any large purchase, the refund desk is BEFORE immigration and it queues", "—", "—"],
       ["2:40 PM","Flight departs — Bangkok to Pune","AI 9246, arrive Pune 17:25", "Flight paid", "—"],
       ["5:25 PM","Layover in Pune","~3hr connection — enough time to relax, not a tight transfer", "—", "—"],
       ["8:30 PM","Flight departs — Pune to Delhi","AI 2548, arrive Delhi 22:55", "Flight paid", "—"],
     ]},
 ];
 
+/* Explicit item -> pin links, keyed by exact item title. One canonical pin per item;
+   ambiguous multi-option items (e.g. two birthday-dinner candidates) are left unlinked
+   on purpose rather than guessed. See PIN_BY_NAME above for the source data. */
+const ITEM_PIN_LINKS = {
+  "Land Bangkok": "Suvarnabhumi Airport (BKK)",
+  "Check in — ibis Styles Bangkok Sukhumvit 4": "ibis Styles Bangkok Sukhumvit 4",
+  "MBK Center — clothes + DJI drone": "MBK Center",
+  "Chatuchak Weekend Market": "Chatuchak Weekend Market",
+  "Drop luggage at Patong Resort": "Patong Resort",
+  "Wat Chalong": "Wat Chalong",
+  "Big Buddha of Phuket": "Big Buddha of Phuket",
+  "Check in — Patong Resort": "Patong Resort",
+  "Check in — Oceanfront Beach Resort": "Oceanfront Beach Resort",
+  "Couples spa treatment": "Let's Relax Spa Patong",
+  "Promthep Cape sunset": "Promthep Cape",
+  "Free evening in Pratunam": "The House Pratunam",
+};
+
+/* Explicit item -> expense-log links. Category must exactly match an <option value=""> in the
+   Expenses form. Only items with a real, not-yet-paid, out-of-pocket cost get one — hotels and
+   flights already sit in the Expenses seed, so linking them here would invite double-logging. */
+const ITEM_EXPENSE_LINKS = {
+  "Land Bangkok": { category: "🚕 Transport", desc: "SIM card + Grab from airport" },
+  "MBK Center — clothes + DJI drone": { category: "🛍️ Shopping", desc: "MBK Center — clothes / DJI drone" },
+  "Chatuchak Weekend Market": { category: "🛍️ Shopping", desc: "Chatuchak Weekend Market" },
+  "Birthday lunch": { category: "🍜 Food & Dining", desc: "Birthday lunch" },
+  "🎂 Birthday dinner — Oceanfront in-house (recommended)": { category: "🎂 Birthday extras", desc: "Birthday dinner — Phuket (Oceanfront)" },
+  "Grab to Suvarnabhumi": { category: "🚕 Transport", desc: "Grab to Suvarnabhumi" },
+  "Casual dinner in Patong": { category: "🍜 Food & Dining", desc: "Dinner in Patong" },
+  "Couples spa treatment": { category: "💆 Spa & Wellness", desc: "Couples spa treatment" },
+  "Promthep Cape sunset": { category: "🍜 Food & Dining", desc: "Promthep Cape — champagne/snacks" },
+  "Final beach swim / rest": null,
+  "Leave for the airport": { category: "🚕 Transport", desc: "Patong → HKT airport transfer" },
+  "Check out and leave for Suvarnabhumi": { category: "🚕 Transport", desc: "The House Pratunam → Suvarnabhumi Grab" },
+};
+
 const daysContainer = document.getElementById('days-container');
+
+/* ---- Trip dates, derived from the day titles so they cannot drift ---- */
+const TRIP_YEAR = 2026;
+const MONTHS = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
+function dayDate(title) {
+  // "DAY 1 · Fri 28 Aug" -> Date(2026, 7, 28)
+  const m = title.match(/·\s*\w+\s+(\d{1,2})\s+(\w{3})/);
+  if (!m) return null;
+  const mon = MONTHS[m[2]];
+  if (mon === undefined) return null;
+  return new Date(TRIP_YEAR, mon, parseInt(m[1], 10));
+}
+function midnight(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+const TODAY = midnight(new Date());
+const dayDates = days.map(d => dayDate(d.title));
+const todayIndex = dayDates.findIndex(d => d && d.getTime() === TODAY.getTime());
+
 days.forEach((d, i) => {
   const card = document.createElement('div');
-  card.className = 'day-card' + (d.birthday ? ' birthday' : '') + ' collapsed';
+  const dd = dayDates[i];
+  let state = '';
+  if (dd) {
+    if (dd.getTime() === TODAY.getTime()) state = ' is-today';
+    else if (dd.getTime() < TODAY.getTime()) state = ' is-past';
+  }
+  card.className = 'day-card' + (d.birthday ? ' birthday' : '') + state + ' collapsed';
+  card.dataset.dayIndex = i;
   card.innerHTML = `
     <div class="day-head">
-      <div><div class="day-head-title">${d.title}</div><div class="day-head-sub">${d.sub}</div></div>
+      <div><div class="day-head-title">${d.title}${badgeFor(i)}</div><div class="day-head-sub">${d.sub}</div>${d.stayNote ? `<div class="day-stay">${d.stay ? `🏨 <b>${d.stay}</b> · ` : '✈️ '}${d.stayNote}</div>` : ''}</div>
       <div class="day-toggle">▼</div>
     </div>
     <div class="day-body">
+      ${dayFoodHtml(d.city)}
       ${d.note ? `<div class="day-note">${d.note}</div>` : ''}
       ${d.items.map(it => `
         <div class="day-item">
-          <div class="day-time">${it[0]}</div>
-          <div class="day-place"><b>${it[1]}</b>${it[2] ? `<span>${it[2]}</span>` : ''}${it[4] ? `<span class="day-transport">🚕 ${it[4]}</span>` : ''}</div>
-          ${it[3] ? `<div class="day-cost">${it[3]}</div>` : ''}
+          <div class="day-item-head">
+            <div class="day-time">${it[0]}</div>
+            <div class="day-place"><b>${it[1]}</b>${it[2] ? `<span>${it[2]}</span>` : ''}</div>
+          </div>
+          ${(it[3] || it[4] || ITEM_PIN_LINKS[it[1]] || ITEM_EXPENSE_LINKS[it[1]]) ? `<div class="day-item-meta">
+            ${it[3] ? `<span class="day-cost">${it[3]}</span>` : ''}
+            ${it[4] ? `<span class="day-transport">🚕 ${it[4]}</span>` : ''}
+            ${itemPinButtons(it[1])}${itemExpenseButton(it[1], i)}
+          </div>` : ''}
         </div>
       `).join('')}
     </div>
@@ -1310,8 +1965,122 @@ days.forEach((d, i) => {
   card.querySelector('.day-head').addEventListener('click', () => card.classList.toggle('collapsed'));
   daysContainer.appendChild(card);
 });
-// Expand day 1 by default
-if (daysContainer.firstChild) daysContainer.firstChild.classList.remove('collapsed');
+
+// Delegated: the Copy Thai buttons above are created via innerHTML, so one listener on the
+// container covers all of them, including any added later.
+daysContainer.addEventListener('click', e => {
+  const copyBtn = e.target.closest('.day-copy-thai');
+  if (copyBtn) copyToClipboard(copyBtn.dataset.thai, copyBtn);
+
+  const logBtn = e.target.closest('.day-log-btn');
+  if (logBtn) {
+    document.querySelector('.tab[data-panel="expenses"]').click();
+    const catEl = document.getElementById('expCategory');
+    const dateEl = document.getElementById('expDate');
+    const descEl = document.getElementById('expDesc');
+    catEl.value = logBtn.dataset.cat;
+    if (logBtn.dataset.date) dateEl.value = logBtn.dataset.date;
+    descEl.value = logBtn.dataset.desc;
+    document.getElementById('expAmount').focus();
+    document.getElementById('panel-expenses').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
+
+function escAttr(str) { return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+
+function itemExpenseButton(itemTitle, dayIdx) {
+  const link = ITEM_EXPENSE_LINKS[itemTitle];
+  if (!link) return '';
+  const dd = dayDates[dayIdx];
+  const dateStr = dd ? (dd.getFullYear() + '-' + String(dd.getMonth() + 1).padStart(2, '0') + '-' + String(dd.getDate()).padStart(2, '0')) : '';
+  return `<button type="button" class="day-log-btn" data-cat="${escAttr(link.category)}" data-desc="${escAttr(link.desc)}" data-date="${dateStr}">💰 Log expense</button>`;
+}
+
+function itemPinButtons(itemTitle) {
+  const pinName = ITEM_PIN_LINKS[itemTitle];
+  if (!pinName) return '';
+  const pin = PIN_BY_NAME[pinName];
+  if (!pin) return ''; // link table and pin data drifted apart — fail silently rather than break the render
+  const query = pin.q || pin.name;
+  const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+  return `<a class="day-pin-btn maps" href="${mapsUrl}" target="_blank" rel="noopener">📍 Maps</a>
+    ${pin.thai ? `<button type="button" class="day-pin-btn day-copy-thai" data-thai="${escAttr(pin.thai)}">Copy Thai</button>` : ''}`;
+}
+
+function badgeFor(i) {
+  const dd = dayDates[i];
+  if (!dd) return '';
+  const diff = Math.round((dd - TODAY) / 86400000);
+  if (diff === 0) return '<span class="day-badge">TODAY</span>';
+  if (diff === 1) return '<span class="day-badge tomorrow">TOMORROW</span>';
+  if (diff < 0) return '<span class="day-badge past">DONE</span>';
+  return '';
+}
+
+/* ---- Open on the day you are actually living, not Day 1 ---- */
+(function initTodayView() {
+  const strip = document.getElementById('todayStrip');
+  const text = document.getElementById('todayStripText');
+  const btn = document.getElementById('todayJumpBtn');
+  const cards = Array.from(daysContainer.children);
+  if (!cards.length) return;
+
+  const fmt = d => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+  const first = dayDates[0], last = dayDates[dayDates.length - 1];
+  let openIdx;
+
+  if (todayIndex >= 0) {
+    openIdx = todayIndex;
+    text.innerHTML = '📍 <b>Today is ' + days[todayIndex].title.replace(' · ', ' · ') + '</b>' +
+      (todayIndex + 1 < cards.length ? ' · tomorrow is ' + days[todayIndex + 1].title.split(' · ')[1] : ' · last day');
+    strip.classList.remove('pre', 'post');
+    btn.textContent = 'Jump to today';
+  } else if (first && TODAY < first) {
+    openIdx = 0;
+    const away = Math.round((first - TODAY) / 86400000);
+    text.innerHTML = '🛫 <b>Trip starts in ' + away + ' day' + (away === 1 ? '' : 's') + '</b> — ' + fmt(first) +
+      '. Showing Day 1; this switches to the live day automatically once you are travelling.';
+    strip.classList.add('pre'); strip.classList.remove('post');
+    btn.textContent = 'Go to Day 1';
+  } else {
+    openIdx = cards.length - 1;
+    text.innerHTML = '🏠 <b>Trip complete</b> — ' + fmt(first) + ' to ' + fmt(last) + '. Showing the last day.';
+    strip.classList.add('post'); strip.classList.remove('pre');
+    btn.textContent = 'Go to last day';
+  }
+
+  strip.style.display = 'flex';
+  cards[openIdx].classList.remove('collapsed');
+
+  function jump() {
+    cards[openIdx].classList.remove('collapsed');
+    cards[openIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  btn.addEventListener('click', jump);
+
+  let scrolled = false;
+  const itinTab = document.querySelector('.tab[data-panel="itinerary"]');
+  if (itinTab) itinTab.addEventListener('click', () => {
+    if (scrolled) return;
+    scrolled = true;
+    setTimeout(() => cards[openIdx].scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  });
+})();
+
+/* ---- Emergency numbers, reachable without leaving Day-by-Day ---- */
+(function initItineraryEmergency() {
+  const btn = document.getElementById('emergencyToggleBtn');
+  const box = document.getElementById('itineraryEmergencyCard');
+  if (!btn || !box) return;
+  box.className = 'confirmed-box emergency-card';
+  box.innerHTML = emergencyCardHtml();
+  let open = false;
+  btn.addEventListener('click', () => {
+    open = !open;
+    box.style.display = open ? 'block' : 'none';
+    btn.classList.toggle('open', open);
+  });
+})();
 
 /* ============ GENERIC CHECKLIST BUILDER (used for Places, Booking Checklist, Packing) ============ */
 function buildChecklist(containerId, storageKey, groups, progressId) {
@@ -1365,7 +2134,8 @@ function buildPlacesChecklist(containerId, storageKey, groups, progressId) {
     groupDiv.className = 'check-group';
     const titleDiv = document.createElement('div');
     titleDiv.className = 'check-group-title';
-    titleDiv.textContent = groupName;
+    // Counts are derived, never hand-written — they had drifted out of sync three ways.
+    titleDiv.textContent = groupName.replace(/\s*\(\d+\)\s*$/, '') + ' (' + groups[groupName].length + ')';
     groupDiv.appendChild(titleDiv);
 
     groups[groupName].forEach(place => {
@@ -1422,15 +2192,13 @@ buildPlacesChecklist('places-container', 'thailand-places-v2', {
     { name: "Platinum Fashion Mall / Fortune Town", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
     { name: "ICONSIAM & SookSiam", cost: "Free · Cruise ~฿2,500–3,500pp", booking: "Cruise: book 2 days ahead", walkup: false, priority: 1 },
     { name: "Asiatique The Riverfront", cost: "Free · ~฿300–800pp dinner", booking: "Walk-up OK", walkup: true, priority: 3 },
-    { name: "Amphawa Floating Market (optional)", cost: "~฿1,000–1,200pp tour", booking: "Book tour ahead", walkup: false, priority: 3 },
-    { name: "Space & Time Cube+ Bangkok", cost: "~฿400–600pp", booking: "Walk-up OK, online has small discount", walkup: true, priority: 2 },
-    { name: "Mahanakhon Skywalk", cost: "~฿1,200pp sunset", booking: "Book ahead — sunset slots sell out", walkup: false, priority: 1 },
-    { name: "Akara Sky Hanuman", cost: "~฿500–1,500pp", booking: "Book ahead", walkup: false, priority: 2 },
+    { name: "Amphawa Floating Market (dropped — Grab return made it poor value)", cost: "N/A", booking: "Skip — no longer scheduled", walkup: true, priority: 0 },
+    { name: "Mahanakhon Skywalk — done 29 Aug ✅", cost: "~฿1,200pp", booking: "Done", walkup: true, priority: 1 },
     { name: "Sky Bar / Sirocco (Lebua State Tower) — replaced Vertigo, which is closed till Nov 2026", cost: "Sky Bar: drinks only · Sirocco: ~฿3,000pp+", booking: "Sky Bar walk-in only, no reservations taken · Sirocco: call +66 2 624 9999 or WhatsApp", walkup: true, priority: 2 },
-    { name: "Chao Phraya Dinner Cruise", cost: "~฿2,500–3,500pp", booking: "Book 2 days ahead", walkup: false, priority: 1 },
+    { name: "Chao Phraya Dinner Cruise — Sep 1", cost: "~฿2,500–3,500pp", booking: "NOT BOOKED · needs 2 days notice, so book before you fly · boards at Sathorn Pier", walkup: false, priority: 1 },
     { name: "Yaowarat (Chinatown)", cost: "Free · ~฿200–400pp food", booking: "Walk-up OK", walkup: true, priority: 3 },
-    { name: "Thai spa (couples)", cost: "~฿1,500pp", booking: "Book 1 day ahead", walkup: false, priority: 2 },
-    { name: "Birthday party — Above Eleven rooftop", cost: "~฿2,000–3,000pp", booking: "Book ahead — Wed Ladies Night busy", walkup: false, priority: 1 },
+    { name: "Couples Thai massage — Sep 2, 8:00 AM", cost: "~฿1,500pp", booking: "NOT BOOKED · Khus Samui Spa or Spa 1930, needs a day of notice", walkup: false, priority: 2 },
+    { name: "Birthday night out, Sep 2 — Octave Rooftop Lounge (recommended)", cost: "~฿2,000–3,000pp", booking: "Above Eleven dropped, replaced by Octave — book a table a few days ahead, see the Birthday Dinners tab for backups", walkup: false, priority: 1 },
     { name: "Song Wat Road (optional)", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
     { name: "Khao San Road", cost: "Free · ~฿200–500pp food", booking: "Walk-up OK", walkup: true, priority: 3 },
   ],
@@ -1439,7 +2207,7 @@ buildPlacesChecklist('places-container', 'thailand-places-v2', {
     { name: "Art in Paradise", cost: "~฿400–500pp (~฿800–1,000/2)", booking: "Walk-up OK, or book combo online", walkup: true, priority: 2 },
     { name: "Ripley's Believe It or Not!", cost: "฿650pp (฿1,300/2)", booking: "Walk-up OK, or book combo online", walkup: true, priority: 2 },
     { name: "Walking Street", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
-    { name: "Koh Larn / Coral Island Tour", cost: "~฿280pp base + ~฿500–2,000pp optional water sports", booking: "Book ahead — timed morning slot before checkout", walkup: false, priority: 1 },
+    { name: "Koh Larn / Coral Island Tour — Sep 4 morning", cost: "~฿280pp base + ~฿500–2,000pp optional water sports", booking: "NOT BOOKED · confirm the Indian buffet package specifically · must finish before the Centara checkout", walkup: false, priority: 1 },
     { name: "Space & Time Cube+ Pattaya (dropped — swapped for Koh Larn)", cost: "N/A", booking: "Skip — no longer scheduled", walkup: true, priority: 0 },
   ],
   "Phuket (12)": [
@@ -1447,69 +2215,185 @@ buildPlacesChecklist('places-container', 'thailand-places-v2', {
     { name: "Wat Chalong", cost: "Free (donation optional)", booking: "Walk-up OK", walkup: true, priority: 2 },
     { name: "Big Buddha of Phuket", cost: "Free (donation optional)", booking: "Walk-up OK", walkup: true, priority: 2 },
     { name: "Old Phuket Town", cost: "Free · ~฿200–400pp café", booking: "Walk-up OK", walkup: true, priority: 3 },
-    { name: "Koh Phi Phi (Pileh, Monkey Beach, Bamboo Island)", cost: "~฿1,200–1,500pp", booking: "Book ahead — earliest slot, weather-dependent", walkup: false, priority: 1 },
+    { name: "Koh Phi Phi (Pileh, Monkey Beach, Bamboo Island) — Sep 6", cost: "~฿1,200–1,500pp", booking: "NOT BOOKED · take the earliest slot · Maya Bay closed 1 Aug–30 Sep · September cancels on wave height, so pick a free-reschedule operator", walkup: false, priority: 1 },
     { name: "Snorkelling (Phi Phi tour)", cost: "Included in tour", booking: "Bundled with Phi Phi booking", walkup: false, priority: 1 },
     { name: "Coral Island Sunset Catamaran (decide day-of vs Old Phuket Town)", cost: "~฿1,500–2,500pp", booking: "Book once decided, day before", walkup: false, priority: 2 },
     { name: "Promthep Cape sunset", cost: "Free entry", booking: "Walk-up OK", walkup: true, priority: 3 },
-    { name: "Suay restaurant (birthday)", cost: "~฿2,500–3,500pp", booking: "Book ahead — call now, limited tables", walkup: false, priority: 1 },
-    { name: "Couples spa (birthday)", cost: "~฿2,000–3,000pp", booking: "Book 1 day ahead", walkup: false, priority: 2 },
+    { name: "Birthday dinner, Sep 8 — Oceanfront in-house (recommended)", cost: "~฿1,500–3,500pp", booking: "Suay dropped, replaced by dinner in-house at Oceanfront — confirm alongside the cake email, see the Birthday Dinners tab for backups", walkup: false, priority: 1 },
+    { name: "Couples spa — Sep 8, 9:00 AM", cost: "~฿2,000–3,000pp", booking: "NOT BOOKED · asked Oceanfront for in-house rates and guest discounts, awaiting reply · Let’s Relax Patong is the fallback", walkup: false, priority: 2 },
     { name: "Tiger Kingdom (noted, not scheduled — mixed reviews, animal welfare concerns; decide for yourself)", cost: "฿900–3,000pp", booking: "Book ahead if going", walkup: false, priority: 0 },
     { name: "Phi Phi viewpoint", cost: "Included in tour", booking: "Bundled with Phi Phi booking", walkup: false, priority: 1 },
   ]
 }, 'placesProgress');
 
-buildPlacesChecklist('foodlist-container', 'thailand-foodlist-v1', {
-  "Bangkok — chicken/egg dishes & restaurants": [
-    { name: "Khao Man Gai (Hainanese chicken rice) — Go-Ang Kaomunkai Pratunam", cost: "~฿40–60pp", booking: "Poonam Market, Pratunam — 5min walk from Baiyoke Sky, your birthday hotel. Michelin Bib Gourmand, 40+ years running", walkup: true, priority: 1 },
-    { name: "Pad Krapow Gai (basil chicken) — order 'Gai' specifically", cost: "~฿50–150pp", booking: "Available everywhere — default at most stalls is Moo (pork) unless you say Gai", walkup: true, priority: 2 },
-    { name: "Khao Mok Gai (Thai chicken biryani)", cost: "~฿50–100pp", booking: "Soi Arab area — Muslim-influenced, genuinely close to Indian flavors", walkup: true, priority: 2 },
-    { name: "Chicken Satay (Gai Satay)", cost: "~฿10–15 per skewer", booking: "Night markets — specify Gai, beef/pork satay sold alongside", walkup: true, priority: 3 },
-    { name: "Massaman Gai (Massaman chicken curry)", cost: "~฿80–150pp", booking: "Widely available — cardamom/cinnamon/peanuts, close to Indian curry profiles", walkup: true, priority: 3 },
-    { name: "Thai Fried Chicken (Gai Tod) with sticky rice", cost: "~฿60 for a large piece", booking: "Night markets — crispy, soy/garlic/cumin seasoned", walkup: true, priority: 3 },
-    { name: "Kai Jeaw (plain egg omelette)", cost: "~฿40–80", booking: "Anywhere — simple, safe, fully egg-based", walkup: true, priority: 3 },
-    { name: "Fried Chicken — Polo Fried Chicken (Soi Polo)", cost: "~฿150–300pp", booking: "Lumphini area — 50+ years running, Michelin-recognized, called 'possibly the best bird in the city.' Signature dish IS chicken, not an add-on note", walkup: true, priority: 1 },
-    { name: "Bawarchi Indian Restaurant (butter chicken, biryani, kebabs)", cost: "~฿400–800pp", booking: "Near Sukhumvit 4 / Ambassador Hotel — genuinely 5min from your ibis Styles Sukhumvit 4 hotel. Mughlai cuisine, tandoor-cooked, chicken malai kebab is the standout", walkup: true, priority: 2 },
-    { name: "Mango Sticky Rice", cost: "~฿60–100pp", booking: "Anywhere — dessert, fully safe", walkup: true, priority: 3 },
-  ],
-  "Phuket — chicken/egg dishes & restaurants": [
-    { name: "Chicken Rice — Kota Khao Mun Kai", cost: "~฿50–80pp", booking: "Phuket Town — the local favorite, 20+ years running, 'best Hainan chicken rice anywhere' per locals", walkup: true, priority: 1 },
-    { name: "Chicken Massaman Curry + roti — Aroon Po Chana", cost: "~฿60–100pp", booking: "Phuket Old Town — Muslim restaurant, famous for rotis, chicken massaman genuinely close to Indian flavors", walkup: true, priority: 1 },
-    { name: "Amritsr Restaurant (butter chicken, biryani, tandoori)", cost: "~฿400–800pp", booking: "Patong Beach — branded as the top Indian restaurant in Patong, genuinely close to Oceanfront Beach Resort, your birthday hotel", walkup: true, priority: 2 },
-    { name: "O-Aew (shaved ice, fruit jelly, red beans, syrup)", cost: "~฿30–50", booking: "Old Town street stalls — the most distinctly Phuket dessert, fully safe, no meat", walkup: true, priority: 2 },
-    { name: "Kanta Phuket — Modern Peranakan (check menu for chicken options)", cost: "~฿200–500pp", booking: "The Memory at On On Hotel, Phang Nga Road — upscale, ask staff for chicken/egg-safe dishes specifically", walkup: false, priority: 3 },
-  ],
-  "Pattaya — chicken/egg dishes & restaurants": [
-    { name: "Alibaba Tandoori & Curry (butter chicken, biryani, tandoori chicken)", cost: "~฿300–500pp", booking: "Central Pattaya Road — Pattaya's oldest Indian restaurant, 40+ years running, Mughal-style interior. The most established, safest bet in the city", walkup: true, priority: 1 },
-    { name: "Indian By Nature (butter chicken, biryani, tandoori specialities)", cost: "~฿400–700pp", booking: "Pattaya City — TripAdvisor Traveller's Choice + Thailand Tatler Best Restaurant award", walkup: true, priority: 2 },
-    { name: "Gai Yang (Isaan-style grilled chicken)", cost: "~฿100–200pp", booking: "Widely available at markets and street stalls — the genuine Pattaya/Isaan street food specialty, garlic-pepper-lemongrass marinade", walkup: true, priority: 2 },
-    { name: "Banaras 100% Pure Vegetarian Indian Restaurant", cost: "~฿250–450pp", booking: "⚠️ Pure vegetarian by strict Indian convention — may exclude egg too, not just meat. Worth calling ahead to confirm if egg dishes are on the menu", walkup: false, priority: 3 },
-  ],
-  "7-Eleven bucket list — chicken/egg-safe": [
-    { name: "Basil Fried Rice with Chicken (Pad Kaprao Gai)", cost: "~฿45", booking: "Ready-meal counter — genuine Thai classic, safe and cheap", walkup: true, priority: 2 },
-    { name: "Original Cheese Toastie", cost: "~฿25–35", booking: "Toasted at the counter fresh — the most iconic 7-Eleven item, fully safe", walkup: true, priority: 1 },
-    { name: "Chicken Katsu Toastie/Onigiri", cost: "~฿25–45", booking: "Check the label — 'Katsu Gai' specifically, not katsu pork", walkup: true, priority: 2 },
-    { name: "Egg tart / Pineapple pie / Lava cake", cost: "~฿20–35", booking: "Dessert counter — all fully safe, no meat", walkup: true, priority: 3 },
-    { name: "Meiji Banana/Strawberry/Chocolate Milk + ice", cost: "~฿20–25", booking: "Fridge section — a genuine TikTok-famous combo, fully safe", walkup: true, priority: 3 },
-    { name: "Tuna Mayo / Salmon Onigiri", cost: "~฿25–35", booking: "Contains fish, not chicken/egg — optional if you're fine with seafood, otherwise skip", walkup: true, priority: 0 },
-  ]
-}, 'foodlistProgress');
+// Tab label read off what was actually rendered, so it can't drift from the list again.
+(function syncPlacesTabLabel() {
+  const n = document.querySelectorAll('#places-container .place-item').length;
+  const tab = document.querySelector('.tab[data-panel="places"]');
+  if (tab && n) tab.textContent = n + ' Places';
+})();
+
+buildPlacesChecklist('foodlist-container', 'thailand-foodlist-v1', FOODLIST_GROUPS, 'foodlistProgress');
+
+/* ============ MAP PINS ============ */
+function copyToClipboard(text, btn) {
+  const done = () => {
+    const original = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.classList.add('done');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('done'); }, 1400);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) { window.prompt('Copy this:', text); }
+  document.body.removeChild(ta);
+}
+
+function buildMapPins(containerId, groups) {
+  const container = document.getElementById(containerId);
+
+  Object.keys(groups).forEach(groupName => {
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'check-group';
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'check-group-title';
+    titleDiv.textContent = groupName;
+    groupDiv.appendChild(titleDiv);
+
+    groups[groupName].forEach(pin => {
+      const query = pin.q || pin.name;
+      const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+
+      const row = document.createElement('div');
+      row.className = 'pin-item';
+      row.dataset.search = [pin.name, pin.thai, pin.sub, query].filter(Boolean).join(' ').toLowerCase();
+
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'pin-name';
+      nameDiv.textContent = pin.name;
+      row.appendChild(nameDiv);
+
+      if (pin.thai) {
+        const thaiDiv = document.createElement('div');
+        thaiDiv.className = 'pin-thai';
+        thaiDiv.textContent = pin.thai;
+        row.appendChild(thaiDiv);
+      }
+
+      if (pin.sub) {
+        const subDiv = document.createElement('div');
+        subDiv.className = 'pin-sub';
+        subDiv.textContent = pin.sub;
+        row.appendChild(subDiv);
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'pin-actions';
+
+      const mapsLink = document.createElement('a');
+      mapsLink.className = 'pin-btn maps';
+      mapsLink.href = mapsUrl;
+      mapsLink.target = '_blank';
+      mapsLink.rel = 'noopener';
+      mapsLink.textContent = '📍 Maps';
+      actions.appendChild(mapsLink);
+
+      if (pin.thai) {
+        const copyThai = document.createElement('button');
+        copyThai.className = 'pin-btn';
+        copyThai.textContent = 'Copy Thai';
+        copyThai.addEventListener('click', () => copyToClipboard(pin.thai, copyThai));
+        actions.appendChild(copyThai);
+      }
+
+      const copyEn = document.createElement('button');
+      copyEn.className = 'pin-btn';
+      copyEn.textContent = 'Copy name';
+      copyEn.addEventListener('click', () => copyToClipboard(query, copyEn));
+      actions.appendChild(copyEn);
+
+      row.appendChild(actions);
+      groupDiv.appendChild(row);
+    });
+
+    container.appendChild(groupDiv);
+  });
+}
+
+/* ---- Map pin search ---- */
+function initPinSearch() {
+  const input = document.getElementById('pinSearch');
+  const clearBtn = document.getElementById('pinSearchClear');
+  const countEl = document.getElementById('pinSearchCount');
+  const noneEl = document.getElementById('pinNoResults');
+  const container = document.getElementById('pins-container');
+  if (!input || !container) return;
+
+  const rows = Array.from(container.querySelectorAll('.pin-item'));
+  const groups = Array.from(container.querySelectorAll('.check-group'));
+  const total = rows.length;
+
+  function apply() {
+    // Every term must match somewhere in the row, so "patong spa" narrows rather than widens.
+    const terms = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    rows.forEach(row => {
+      const hay = row.dataset.search || '';
+      const hit = terms.every(t => hay.indexOf(t) !== -1);
+      row.style.display = hit ? '' : 'none';
+      if (hit) shown++;
+    });
+    // Hide a group heading when nothing under it survived.
+    groups.forEach(g => {
+      const any = Array.from(g.querySelectorAll('.pin-item')).some(r => r.style.display !== 'none');
+      g.style.display = any ? '' : 'none';
+    });
+    clearBtn.style.display = terms.length ? 'block' : 'none';
+    noneEl.style.display = shown === 0 ? '' : 'none';
+    countEl.textContent = terms.length ? (shown + ' of ' + total + ' pins') : (total + ' pins');
+  }
+
+  input.addEventListener('input', apply);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { input.value = ''; apply(); input.blur(); }
+  });
+  clearBtn.addEventListener('click', () => { input.value = ''; apply(); input.focus(); });
+  apply();
+}
+
+buildMapPins('pins-container', PIN_GROUPS);
+initPinSearch();
 
 /* ---- Booking Checklist ---- */
 buildChecklist('checklist-container', 'thailand-checklist-v3', {
-  "🔴 P1 — Book now, time-sensitive": [
-    "Call Suay restaurant for Sep 8, 7:30 PM birthday dinner — +66 93 339 1890, limited tables",
-    "Reserve Above Eleven for Sep 2 birthday — call 02 038 5111, Wednesday Ladies Night gets busy",
-    "Book Mahanakhon Skywalk sunset ticket on Klook (~₹2,561–2,818) — free cancellation, no downside to locking in now",
-    "Book Koh Phi Phi speedboat tour for Sep 6, earliest slot — tours are running through September, but weather-dependent same-day cancellation is genuinely common this month. Book with a free-reschedule operator (Klook recommended, ₹4,616)",
-    "Book Suay restaurant online via TableCheck if within 24hrs of dining, or call +66 93 339 1890",
-    "Book Above Eleven via their Bistrochat booking page or Chope"
+  "🔴 P1 — Tonight, before you fly": [
+    "Book Koh Phi Phi speedboat tour for Sep 6, earliest slot — weather-dependent same-day cancellation is genuinely common in September, so pick a free-reschedule operator (Klook ₹4,616, or Seanery via WhatsApp +66 92-479-6565)",
+    "Book Mahanakhon Skywalk sunset slot on Klook (~₹2,561–2,818) — free cancellation, so there is no downside to locking it in now",
+    "Book Chao Phraya Dinner Cruise for Sep 1 — needs 2 days notice, which you no longer have once you land",
+    "Send the Oceanfront birthday email to info@oceanfrontphuket.com and tick the Goibibo special-request boxes"
   ],
-  "🟠 P2 — Book before departure (only ~3–4 days left, not '1–2 weeks' anymore)": [
-    "Book Koh Larn / Coral Island tour for Sep 4 morning — confirm the Indian buffet package specifically",
-    "Book Chao Phraya Dinner Cruise for Sep 1 evening — 2 days ahead minimum, so book before you fly",
-    "Book Akara Sky Hanuman for Sep 9 evening — online booking gets the best rate",
-    "Check Art in Paradise + Ripley's combo ticket pricing for Day 7 (Pattaya)",
-    "Email spa bookings: Bangkok (Sep 2, 8 AM) & Phuket (Sep 8, 9 AM) — 1 day ahead minimum, but easier to sort before you're mid-trip"
+  "🍽️ Birthday venues — both dropped, both need replacing": [
+    "Sep 2, Bangkok — Above Eleven dropped, recommended replacement is Octave Rooftop Lounge. Book a table a few days ahead, or fall back to Baiyoke's own 84th floor if it's fully booked",
+    "Sep 8, Phuket — Suay dropped, recommended replacement is dining in-house at Oceanfront. Confirm it in the same email where you arrange the cake, keeping both in one place",
+    "Sep 9, Bangkok — Akara Sky Hanuman dropped, evening now deliberately free. Nothing to book unless you want something near Pratunam (the Indian food cluster is a short walk from The House Pratunam)"
+  ],
+  "🟠 P2 — Can be done from Thailand": [
+    "Book Koh Larn / Coral Island tour for Sep 4 morning — confirm the Indian buffet package specifically, and that it finishes before the Centara checkout",
+    "Check Art in Paradise + Ripley's pricing for Day 7 (Pattaya) — no combo ticket exists, book them separately",
+    "Book the Bangkok couples massage for Sep 2, 8 AM — Khus Samui Spa or Spa 1930, a day's notice is enough",
+    "Phuket spa for Sep 8, 9 AM — waiting on Oceanfront's reply about in-house rates and guest discounts. If nothing comes back, book Let's Relax Patong directly"
   ],
   "⚪ P3 — Flexible, decide closer to the date": [
     "Coral Island Sunset Catamaran (Day 11) — decide morning-of vs Old Phuket Town, book once decided",
@@ -1517,24 +2401,38 @@ buildChecklist('checklist-container', 'thailand-checklist-v3', {
     "Identify a backup operator for Phi Phi in case Day 6 gets rescheduled to Day 7's buffer slot",
     "Space & Time Cube Bangkok (Day 5 morning) — walk-up fine, online has a small discount"
   ],
-  "🔴 Urgent — payment deadline": [
-    "Pay Oceanfront Beach Resort (₹14,516) by 11:59 PM IST, 28 Aug — pay before leaving India, not after landing",
-    "Confirm whether the cancelled Aspen Suites payment (₹21,230) was refunded"
+  "🏨 Hotels — all paid, follow-ups only": [
+    "Send birthday requests to Oceanfront Beach Resort — email info@oceanfrontphuket.com AND tick the Goibibo boxes (early check-in, late check-out, higher floor, non-smoking, celebration cake, room decoration, airport transfers). Never sent; the originals were written for the cancelled Sunset Beach Resort",
+    "Ask Oceanfront the charge for the 9 Sep airport drop (two with luggage) — leaving ~2:00 PM for the 17:20 flight. If it comes in above ~฿800, Grab is cheaper",
+    "Ask Oceanfront to keep the room until 2:00 PM on 9 Sep, and whether that late check-out carries a charge",
+    "Ask Oceanfront whether the birthday cake and room decoration can be complimentary, and whether they have spa discounts or in-house guest offers",
+    "Set aside ฿3,000 cash for the refundable deposit at Oceanfront check-in (7 Sep)",
+    "Download fresh vouchers for the three rebooked stays — Patong Resort, Oceanfront and The House Pratunam all have new booking IDs",
+    "Call Patong Resort (+66 76 340 551) about the renovation noted on the voucher — ask which floors, request a room away from it",
+    "Note: Patong Resort has NO breakfast (MAZI did) — plan Sep 6 and Sep 7 mornings around that",
   ],
-  "Closer to departure": [
-    "Screenshot all confirmations (flights, hotels, tours, restaurants)",
+  "🧳 Tonight — you fly at 04:30": [
+    "Screenshot all confirmations (flights, hotels, tours) — you will not have data at Suvarnabhumi until the SIM is sorted",
+    "Download apps and offline Google Maps for Bangkok, Pattaya and Phuket — Grab and Klook need a live connection, Maps links do not",
+    "Notify bank of travel dates (28 Aug – 10 Sep, Thailand)",
+    "Pack the ฿3,000 for Oceanfront and the $100 USD cash separately from general spending money",
+    "Complete TDAC for both travellers — only valid within 72 hrs of arrival, so it is open now (you land 28 Aug 15:40)",
+    "PRINT the TDAC QR code for each traveller — one sheet per person, carried separately. Immigration scans it on arrival and you will have no data at Suvarnabhumi until the SIM is sorted, so a phone screenshot is the backup, not the primary",
+    "Save the return ticket (BKK → PNQ → DEL, 10 Sep) and all 7 hotel vouchers as PDFs stored ON the phone, not just a Gmail link — mobile is fine for immigration and hotel check-in, but it needs to open with no signal. A printed copy of just the return ticket is worth keeping as the one-item fallback if a phone dies at the exact wrong moment"
+  ],
+  "Once you are there": [
     "Check Andaman Sea weather forecast 2–3 days before Sep 6 (Phi Phi day)",
-    "Check Grand Palace closure announcements a few days before 29 Aug (royal ceremonies can close it on short notice)",
-    "Download apps: Grab, Klook, Google Maps (offline Bangkok + Phuket)",
-    "Notify bank of travel dates (28 Aug – 10 Sep, Thailand)"
+    "Check Grand Palace closure announcements before 29 Aug — royal ceremonies can close it at short notice",
+    "Call Patong Resort about the renovation before the 5 Sep check-in if you have not already"
   ],
   "On arrival (Aug 28)": [
     "Get Thai SIM card at airport",
     "Set up Grab app",
-    "Message ibis Styles Bangkok Sukhumvit 4 with ETA"
+    "Message ibis Styles Bangkok Sukhumvit 4 with ETA — you land 15:40, check-in is 2:00 PM"
   ],
   "✅ Already done": [
-    "All 7 hotel stays have a booking (4 paid, 3 unpaid — see Urgent above)",
+    "Above Eleven, Suay and Akara Sky Hanuman all dropped from the plan — removed from the itinerary, Places list and Map Pins",
+    "All 7 hotel stays booked and PAID — settled 27 Aug: Patong ₹6,892 (Kiwi/Yes Bank), Oceanfront ₹15,791 (ICICI ••••4009). The House Pratunam replaced Citrus Sukhumvit 11 for 9–10 Sep (GH27132276919468)",
     "$100k travel insurance confirmed — TataAig, Booking ID GTMSTDIS415217567580, covers 28 Aug–10 Sep",
     "High floor + non-smoking + birthday cake/decoration requested — Baiyoke Sky (email + Goibibo)",
     "Early check-in + late check-out + Bangkok transfer rate requested — Centara Pattaya (Goibibo special request)",
@@ -1549,18 +2447,32 @@ buildChecklist('prep-container', 'thailand-prep-v1', {
   "Documentation to sort now": [
     "Check both passports have 6+ months validity from 28 Aug 2026",
     "Check both passports have at least 1 blank page",
-    "Complete TDAC online for each traveller (only within 72 hrs before arrival — set a reminder, don't do this too early)",
-    "Save TDAC QR code confirmation — screenshot + keep offline copy",
+    "Complete TDAC online for each traveller — the 72 hr window is OPEN now (arrival 28 Aug 15:40), so do it tonight",
+    "PRINT the TDAC QR code for each traveller, one sheet per person — immigration scans it on arrival",
+    "Save the TDAC QR code confirmation to your phone as well — screenshot, kept offline as the backup",
     "Print or screenshot return flight ticket (BKK → Delhi, 10 Sep)",
     "Print or screenshot all hotel confirmations for immigration if asked",
-    "Carry a printed bank statement or keep banking app balance visible (proof of funds may be checked)"
+    "Carry a printed bank statement or keep the banking app balance visible — Thai immigration can ask for proof of roughly ฿20,000 per couple in accessible funds",
+    "CONFIRM current entry rules for Indian passport holders before you fly — visa-free status for India has changed more than once recently. Two minutes on the Thai embassy site tonight; do not assume last year's rule still holds"
+  ],
+  "Driving — IDP": [
+    "Pack the IDP — confirmed valid till Aug 2027, covering Category A (motorcycle) and Category B (car), so both a scooter and a car are legal",
+    "Pack the ORIGINAL Indian driving licence alongside it — the IDP is only a translation and is invalid on its own. Thai police check both together, and this is the single most common reason tourists get fined at a Patong checkpoint",
+    "Photograph both documents and keep the images offline, so a lost wallet does not also mean losing the ability to prove you were licensed",
+    "Decide the Phuket plan on the day: Grab by default, scooter only if it is dry and you are comfortable. Car rental works out MORE expensive than Grab across the 5-day stint, so it is not worth pre-booking",
+    "If you do rent a scooter, check the rental includes a helmet for each of you — helmets are mandatory and separately fined",
+    "Checked the policy certificate (GTMSTDIS415217567580): no explicit scooter/two-wheeler exclusion in the summary — the 15 listed exclusions cover things like war, self-inflicted injury, and operating AIRCRAFT, not land vehicles. Not a guarantee: the certificate is a summary, and the full policy wordings (linked on the certificate) could still carry a two-wheeler condition. If you do ride, keep the IDP + original licence on you — that satisfies the most common condition insurers attach to this"
   ],
   "Money to arrange": [
+    "Carry $100 USD in cash — this is your landing liquidity, for the Grab/taxi and anything before the first ATM. Buy it from the vendor at ~₹96.25: about a 0.8% markup, which is genuinely good",
+    "Do NOT buy THB from the vendor — that rate carries a ~4.1% markup. Take the USD, and get baht from an ATM once you land",
+    "Pack the Niyo Forex card (Visa Platinum, zero markup) — this is the ATM card, not the shopping card",
+    "Pack the OneCard for shopping, and keep 2 cards from different banks so one failure is not a crisis",
+    "Withdraw ฿10,000+ per ATM pull, never small amounts. The flat fee makes anything under ~฿5,335 worse than the vendor rate",
+    "Use AEON ATMs (฿150 fee) — found inside Big C and Lotus stores. Bank ATMs charge ฿250 for the same withdrawal",
+    "Set aside ฿3,000 cash for the refundable Oceanfront deposit on 7 Sep — separate from spending money, and it has to be cash",
     "Notify bank(s) of Thailand travel dates (28 Aug – 10 Sep)",
-    "Carry 2 cards from different banks as backup",
-    "Exchange a small amount of THB before departure or on arrival for immediate cash needs",
-    "Plan to exchange larger amounts at SuperRich Bangkok rather than airport counters",
-    "Check daily/per-transaction ATM withdrawal limits with your bank"
+    "Check daily and per-transaction ATM withdrawal limits with your bank before you fly"
   ],
   "Practical prep": [
     "Buy a universal travel adapter (Thailand uses Type A/C/O, India uses Type D/M)",
@@ -1575,15 +2487,27 @@ buildChecklist('prep-container', 'thailand-prep-v1', {
 buildChecklist('packing-container', 'thailand-packing-v1', {
   "Documents": [
     "Passport + copies", "Travel insurance", "Flight confirmations",
-    "Hotel confirmations (all 4 bookings)", "Restaurant/tour confirmations"
+    "Hotel confirmations (all 7 bookings)", "Restaurant/tour confirmations"
   ],
   "Clothing": [
-    "Smart-casual outfit (Sorn, Suay dinners)", "Lightweight scarf (temples)",
-    "2 swimsuits", "Comfortable walking shoes", "Flip-flops"
+    "Smart-casual outfit (birthday dinners, rooftop dress codes)", "Lightweight scarf (temples)",
+    "2 swimsuits", "Comfortable walking shoes", "Flip-flops",
+    "Shoulders and knees covered for the Grand Palace — enforced at the gate, they rent cover-ups but the queue is miserable"
+  ],
+  "Monsoon kit — September is the wettest month on the Andaman coast": [
+    "Compact umbrella or packable poncho for both of you",
+    "DRY BAG for the Phi Phi speedboat (Sep 6) — phone, cash and passports get soaked on an open boat, and spray is guaranteed even on a calm day",
+    "Quick-dry shirt and shorts — cotton does not dry in Phuket humidity",
+    "Sandals with grip — wet marble temple floors and wet boat decks are both slippery",
+    "Waterproof phone pouch on a lanyard for the island day"
   ],
   "Health": [
     "SPF 50 sunscreen", "After-sun aloe", "Insect repellent",
-    "Paracetamol, Imodium, antihistamine", "Any regular medications"
+    "Paracetamol, Imodium, antihistamine",
+    "BP + diabetes medication: full 14-day supply PLUS ~5 days buffer, for delays and the Pune layover",
+    "SPLIT the medication across hand baggage and checked — never checked only. A delayed bag must not become a medical problem",
+    "Keep medication in ORIGINAL packaging with the pharmacy label, and carry a copy of the prescription",
+    "If carrying any injectable or a glucose meter, keep it in hand baggage with the prescription — security asks"
   ],
   "Gadgets": [
     "Phone + charger", "Power bank", "Camera / GoPro (Phi Phi day)"
@@ -1689,13 +2613,13 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
   const state = loadHotelState();
   const lines = ['Thailand Trip - Hotel Booking Status', new Date().toLocaleString(), ''];
   const stayNames = {
-    0: 'Bangkok - ibis Styles Bangkok Sukhumvit 4 (28 Aug - 1 Sep, 4 nights) -- BOOKED & PAID (₹25,108), Booking ID GH24121275735188 -- replaced Aspen Suites',
+    0: 'Bangkok - ibis Styles Bangkok Sukhumvit 4 (28 Aug - 1 Sep, 4 nights) -- BOOKED & PAID (₹25,108), Booking ID GH24121275735188 -- paid by UPI',
     1: 'Bangkok - Baiyoke Sky, Space Zone (1 Sep - 3 Sep, 2 nights, birthday) -- BOOKED, Booking ID GH29086275255330',
     2: 'Pattaya - Centara Pattaya Hotel (3 Sep - 4 Sep, 1 night) -- BOOKED & PAID, Booking ID GH23044275257256',
     3: 'Bangkok - Gate43 Airport Hotel (4 Sep - 5 Sep, 1 night) -- BOOKED & PAID, Booking ID GH23044275257592',
-    4: 'Phuket - Patong Resort (5 Sep - 7 Sep, 2 nights) -- BOOKED & PAID (₹7,378), Booking ID GH20097276202354, PNR 0185696270 -- replaced MAZI Design Hotel. Check-in note: Guest Room/Floor services under renovation, call ahead',
-    5: 'Phuket - Oceanfront Beach Resort (7 Sep - 9 Sep, 2 nights, wife\'s birthday) -- RESERVED, UNPAID (amount/deadline TBC), Booking ID GH26084275735628 -- replaced Sunset Beach Resort (cancelled, bad reviews)',
-    6: 'Bangkok - The House Pratunam (9 Sep - 10 Sep, 1 night) -- BOOKED, Booking ID GH27132276919468 -- replaced Citrus Sukhumvit 11',
+    4: 'Phuket - Patong Resort (5 Sep - 7 Sep, 2 nights) -- BOOKED & PAID (₹6,892 on Kiwi card / Yes Bank via goaxb wallet; voucher total ₹7,378), Booking ID GH20097276202354, PNR 0185696270, ph +66 76 340 551, check-in 3:00 PM, Superior Room w/ bathtub+balcony, NO MEALS -- replaced MAZI Design Hotel by Kalima -- NOTE: guest room/floor services under renovation',
+    5: 'Phuket - Oceanfront Beach Resort (7 Sep - 9 Sep, 2 nights, wife\'s birthday) -- BOOKED & PAID (₹15,791 on ICICI ****4009), Booking ID GH22039276201846, PNR 0185696099, ph +66 76 683 200 (replaces GH26084275735628), Premier Comfy Room w/ bathtub+balcony, breakfast included -- THB 3,000 cash deposit due at check-in; birthday requests not yet sent',
+    6: 'Bangkok - The House Pratunam (9 Sep - 10 Sep, 1 night) -- BOOKED & PAID, Booking ID GH27132276919468 -- replaced Citrus Sukhumvit 11',
   };
   Object.keys(stayNames).forEach(idx => {
     lines.push(stayNames[idx]);
@@ -1705,10 +2629,8 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
       if (s.hotel) lines.push('  Hotel: ' + s.hotel);
       if (s.conf) lines.push('  Confirmation: ' + s.conf);
       if (s.phone) lines.push('  Phone: ' + s.phone);
-    } else if ([0,1,2,3].includes(Number(idx))) {
-      lines.push('  Status: BOOKED (confirmed earlier)');
-    } else if ([4,5,6].includes(Number(idx))) {
-      lines.push('  Status: RESERVED, PAYMENT PENDING');
+    } else if ([0,1,2,3,4,5,6].includes(Number(idx))) {
+      lines.push('  Status: BOOKED & PAID');
     } else {
       lines.push('  Status: NOT BOOKED');
     }
@@ -1721,7 +2643,7 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
 });
 
 document.getElementById('resetHotelsBtn').addEventListener('click', () => {
-  if (confirm('Reset all hotel booking progress? This will not affect your confirmed bookings (ibis Styles, Baiyoke, Centara, Gate43, Patong Resort, Oceanfront, The House Pratunam).')) {
+  if (confirm('Reset all hotel booking progress? This will not affect your confirmed bookings — all 7 stays are booked and paid.')) {
     localStorage.removeItem(STORAGE_KEY);
     UNBOOKED_IDX.forEach(idx => {
       const chk = document.getElementById('chk-' + idx);
@@ -1741,14 +2663,22 @@ try { applyHotelState(); } catch(e) { console.error('Hotel tracker init failed:'
 
 /* ============ EXPENSE TRACKER ============ */
 const EXP_STORAGE_KEY = 'thailand-expenses-v5';
+const EXP_SEED_APPLIED_KEY = 'thailand-expenses-seeds-applied-v1';
+// Seeds that shipped before seed-versioning existed. A tracker created back then has
+// already been offered all of these, so they must never be re-added — even the ones
+// the user deliberately deleted.
+const LEGACY_SEED_IDS = ['s1','s1b','s2','s3','s4','s5','s6','s7','s8','act1','act2','act3'];
+// Seeds withdrawn after shipping. Removing one from SEED_EXPENSES only stops NEW trackers
+// from getting it — these ids are also stripped from trackers that already stored it.
+// s1 = Aspen Suites; s11 = Citrus Sukhumvit 11, replaced by The House Pratunam.
+const RETIRED_SEED_IDS = ['s1','s11'];
 let selectedCurrency = 'THB';
 
 const SEED_EXPENSES = [
-  { id: 's1', date: '2026-08-13', category: '🏨 Hotels', desc: '⚠️ Aspen Suites Sukhumvit 2 (4 nights, non-refundable) — GH29086275256124 — CANCELLED, replaced by ibis Styles. Confirm refund status, delete this line if refunded', amount: 21230, currency: 'INR' },
-  { id: 's1b', date: '2026-08-20', category: '🏨 Hotels', desc: 'ibis Styles Bangkok Sukhumvit 4 (4 nights, 28 Aug–1 Sep) — GH24121275735188 — replaced Aspen Suites', amount: 25108, currency: 'INR' },
-  { id: 's2', date: '2026-08-13', category: '🏨 Hotels', desc: 'Baiyoke Sky Hotel, Space Zone (2 nights, birthday stay) — GH29086275255330', amount: 18862, currency: 'INR' },
-  { id: 's3', date: '2026-08-13', category: '🏨 Hotels', desc: 'Centara Pattaya Hotel (1 night, Deluxe King + breakfast) — GH23044275257256', amount: 4937, currency: 'INR' },
-  { id: 's4', date: '2026-08-13', category: '🏨 Hotels', desc: 'Gate43 Airport Hotel (1 night, Deluxe Double) — GH23044275257592', amount: 3406, currency: 'INR' },
+  { id: 's1b', date: '2026-08-20', category: '🏨 Hotels', desc: 'ibis Styles Bangkok Sukhumvit 4 (4 nights, 28 Aug–1 Sep) — GH24121275735188 — paid by UPI', amount: 25108, currency: 'INR' },
+  { id: 's2', date: '2026-08-13', category: '🏨 Hotels', desc: 'Baiyoke Sky Hotel, Space Zone (2 nights, birthday stay) — GH29086275255330 — paid on HDFC ••••5444, converted to EMI', amount: 18862, currency: 'INR' },
+  { id: 's3', date: '2026-08-13', category: '🏨 Hotels', desc: 'Centara Pattaya Hotel (1 night, Deluxe King + breakfast) — GH23044275257256 — paid on ICICI ••••7004', amount: 4937, currency: 'INR' },
+  { id: 's4', date: '2026-08-13', category: '🏨 Hotels', desc: 'Gate43 Airport Hotel (1 night, Deluxe Double) — GH23044275257592 — paid on the Kiwi card (Yes Bank)', amount: 3406, currency: 'INR' },
   { id: 's5', date: '2026-08-28', category: '✈️ Flights', desc: 'Delhi → Bangkok (via Bangalore, AI 2653 + AI 9071) — Booking ID GOFLISTAM2YH1595682', amount: 45042, currency: 'INR' },
   { id: 's6', date: '2026-09-05', category: '✈️ Flights', desc: 'Bangkok → Phuket (Thai Vietjet VZ314) — Booking No. 1365644496041394', amount: 17404, currency: 'INR' },
   { id: 's7', date: '2026-09-09', category: '✈️ Flights', desc: 'Phuket → Bangkok (Thai Vietjet VZ307) — Booking No. 1365644496041394', amount: 10474, currency: 'INR' },
@@ -1756,15 +2686,53 @@ const SEED_EXPENSES = [
   { id: 'act1', date: '2026-08-30', category: '🎟️ Activities', desc: 'Space & Time Cube+ Bangkok — Main Hall + Rail Cinema, 2 guests, Mon 31 Aug — Booking ID 2045874330', amount: 3822, currency: 'INR' },
   { id: 'act2', date: '2026-08-30', category: '🎟️ Activities', desc: 'SEA LIFE Bangkok Ocean World — Admission + Glass Bottom Boat, 2 guests, Mon 31 Aug — Booking ID 2045876764', amount: 5906, currency: 'INR' },
   { id: 'act3', date: '2026-09-02', category: '💆 Spa', desc: 'Bayleaf Massage & Onsen Spa — Private onsen + aromatherapy couple package, birthday (2 Sep)', amount: Math.round(4490 * 2.91), currency: 'INR' },
+  { id: 's9', date: '2026-08-27', category: '🏨 Hotels', desc: 'Patong Resort (2 nights, 5–7 Sep, Superior Room, no meals) — GH20097276202354 — paid on the Kiwi card (Yes Bank) via goaxb wallet · replaced MAZI Design Hotel', amount: 6892, currency: 'INR' },
+  { id: 's10', date: '2026-08-27', category: '🏨 Hotels', desc: "Oceanfront Beach Resort (2 nights, 7–9 Sep, wife's birthday, Premier Comfy Room + breakfast) — GH22039276201846 — paid on ICICI ••••4009 · replaced Sunset Beach Resort", amount: 15791, currency: 'INR' },
+  { id: 's12', date: '2026-08-20', category: '🛡️ Insurance & Visa', desc: 'TataAIG $100k travel insurance, 2 travellers (Manan + Akshra), valid 28 Aug–10 Sep — Order GTMSTDIS415217567580 — paid on ICICI Bank · base ₹1,410 − ₹430 contributory premium + ₹310 tax', amount: 1289.44, currency: 'INR' },
 ];
 
 function loadExpenses() {
   try {
     const raw = localStorage.getItem(EXP_STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-    // First load: seed with known hotel costs
-    localStorage.setItem(EXP_STORAGE_KEY, JSON.stringify(SEED_EXPENSES));
-    return SEED_EXPENSES;
+    if (!raw) {
+      // First load: seed with known hotel and flight costs
+      localStorage.setItem(EXP_STORAGE_KEY, JSON.stringify(SEED_EXPENSES));
+      localStorage.setItem(EXP_SEED_APPLIED_KEY, JSON.stringify(SEED_EXPENSES.map(e => e.id)));
+      return SEED_EXPENSES;
+    }
+    let list = JSON.parse(raw);
+    let applied = null;
+    try { applied = JSON.parse(localStorage.getItem(EXP_SEED_APPLIED_KEY)); } catch(e) { applied = null; }
+    if (!Array.isArray(applied)) {
+      // Tracker predates seed-versioning: every legacy seed was already offered, so
+      // treat the whole legacy set as applied and let earlier deletions stand.
+      applied = LEGACY_SEED_IDS.slice();
+    }
+    // Seed rows cannot be edited in the UI, only deleted — so any seed row still present
+    // should match its current definition. This lets corrections (a payment instrument, a
+    // revised amount) reach trackers that were seeded before the correction was written.
+    let changed = false;
+    const kept = list.filter(e => RETIRED_SEED_IDS.indexOf(e.id) === -1);
+    if (kept.length !== list.length) { list = kept; changed = true; }
+    list = list.map(e => {
+      const sd = SEED_EXPENSES.find(x => x.id === e.id);
+      if (!sd) return e;
+      if (sd.desc !== e.desc || sd.amount !== e.amount || sd.category !== e.category || sd.date !== e.date) {
+        changed = true;
+        return Object.assign({}, sd);
+      }
+      return e;
+    });
+
+    const missing = SEED_EXPENSES.filter(sd => applied.indexOf(sd.id) === -1);
+    if (missing.length) {
+      list = list.concat(missing);
+      applied = applied.concat(missing.map(sd => sd.id));
+      changed = true;
+    }
+    if (changed) localStorage.setItem(EXP_STORAGE_KEY, JSON.stringify(list));
+    localStorage.setItem(EXP_SEED_APPLIED_KEY, JSON.stringify(applied));
+    return list;
   } catch(e) { return []; }
 }
 
@@ -1919,6 +2887,7 @@ document.getElementById('expDownloadBtn').addEventListener('click', () => {
 document.getElementById('expResetBtn').addEventListener('click', () => {
   if (confirm('Clear ALL logged expenses, including the pre-filled hotel costs? This cannot be undone.')) {
     localStorage.removeItem(EXP_STORAGE_KEY);
+    localStorage.removeItem(EXP_SEED_APPLIED_KEY);
     renderExpenses();
   }
 });
